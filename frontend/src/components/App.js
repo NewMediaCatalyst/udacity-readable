@@ -7,7 +7,7 @@ import PageHome from './PageHome';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import AppNav from './AppNav';
-import '../css/foundation.css';
+import '../css/foundation.min.css';
 import '../css/app.css';
 
 
