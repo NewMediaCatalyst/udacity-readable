@@ -35,7 +35,7 @@ class AppNav extends Component {
         let {links} = this.props;
 
         return (
-            <nav className="app-nav">
+            <nav className="app-nav" role="navigation">
                 <ul>
                     <li className="nav-home">
                         <Link to={"/"}><HomeIcon className="icon" /><span className="text show-for-sr">Home</span></Link>
