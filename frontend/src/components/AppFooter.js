@@ -1,13 +1,15 @@
 // deps
 import React, { Component } from 'react';
-
+import Row from './GridRow';
 
 class AppFooter extends Component {
 
     render() {
         return (
             <footer className="app-footer">
-                <p>&copy; Copyright 2017 Token Talk</p>
+                <Row>
+                    <p>&copy; Copyright 2017 Token Talk</p>
+                </Row>
             </footer>
         );
     }

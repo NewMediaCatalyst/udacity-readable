@@ -34,14 +34,14 @@ class AppNav extends Component {
     render() {
         let {links} = this.props;
 
-        return (
+        return ( // eslint-disable-next-line
             <nav className="app-nav" role="navigation">
                 <ul>
                     <li className="nav-home">
                         <Link to={"/"}><HomeIcon className="icon" /><span className="text show-for-sr">Home</span></Link>
                     </li>
                     {links.map((link) => (
-                        <li className={`nav-${(link.ticker || link.name)}`}>
+                        <li key={`nav-${(link.ticker || link.name)}`} className={`nav-${(link.ticker || link.name)}`}>
                             <Link to={link.path}><i title={link.name} className="icon"></i><span className="text show-for-sr">{`${link.name}`}</span></Link>
                         </li>
                     ))}

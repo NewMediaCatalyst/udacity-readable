@@ -11,6 +11,13 @@ h1, h2, h3, h4, h5, h6, legend, .app-content {
 }
 
 /* Forms */
+button {
+    cursor: pointer !important;
+}
+button:disabled {
+    cursor: default !important;
+}
+
 legend { text-align: left; }
 
 label { font-weight: 500 !important; }
@@ -18,18 +25,18 @@ label, .input-text { display: block; }
 
 [for]:hover { cursor: pointer; }
 
+.form-actions {
+    text-align: right;
+}
+
 .l-sm-horiz label,
 .l-sm-horiz .input-text { display: inline-block; }
 
 @media (min-width: 720px) {
-    .post-details {
-        order: 2;
-    }
-    .post-main {
-        order: 1;
-    }
+    .comment-main, .post-main { order: 1; }
+    .comment-details, .post-details { order: 2; }
+    .form-actions { order: 10; }
 }
-
 
 @media (min-width: 720px) {
     .l-md-vert label,
@@ -53,7 +60,8 @@ label, .input-text { display: block; }
     }
 }
 
-.post-body textarea {
+/* Views */
+.app-content textarea {
     min-height: 10rem;
 }
 
@@ -69,32 +77,6 @@ a svg {
 
 .grid-x, .app-content {
     max-width: 80rem;
-}
-
-/* app header */
-.app-logo {
-  animation: app-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-@keyframes app-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.app-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.app-title {
-  font-size: 1.5em;
-}
-
-.app-intro {
-  font-size: large;
 }
 
 /* app navigation */
@@ -190,26 +172,73 @@ a svg {
     left: -2px;
 }
 
+/* app header */
+.app-logo {
+    animation: app-logo-spin infinite 20s linear;
+    height: 40px;
+    position: relative;
+    top: -4px;
+}
+
+.app-title {
+  font-size: 1.5em;
+}
+
+@keyframes app-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.app-header {
+    background-color: #222;
+    height: 70px;
+    padding: 20px 0 0;
+    color: #fff;
+    overflow: hidden;
+}
+
+.app-header .grid-x,
+.app-footer .grid-x { padding-left: 5px; padding-right: 5px; }
+
+/* shared: content, header, footer */
+.app-header .grid-x,
+.app-footer .grid-x,
+.app-content {
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
 /* app-content */
 .app-content {
-    width: 100%;
-    margin: 0 auto;
     padding: 10px 6px 30px;
     background-color: #ddd;
-    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 @media (min-width: 560px) {
-    .app-content { max-width: 100%; padding: 20px 10px 50px; }
+    .app-header .grid-x,
+    .app-footer .grid-x,
+    .app-content { max-width: 100%; }
+    .app-content { padding: 20px 10px 50px; }
 }
 @media (min-width: 720px) {
-    .app-content { max-width: 700px; padding: 20px 7px 60px; }
+    .app-header .grid-x,
+    .app-footer .grid-x,
+    .app-content { max-width: 700px; }
+    .app-content { padding: 20px 7px 60px; }
 }
 @media (min-width: 960px) {
-    .app-content { max-width: 920px; padding: 25px 10px 70px; }
+    .app-header .grid-x,
+    .app-footer .grid-x,
+    .app-content { max-width: 920px; }
+    .app-content { padding: 25px 10px 70px; }
 }
 @media (min-width: 1024px) {
-    .app-content { max-width: 1000px; padding: 25px 12px 80px; }
+    .app-header .grid-x,
+    .app-footer .grid-x,
+    .app-content { max-width: 1000px; }
+    .app-content { padding: 25px 12px 80px; }
 }
 
 
