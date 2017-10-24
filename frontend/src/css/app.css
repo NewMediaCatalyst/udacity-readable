@@ -1,0 +1,109 @@
+/* app */
+.app {
+    text-align: center;
+    margin: 0 auto;
+}
+
+a svg {
+    pointer-events: none;
+}
+
+.app, .grid-x {
+    max-width: 80rem;
+}
+
+/* app header */
+.app-logo {
+  animation: app-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+@keyframes app-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.app-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.app-title {
+  font-size: 1.5em;
+}
+
+.app-intro {
+  font-size: large;
+}
+
+/* app navigation */
+.app-nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: #222;
+    bottom: 0;
+    color: #fff;
+    padding: 1rem 0.5rem;
+}
+
+.app-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.app-nav li + li {
+    margin-top: 0.75rem;
+}
+
+.app-nav a {
+    color: inherit;
+    display: block;
+    padding: 0.125rem;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: background-color 0.45s ease-out;
+}
+
+.app-nav a:hover {
+    background-color: rgba(255,255,255,0.8);
+    transition: background-color 0.25s ease-out;
+}
+
+.app-nav .icon {
+    width: 2rem;
+    height: 2rem;
+    display: block;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 2rem 2rem;
+    padding: 3px;
+}
+
+
+.nav-btc .icon {
+    background-image: url("../img/coins/bitcoin.png");
+}
+.nav-ltc .icon {
+    background-image: url("../img/coins/litecoin.png");
+}
+.nav-eth .icon {
+    background-image: url("../img/coins/ether.png");
+}
+.nav-xrp .icon {
+    background-image: url("../img/coins/ripple.png");
+    position: relative;
+    left: -2px;
+}
+
+
+
+/* grid */
+.grid-x {
+    max-width: 80rem;
+}
+
