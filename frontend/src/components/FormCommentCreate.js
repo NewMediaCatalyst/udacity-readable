@@ -15,8 +15,8 @@ class FormCommentCreate extends Component {
 
     render() {
         return (
-            <div className="comment-create">
-                <h1>Comment</h1>
+            <div className="view-comment-create">
+                <h3>Want to comment?</h3>
                 <form>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="comment-details">

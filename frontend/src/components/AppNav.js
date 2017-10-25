@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import HomeIcon from 'react-icons/lib/fa/home';
+import PlusIcon from 'react-icons/lib/fa/plus-circle';
 
 
 class AppNav extends Component {
@@ -10,22 +11,22 @@ class AppNav extends Component {
         links: [
             {
                 name: 'bitcoin',
-                path: '/category/btc',
+                path: '/posts/btc',
                 ticker: 'btc'
             },
             {
                 name: 'ethereum',
-                path: '/category/eth',
+                path: '/posts/eth',
                 ticker: 'eth'
             },
             {
                 name: 'litecoin',
-                path: '/category/ltc',
+                path: '/posts/ltc',
                 ticker: 'ltc'
             },
             {
                 name: 'ripple',
-                path: '/category/xrp',
+                path: '/posts/xrp',
                 ticker: 'xrp'
             }
         ]
@@ -38,13 +39,25 @@ class AppNav extends Component {
             <nav className="app-nav" role="navigation">
                 <ul>
                     <li className="nav-home">
-                        <Link to={"/"}><HomeIcon className="icon" /><span className="text show-for-sr">Home</span></Link>
+                        <Link to={"/"} title="Home">
+                            <HomeIcon className="icon" />
+                            <span className="text show-for-sr">Home</span>
+                        </Link>
                     </li>
                     {links.map((link) => (
                         <li key={`nav-${(link.ticker || link.name)}`} className={`nav-${(link.ticker || link.name)}`}>
-                            <Link to={link.path}><i title={link.name} className="icon"></i><span className="text show-for-sr">{`${link.name}`}</span></Link>
+                            <Link to={link.path} title={`${link.name} Posts`}>
+                                <i className="icon"></i>
+                                <span className="text show-for-sr">{`${link.name}`}</span>
+                            </Link>
                         </li>
                     ))}
+                    <li className="nav-create-post">
+                        <Link to={"/post/create"} title="Create New Post">
+                            <PlusIcon className="icon" />
+                            <span className="text show-for-sr">Create New Post</span>
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         );

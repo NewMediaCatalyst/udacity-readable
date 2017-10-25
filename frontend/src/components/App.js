@@ -1,12 +1,16 @@
 // deps
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 // app
-import PageHome from './PageHome';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import AppNav from './AppNav';
+import PageHome from './PageHome';
+import PagePost from './PagePost';
+import PageCategory from './PageCategory';
+import PagePostForm from './PagePostForm';
+// app: styles
 import '../css/foundation.min.css';
 import '../css/app.css';
 
@@ -19,7 +23,13 @@ class App extends Component {
                 <div className="app">
                     <AppHeader />
                     <AppNav />
-                    <Route exact path="/" component={PageHome} />
+                    <Switch>
+                        <Route path="/" exact component={PageHome} />
+                        <Route path="/posts" exact component={PageHome} />
+                        <Route path="/posts/:category" component={PageCategory} />
+                        <Route path="/post/create" exact component={PagePostForm} />
+                        <Route path="/post/:id" component={PagePost} />
+                    </Switch>
                     <AppFooter />
                 </div>
             </Router>

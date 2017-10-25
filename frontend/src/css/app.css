@@ -11,23 +11,20 @@ h1, h2, h3, h4, h5, h6, legend, .app-content {
 }
 
 /* Forms */
-button {
-    cursor: pointer !important;
-}
-button:disabled {
-    cursor: default !important;
-}
+button { cursor: pointer !important; }
+button:disabled { cursor: default !important; }
 
 legend { text-align: left; }
 
-label { font-weight: 500 !important; }
 label, .input-text { display: block; }
+
+label { font-weight: 500; font-size: 0.875rem; }
+[type="checkbox"] + label { font-weight: 400; position: relative; top: -2px; }
+
 
 [for]:hover { cursor: pointer; }
 
-.form-actions {
-    text-align: right;
-}
+.form-actions { text-align: right; }
 
 .l-sm-horiz label,
 .l-sm-horiz .input-text { display: inline-block; }
@@ -63,6 +60,20 @@ label, .input-text { display: block; }
 /* Views */
 .app-content textarea {
     min-height: 10rem;
+}
+
+.view-comment-create {
+    margin-top: 20px;
+    border-top: 1px solid #222;
+    padding-top: 15px;
+}
+
+.view-post-create {
+    
+}
+
+.post-details .cell + .cell {
+    margin-top: 10px;
 }
 
 

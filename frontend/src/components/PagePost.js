@@ -3,17 +3,19 @@ import React, { Component } from 'react';
 
 // app
 import '../css/app.css';
-// import FormCommentCreate from './FormCommentCreate';
+import Post from './Post';
+import FormCommentCreate from './FormCommentCreate';
 
-class PageHome extends Component {
+class PagePost extends Component {
 
     render() {
         return (
             <main className="app-content" role="main">
-                <h1>Welcome</h1>
+                <Post />
+                <FormCommentCreate />
             </main>
         );
     }
 }
 
-export default PageHome;
+export default PagePost;

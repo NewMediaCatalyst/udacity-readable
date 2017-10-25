@@ -15,8 +15,8 @@ class FormPostCreate extends Component {
 
     render() {
         return (
-            <div className="post-create">
-                <h1>Create New Article</h1>
+            <div className="view-post-create">
+                <h1>Create New Post</h1>
                 <form>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
@@ -30,6 +30,11 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="post-date">
                                         <label>Post Date:</label>
                                         <span className="input-text text-date">Oct 24, 2017 11:08 AM</span>
+                                    </Col>
+                                    <Col width={{sm:12, lg:12}} className="post-deleted">
+                                        <label>Post Active:</label>
+                                        <input id="post-deleted" type="checkbox" />
+                                        <label htmlFor="post-deleted">Delete post</label>
                                     </Col>
                                 </Row>
                             </fieldset>
@@ -52,11 +57,11 @@ class FormPostCreate extends Component {
                                             <option value="xrp">Ripple</option>
                                         </select>
                                     </Col>
-                                    <Col width={{sm:12,lg:12}} className="post-body">
+                                    <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
                                         <textarea id="post-body"></textarea>
                                     </Col>
-                                    <Col width={{sm:12, md:9,lg:8}} className="form-actions">
+                                    <Col width={{sm:12, lg:12}} className="form-actions">
                                         <button onMouseUp={this.handleSubmit} type="submit">
                                             <span className="text">Submit</span>
                                         </button>
