@@ -1,14 +1,28 @@
 // libs
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // app
 import Row from './GridRow';
 import Col from './GridColumn';
+import DateTime from './DateTime';
 
 
 class Post extends Component {
 
+    static propTypes = {
+        postID: PropTypes.string.isRequired
+    }
+
+    // TODO: replace use of uuid generation
+    state = {
+        postDate: new Date().toISOString()
+    }
+
     render() {
+        const {postID} = this.props;
+        let {postDate} = this.state;
+
         return (
             <div className="view-post-detail">
                 <h1 className="post-title">'Yadda' Post</h1>
@@ -22,7 +36,7 @@ class Post extends Component {
                     <Col width={{sm:12, md:7, lg:4}} className="post-date">
                         <p>
                             <strong>Published: </strong>
-                            <time datetime="" className="text text-date">Oct 24, 2017 11:08 AM</time>
+                            <DateTime date={postDate} />
                         </p>
                     </Col>
                 </Row>
@@ -35,8 +49,8 @@ class Post extends Component {
                 <Row margin={true} className="post-footer">
                     <Col width={{sm:12, lg:12}} className="post-id">
                         <p>
-                            <strong>ID: </strong>
-                            <span className="text text-uuid">UUID</span>
+                            <strong>Post ID: </strong>
+                            <span className="text text-uuid">{postID}</span>
                         </p>
                     </Col>
                 </Row>

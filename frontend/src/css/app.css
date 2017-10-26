@@ -67,9 +67,23 @@ label { font-weight: 500; font-size: 0.875rem; }
     padding-top: 15px;
 }
 
-.post-details .cell + .cell {
+.post-details .cell + .cell,
+.comment-details .cell + .cell {
     margin-top: 10px;
 }
+
+.post-details .cell,
+.post-details label,
+.comment-details .cell,
+.comment-details label {
+    line-height: 1.25;
+}
+
+.post-details .date-time,
+.comment-details .date-time {
+    font-size: 0.8rem;
+}
+
 
 @media screen and (max-width: 39.9375em) {
     .view-post-detail .post-author p {
@@ -166,6 +180,7 @@ a svg {
 }
 
 @media (min-width: 75em) {  /* was 1024px */
+    .app-nav { padding: 1rem 0.5rem; max-width: 52px; }
     .app-nav .icon { width: 2rem; height: 2rem; background-size: 2rem 2rem; }
 }
 
@@ -253,6 +268,16 @@ a svg {
     .app-content { padding: 25px 12px 80px; }
 }
 
+/* uuid */
+.text-uuid {
+    line-height: 1.25;
+    font-size: 0.8rem;
+}
+
+/* time */
+.date-time .text-time,
+.date-time .text-date { display: inline-block; }
+.date-time .text-date { margin-right: 4px; }
 
 /* grid */
 .grid-x {

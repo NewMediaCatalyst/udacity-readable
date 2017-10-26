@@ -27,8 +27,9 @@ class App extends Component {
                         <Route path="/" exact component={PageHome} />
                         <Route path="/posts" exact component={PageHome} />
                         <Route path="/posts/:category" component={PageCategory} />
+                        <Route path="/post/edit/:id" exact component={PagePostForm} />
                         <Route path="/post/create" exact component={PagePostForm} />
-                        <Route path="/post/:id" component={PagePost} />
+                        <Route path="/post/:id" exact component={PagePost} />
                     </Switch>
                     <AppFooter />
                 </div>
