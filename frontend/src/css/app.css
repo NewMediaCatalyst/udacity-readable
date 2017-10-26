@@ -67,11 +67,20 @@ label { font-weight: 500; font-size: 0.875rem; }
     padding-top: 15px;
 }
 
-
 .post-details .cell + .cell {
     margin-top: 10px;
 }
 
+@media screen and (max-width: 39.9375em) {
+    .view-post-detail .post-author p {
+        margin-bottom: 0;
+    }
+}
+@media screen and (min-width: 40em) {
+    .view-post-detail .post-date {
+        text-align: right;
+    }
+}
 
 /* app */
 .app {

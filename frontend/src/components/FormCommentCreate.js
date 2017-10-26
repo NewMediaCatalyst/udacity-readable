@@ -15,7 +15,7 @@ class FormCommentCreate extends Component {
 
     render() {
         return (
-            <div className="view-comment-create">
+            <div id="comment-create" className="view-comment-create">
                 <h3>Want to comment?</h3>
                 <form>
                     <Row margin={true}>
@@ -33,7 +33,7 @@ class FormCommentCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
                                         <label>Date:</label>
-                                        <span className="input-text text-date">Oct 24, 2017 11:08 AM</span>
+                                        <time datetime="" className="text text-date">Oct 24, 2017 11:08 AM</time>
                                     </Col>
                                 </Row>
                             </fieldset>

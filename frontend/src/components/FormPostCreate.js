@@ -29,7 +29,7 @@ class FormPostCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-date">
                                         <label>Post Date:</label>
-                                        <span className="input-text text-date">Oct 24, 2017 11:08 AM</span>
+                                        <time datetime="" className="text text-date">Oct 24, 2017 11:08 AM</time>
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-deleted">
                                         <label>Post Active:</label>
