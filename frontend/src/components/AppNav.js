@@ -4,6 +4,8 @@ import {Link} from 'react-router-dom';
 import HomeIcon from 'react-icons/lib/fa/home';
 import PlusIcon from 'react-icons/lib/fa/plus-circle';
 
+// app: styles
+import '../css/app.nav.css';
 
 class AppNav extends Component {
 

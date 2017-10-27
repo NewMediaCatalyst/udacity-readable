@@ -1,9 +1,10 @@
 // deps
 import React, { Component } from 'react';
-import Row from './GridRow';
 
 // app
 import logo from '../img/logo.svg';
+import Row from './GridRow';
+
 
 class AppHeader extends Component {
 

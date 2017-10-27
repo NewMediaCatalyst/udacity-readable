@@ -7,6 +7,16 @@ import '../css/app.css';
 
 class PageHome extends Component {
 
+    static defaultProps = {
+        pgTitle: 'Welcome'
+    }
+
+    componentDidMount() {
+        const {pgTitle, appSep, appTitle} = this.props;
+        console.log(`componentDidMount (PageHome): ${pgTitle} :: ${appSep} :: ${appTitle}`);
+        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
+    }
+
     render() {
         return (
             <main className="app-content" role="main">

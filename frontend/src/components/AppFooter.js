@@ -1,6 +1,9 @@
 // deps
 import React, { Component } from 'react';
+
+// app
 import Row from './GridRow';
+
 
 class AppFooter extends Component {
 

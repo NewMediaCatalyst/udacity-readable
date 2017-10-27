@@ -1,0 +1,35 @@
+/* Views */
+.view-comment-create {
+    margin-top: 20px;
+    border-top: 1px solid #222;
+    padding-top: 15px;
+}
+
+.post-details .cell + .cell,
+.comment-details .cell + .cell {
+    margin-top: 10px;
+}
+
+.post-details .cell,
+.post-details label,
+.comment-details .cell,
+.comment-details label {
+    line-height: 1.25;
+}
+
+.post-details .date-time,
+.comment-details .date-time {
+    font-size: 0.8rem;
+}
+
+
+@media screen and (max-width: 39.9375em) {
+    .view-post-detail .post-author p {
+        margin-bottom: 0;
+    }
+}
+@media screen and (min-width: 40em) {
+    .view-post-detail .post-date {
+        text-align: right;
+    }
+}

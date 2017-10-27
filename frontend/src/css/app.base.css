@@ -1,0 +1,70 @@
+/* headings */
+h1, h2, h3, h4, h5, h6, legend {
+    font-style: normal;
+    font-weight: 600;
+    color: inherit;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6, legend, .app-content {
+    font-family:"Montserrat","Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+}
+
+/* SVG */
+.svg-defs {
+    width: 1px;
+    height: 1px;
+    position: absolute;
+}
+a svg { pointer-events: none; }
+
+/* Forms */
+button { cursor: pointer !important; }
+
+button:disabled { cursor: default !important; }
+
+button svg { pointer-events: none; }
+
+legend { text-align: left; }
+
+label, .input-text { display: block; }
+
+label { font-weight: 500; font-size: 0.875rem; }
+
+[type="checkbox"] + label { font-weight: 400; position: relative; top: -2px; }
+
+.app-content textarea { min-height: 10rem; }
+
+[for]:hover { cursor: pointer; }
+
+.form-actions { text-align: right; }
+
+.l-sm-horiz label,
+.l-sm-horiz .input-text { display: inline-block; }
+
+@media screen and (min-width: 40em) { /* was 720px */
+
+    .comment-main, .post-main { order: 1; }
+    .comment-details, .post-details { order: 2; }
+    .form-actions { order: 10; }
+
+    .l-md-vert label,
+    .l-md-vert .input-text {
+        display: block;
+    }
+    .l-md-horiz label,
+    .l-md-horiz .input-text {
+        display: inline-block;
+    }
+}
+
+@media screen and (min-width: 64em) { /* was 960px */
+    .l-lg-vert label,
+    .l-lg-vert .input-text {
+        display: block;
+    }
+    .l-lg-horiz label,
+    .l-lg-horiz .input-text {
+        display: inline-block;
+    }
+}

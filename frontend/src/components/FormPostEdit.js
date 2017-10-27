@@ -11,8 +11,7 @@ import DateTime from './DateTime';
 class FormPostEdit extends Component {
 
     static propTypes = {
-        postID: PropTypes.string.isRequired,
-        postDate: PropTypes.string.isRequired
+        postID: PropTypes.string.isRequired
     }
 
     handleSubmit(e) {
@@ -21,11 +20,11 @@ class FormPostEdit extends Component {
     }
 
     render() {
-        let {postID, postDate} = this.props;
+        let {postID} = this.props;
 
         return (
             <div className="view-post-edit">
-                <h1>Edit Post</h1>
+                <h1>{`Edit '${postID}' Post`}</h1>
                 <form>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
@@ -38,8 +37,8 @@ class FormPostEdit extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-date">
                                         <label>Post Date:</label>
-                                        <DateTime date={postDate} />
-                                        <input id="post-date" type="hidden" value={postDate} />
+                                        <DateTime date={null} />
+                                        <input id="post-date" type="hidden" value={null} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-deleted">
                                         <label>Post Active:</label>
@@ -53,9 +52,9 @@ class FormPostEdit extends Component {
                             <fieldset>
                                 <legend>Post:</legend>
                                 <Row margin={true}>
-                                    <Col width={{sm:12,md:6,lg:8}} className="post-title">
-                                        <label htmlFor="post-title">Title</label>
-                                        <input id="post-title" type="text" placeholder="Article title" />
+                                    <Col width={{sm:12,md:6,lg:8}} className="post-author">
+                                        <label htmlFor="post-author">Author Name</label>
+                                        <input id="post-author" type="text" placeholder="Post Author" />
                                     </Col>
                                     <Col width={{sm:12,md:6,lg:4}} className="post-title">
                                         <label htmlFor="post-cat">Category</label>
@@ -66,6 +65,10 @@ class FormPostEdit extends Component {
                                             <option value="ltc">Litecoin</option>
                                             <option value="xrp">Ripple</option>
                                         </select>
+                                    </Col>
+                                    <Col width={{sm:12,md:12,lg:12}} className="post-title">
+                                        <label htmlFor="post-title">Title</label>
+                                        <input id="post-title" type="text" placeholder="Article title" />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
