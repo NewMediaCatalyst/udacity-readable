@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 // app
 import '../css/app.css';
-// import FormCommentCreate from './FormCommentCreate';
+import PostList from './PostList';
 
 class PageHome extends Component {
 
@@ -21,6 +21,7 @@ class PageHome extends Component {
         return (
             <main className="app-content" role="main">
                 <h1>Welcome</h1>
+                <PostList category="all" />
             </main>
         );
     }
