@@ -1,0 +1,6 @@
+/* time */
+.date-time .text-time,
+.date-time .text-date { display: inline-block; }
+
+.date-time .text-date + .text-sep,
+.date-time .text-time + .text-sep { margin-right: 4px; }

@@ -62,7 +62,7 @@ export function setSamplePostData() {
         },
         {
             id: "4107d76f-6621-40d9-8cda-b3b6a42df755",
-            title: "",
+            title: "Ether, Litecoin and More: Overstock Now Accepts Cryptocurrencies as Payment",
             author: "Chip Snippets",
             category: "ltc",
             timestamp: "2017-10-04T17:10:14.285Z",

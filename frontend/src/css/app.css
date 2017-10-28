@@ -5,6 +5,10 @@
 
 
 /* app header */
+.app-title, .app-logo {
+    display: inline-block;
+}
+
 .app-logo {
     animation: app-logo-spin infinite 20s linear;
     height: 40px;
@@ -12,9 +16,10 @@
     top: -4px;
 }
 
-.app-title {
-  font-size: 1.5em;
-}
+.app-title { font-size: 1.5em; color: #fff; }
+
+a:hover .app-title,
+a:focus .app-title { color: #ccc; }
 
 @keyframes app-logo-spin {
   from { transform: rotate(0deg); }
@@ -60,19 +65,19 @@
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 670px; }
-    .app-content { padding: 20px 7px 60px; }
+    .app-content { padding: 20px 12px 60px; }
 }
 @media (min-width: 64em) { /* was 960px */
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 980px; }
-    .app-content { padding: 25px 10px 70px; }
+    .app-content { padding: 25px 15px 70px; }
 }
 @media (min-width: 75em) { /* was 1024px */
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 1140px; }
-    .app-content { padding: 25px 12px 80px; }
+    .app-content { padding: 25px 18px 80px; }
 }
 
 
@@ -86,12 +91,6 @@
     line-height: 1.25;
     font-size: 0.8rem;
 }
-
-
-/* time */
-.date-time .text-time,
-.date-time .text-date { display: inline-block; }
-.date-time .text-date { margin-right: 4px; }
 
 
 /* grid */
