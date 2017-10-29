@@ -18,39 +18,42 @@ class Post extends Component {
     }
 
     state = {
-        postData: setSamplePostData(),
-        postDate: new Date().toISOString(),
-        postVoteScore: 10,
-        category: 'btc'
+        postData: setSamplePostData()
+    }
+
+    renderNoResults() {
+        return <div className="no-results">Sorry, couldn't load post</div>;
     }
 
     renderPost(post) {
         let {id, title, author, timestamp, category, body, voteScore} = post;
 
         return (
-            <div className="view-post-detail">
-                <h1 className="post-title">{title}</h1>
+            <article className="view-post-detail">
                 <Row margin={true} className="post-header">
-                    <Col width={{sm:12, md:5, lg:4}} className="post-author">
+                    <Col width={{sm:12}} className="post-title-col">
+                        <h1 className="post-title">{title}</h1>
+                    </Col>
+                    <Col width={{sm:9, md:12, lg:4}} className="post-author">
                         <p>
                             <strong>By: </strong>
                             <span className="text text-author">{author}</span>
                         </p>
                     </Col>
-                    <Col width={{sm:12, md:7, lg:4}} className="post-date">
+                    <Col width={{sm:8, md:6, lg:4}} className="post-date">
                         <p>
                             <strong>Published: </strong>
                             <DateTime date={timestamp} />
                         </p>
                     </Col>
-                    <Col width={{sm:12, md:7, lg:4}} className="post-score">
+                    <Col width={{sm:5, md:12, lg:4}} className="post-score">
                         <VoteUpDown score={Number(voteScore)} />
                     </Col>
                 </Row>
                 <Row margin={true} className="post-body">
                     <Col width={{sm:12, lg:12}} className="post-body">{body}</Col>
                 </Row>
-                <Row margin={true} className="post-footer">
+                <Row className="post-footer">
                     <Col width={{sm:12, md:4, lg:4}} className="post-id">
                         <p>
                             <strong>Post ID: </strong>
@@ -67,21 +70,18 @@ class Post extends Component {
                         <p><Link to={`/post/edit/${id}`}>Edit post</Link></p>
                     </Col>
                 </Row>
-            </div>
+            </article>
         );
     }
 
     render() {
         const {postID} = this.props;
-        let {postData} = this.state;
-        let post = (postData !== undefined && postData.length > 0) ?
+        let {postData} = this.state,
+            post = (postData !== undefined && postData.length > 0) ?
             postData.filter((post) => post.id === postID) : false;
         post = post[0];
 
-        return (
-            post ? this.renderPost(post)
-                : <div className="no-results">Sorry, couldn't load post</div>
-        );
+        return post ? this.renderPost(post) : this.renderNoResults();
     }
 }
 

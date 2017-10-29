@@ -1,5 +1,7 @@
 /* Vote Score */
 
+.vote-ctrl { height: 32px; overflow: hidden; }
+
 .vote-ctrl > * { line-height: 1.2; }
 
 .vote-ctrl .button-icon {
