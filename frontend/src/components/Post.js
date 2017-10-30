@@ -30,7 +30,7 @@ class Post extends Component {
 
         return (
             <article className="view-post">
-                <Row margin={true} className="post-header">
+                <Row className="post-header">
                     <Col width={{sm:12}} className="post-title-col">
                         <h1 className="post-title">{title}</h1>
                     </Col>

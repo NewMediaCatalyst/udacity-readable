@@ -84,6 +84,7 @@ a:focus .app-title { color: #ccc; }
 /* button-icon */
 .button-icon * { pointer-events: none; }
 .button-icon .icon { width: 24px; height: 24px; }
+.size-sm .button-icon .icon { width: 20px; height: 20px; }
 
 
 /* uuid */

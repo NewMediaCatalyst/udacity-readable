@@ -16,11 +16,16 @@ class VoteUpDown extends Component {
 
     static propTypes = {
         score: PropTypes.number.isRequired,
+        size: PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
         layout: PropTypes.string.isRequired,
         align: PropTypes.string.isRequired
     }
 
     static defaultProps = {
+        score: 0,
+        size: "",
+        type: "Post",
         layout: "l2r",
         align: "align-right"
     }
@@ -43,8 +48,12 @@ class VoteUpDown extends Component {
     }
 
     render() {
-        let {score, layout, align} = this.props,
+        let {score, size, type, layout, align} = this.props,
             {ctrlID} = this.state,
+            titleUp = `${type} +1`,
+            titleDown = `${type} -1`,
+            buttonSRTextUp = `Vote ${type.toLowerCase()} up +1`,
+            buttonSRTextDown = `Vote ${type.toLowerCase()} down -1`,
             ctrlIDLabel = `vote-label-${ctrlID}`,
             ctrlIDText = `vote-up-down-${ctrlID}`,
             ctnrClasses = classnames({
@@ -52,31 +61,32 @@ class VoteUpDown extends Component {
                 [`align-right`]: align === "align-right",
                 [`align-left`]: align === "align-left",
                 [`l2r`]: layout === "l2r",
-                [`t2b`]: layout === "t2b"
-            })
+                [`t2b`]: layout === "t2b",
+                [`size-${size}`]: (size.length > 0)
+            });
 
 
         return (
-            <Row className={ctnrClasses} margin={true}>
+            <Row className={ctnrClasses}>
                 <button
                     onClick={this.handleUpVote}
                     className="button-icon button-vote-up"
-                    title="Post +1"
+                    title={titleUp}
                     type="button"
                     aria-controls={ctrlIDText}
                 >
                     <ThumbsUpIcon className="icon icon-thumbs-up" />
-                    <span className="show-for-sr">Vote post up +1</span>
+                    <span className="show-for-sr">{buttonSRTextUp}</span>
                 </button>
                 <button
                     onClick={this.handleDownVote}
                     className="button-icon button-vote-down"
-                    title="Post -1"
+                    title={titleDown}
                     type="button"
                     aria-controls={ctrlIDText}
                 >
                     <ThumbsDownIcon className="icon icon-thumbs-down" />
-                    <span className="show-for-sr">Vote post down -1</span>
+                    <span className="show-for-sr">{buttonSRTextDown}</span>
                 </button>
                 <strong
                     id={ctrlIDLabel}

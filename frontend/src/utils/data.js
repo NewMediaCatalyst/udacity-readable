@@ -1,5 +1,16 @@
 import uuidV4 from 'uuid.v4';
 
+export function Comment() {
+    this.id = uuidV4();
+    this.parentID = "";
+    this.timestamp = new Date().toISOString();
+    this.body = "";
+    this.author = "";
+    this.voteScore =  1;
+    this.deleted = false;
+    this.parentDeleted = false;
+}
+
 export function Post() {
     this.id = uuidV4();
     this.title = "";
@@ -9,6 +20,42 @@ export function Post() {
     this.deleted = false;
     this.voteScore =  1;
     this.body = "";
+}
+
+export function setSampleCommentData() {
+
+    return [
+        {
+            id: "c577cb6c-9520-4254-8dad-7b7fd888c76b",
+            parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
+            author: "Ton ton",
+            timestamp: "2017-10-12T17:10:14.285Z",
+            body: "123 Praesent eu sagittis odio. Vivamus lacus urna, consequat non neque condimentum, tincidunt malesuada orci. Duis facilisis, leo sed tincidunt varius, nisl orci ornare ex, et accumsan quam odio vel eros. Etiam pellentesque tempus leo eget molestie. Morbi sit amet lacus ultricies est pulvinar volutpat. Donec eget quam quis tellus auctor dictum non tincidunt libero. Aenean cursus dictum mauris, vel venenatis lorem tincidunt a. Integer id enim interdum, malesuada nunc at, congue velit. Morbi molestie ac purus vitae maximus. Morbi ornare tellus sit amet felis convallis tempor. Nam dolor augue, efficitur sit amet enim luctus, volutpat efficitur mauris. Fusce sodales nunc non magna fermentum, nec rutrum sem blandit. Praesent tristique efficitur leo, sit amet egestas arcu elementum eu. Pellentesque vehicula nulla at est porta, eu maximus est ultricies. Mauris et orci quis elit semper congue in vel odio. Donec blandit eu turpis in mattis.",
+            voteScore: 1,
+            deleted: false,
+            parentDeleted: false
+        },
+        {
+            id: "21583556-8b61-4728-ac13-fd83d05f5531",
+            parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
+            author: "Ton ton",
+            timestamp: "2017-10-12T17:10:14.285Z",
+            body: "456 Praesent eu sagittis odio. Vivamus lacus urna, consequat non neque condimentum, tincidunt malesuada orci. Duis facilisis, leo sed tincidunt varius, nisl orci ornare ex, et accumsan quam odio vel eros. Etiam pellentesque tempus leo eget molestie. Morbi sit amet lacus ultricies est pulvinar volutpat. Donec eget quam quis tellus auctor dictum non tincidunt libero. Aenean cursus dictum mauris, vel venenatis lorem tincidunt a. Integer id enim interdum, malesuada nunc at, congue velit. Morbi molestie ac purus vitae maximus. Morbi ornare tellus sit amet felis convallis tempor. Nam dolor augue, efficitur sit amet enim luctus, volutpat efficitur mauris. Fusce sodales nunc non magna fermentum, nec rutrum sem blandit. Praesent tristique efficitur leo, sit amet egestas arcu elementum eu. Pellentesque vehicula nulla at est porta, eu maximus est ultricies. Mauris et orci quis elit semper congue in vel odio. Donec blandit eu turpis in mattis.",
+            voteScore: 55,
+            deleted: false,
+            parentDeleted: false
+        },
+        {
+            id: "8cc45236-b12e-49dc-a523-4d35f81a6098",
+            parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
+            author: "Ton ton",
+            timestamp: "2017-10-12T17:10:14.285Z",
+            body: "678 Praesent eu sagittis odio. Vivamus lacus urna, consequat non neque condimentum, tincidunt malesuada orci. Duis facilisis, leo sed tincidunt varius, nisl orci ornare ex, et accumsan quam odio vel eros. Etiam pellentesque tempus leo eget molestie. Morbi sit amet lacus ultricies est pulvinar volutpat. Donec eget quam quis tellus auctor dictum non tincidunt libero. Aenean cursus dictum mauris, vel venenatis lorem tincidunt a. Integer id enim interdum, malesuada nunc at, congue velit. Morbi molestie ac purus vitae maximus. Morbi ornare tellus sit amet felis convallis tempor. Nam dolor augue, efficitur sit amet enim luctus, volutpat efficitur mauris. Fusce sodales nunc non magna fermentum, nec rutrum sem blandit. Praesent tristique efficitur leo, sit amet egestas arcu elementum eu. Pellentesque vehicula nulla at est porta, eu maximus est ultricies. Mauris et orci quis elit semper congue in vel odio. Donec blandit eu turpis in mattis.",
+            voteScore: 1,
+            deleted: false,
+            parentDeleted: false
+        }
+    ]
 }
 
 export function setSamplePostData() {

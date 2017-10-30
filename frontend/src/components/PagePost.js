@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 // app
 import Post from './Post';
+import CommentList from './CommentList';
 import FormCommentCreate from './FormCommentCreate';
 
 
@@ -38,6 +39,7 @@ class PagePost extends Component {
         return (
             <main className="app-content" role="main">
                 <Post postID={idToUse} />
+                <CommentList postID={idToUse} />
                 <FormCommentCreate postID={idToUse} />
             </main>
         );
