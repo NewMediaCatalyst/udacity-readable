@@ -9,7 +9,7 @@ import '../css/app.nav.css';
 
 class AppNav extends Component {
 
-    static defaultProps = {
+    static defaultProps = { // TODO pull categories from API
         links: [
             {
                 name: 'bitcoin',

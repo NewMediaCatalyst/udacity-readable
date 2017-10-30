@@ -29,7 +29,7 @@ class Post extends Component {
         let {id, title, author, timestamp, category, body, voteScore} = post;
 
         return (
-            <article className="view-post-detail">
+            <article className="view-post">
                 <Row margin={true} className="post-header">
                     <Col width={{sm:12}} className="post-title-col">
                         <h1 className="post-title">{title}</h1>
@@ -54,7 +54,7 @@ class Post extends Component {
                     <Col width={{sm:12, lg:12}} className="post-body">{body}</Col>
                 </Row>
                 <Row className="post-footer">
-                    <Col width={{sm:12, md:4, lg:4}} className="post-id">
+                    <Col width={{sm:12, md:6, lg:5}} className="post-id">
                         <p>
                             <strong>Post ID: </strong>
                             <span className="text text-uuid">{id}</span>
@@ -66,8 +66,8 @@ class Post extends Component {
                             <span className="text">{category}</span>
                         </p>
                     </Col>
-                    <Col width={{sm:12, md:5, lg:5}} className="post-edit">
-                        <p><Link to={`/post/edit/${id}`}>Edit post</Link></p>
+                    <Col width={{sm:12, md:3, lg:4}} className="post-edit">
+                        <p><Link to={`/post/edit/${id}`}>Edit post &raquo;</Link></p>
                     </Col>
                 </Row>
             </article>

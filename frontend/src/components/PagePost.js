@@ -26,12 +26,11 @@ class PagePost extends Component {
 
     componentDidMount() {
         const {pgTitle, appSep, appTitle} = this.props;
-        console.log(`componentDidMount (PagePost): ${pgTitle} :: ${appSep} :: ${appTitle}`);
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
     }
 
     render() {
-        let {postID} = this.state,
+        let {postID} = this.state, // TODO: remove postID from state
             {match} = this.props,
             idToUse = (match.params.id !== undefined && match.params.id.length > 0) ?
                 match.params.id : postID;

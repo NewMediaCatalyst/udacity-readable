@@ -26,14 +26,12 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const {appTitle, pgTitle, appSep} = this.props;
+        const {appTitle} = this.props;
         document.title = appTitle;
-        console.log(`componentDidMount (App): ${pgTitle} :: ${appSep} :: ${appTitle}`);
     }
 
     componentWillUpdate(nextProps) {
-        const {appTitle, pgTitle, appSep} = this.props;
-        console.log(`componentWillUpdate (App): ${pgTitle} :: ${appSep} :: ${appTitle}`);
+        const {appTitle, appSep} = this.props;
         document.title = nextProps.pgTitle ?
             nextProps.pgTitle + appSep + appTitle : appTitle
     }

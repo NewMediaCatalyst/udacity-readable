@@ -1,18 +1,35 @@
 // libs
 import React, { Component } from 'react';
-import uuidV4 from 'uuid.v4';
 
 // app
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 
+import {Post} from '../utils/data.js';
+
 
 class FormPostCreate extends Component {
 
-    state = {
-        postID: uuidV4(),
-        postDate: new Date().toISOString()
+    constructor(props) {
+        super(props);
+        this.state = {
+            post: new Post()
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleChange(e) {
+        const target = e.target,
+              type = e.target.type,
+              value = type === 'checkbox' ? target.checked : target.value,
+              name = e.target.name;
+        let newPost = Object.assign({}, this.state.post);
+        newPost[name] = value;
+
+        this.setState({ post: newPost });
     }
 
     handleSubmit(e) {
@@ -21,7 +38,8 @@ class FormPostCreate extends Component {
     }
 
     render() {
-        let {postID, postDate} = this.state;
+        let {post} = this.state,
+            {id, title, author, timestamp, category, body, voteScore, deleted} = post;
 
         return (
             <div className="view-post-create">
@@ -34,13 +52,22 @@ class FormPostCreate extends Component {
                                 <Row>
                                     <Col width={{sm:12, lg:12}} className="post-id">
                                         <label>Post ID:</label>
-                                        <span className="input-text text-uuid">{postID}</span>
-                                        <input id="post-uuid" type="hidden" value={postID} />
+                                        <span className="input-text text-uuid">{id}</span>
+                                        <input id="post-uuid" name="id" type="hidden" value={id} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-date">
                                         <label>Post Date:</label>
-                                        <DateTime date={postDate} />
-                                        <input id="post-date" type="hidden" value={postDate} />
+                                        <DateTime date={timestamp} />
+                                        <input id="post-date" name="timestamp" type="hidden" value={timestamp} />
+                                    </Col>
+                                    <Col width={{sm:12, lg:12}} className="post-deleted">
+                                        <label htmlFor="post-score">Post Score:</label>
+                                        <input onChange={this.handleChange} name="voteScore" value={voteScore} id="post-score" type="text" />
+                                    </Col>
+                                    <Col width={{sm:12, lg:12}} className="post-deleted">
+                                        <label>Post Active:</label>
+                                        <input onChange={this.handleChange} name="deleted" checked={deleted} id="post-deleted" type="checkbox" />
+                                        <label htmlFor="post-deleted">Delete post</label>
                                     </Col>
                                 </Row>
                             </fieldset>
@@ -51,11 +78,11 @@ class FormPostCreate extends Component {
                                 <Row margin={true}>
                                     <Col width={{sm:12,md:6,lg:8}} className="post-author">
                                         <label htmlFor="post-author">Author Name</label>
-                                        <input id="post-author" type="text" placeholder="Post Author" />
+                                        <input value={author} id="post-author" name="author" type="text" placeholder="Post Author" />
                                     </Col>
                                     <Col width={{sm:12,md:6,lg:4}} className="post-title">
                                         <label htmlFor="post-cat">Category</label>
-                                        <select id="post-cat">
+                                        <select value={category} id="post-cat" name="category">
                                             <option value="">Select Category</option>
                                             <option value="btc">Bitcoin</option>
                                             <option value="eth">Ethereum</option>
@@ -65,11 +92,11 @@ class FormPostCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12,md:12,lg:12}} className="post-title">
                                         <label htmlFor="post-title">Title</label>
-                                        <input id="post-title" type="text" placeholder="Post title" />
+                                        <input value={title} id="post-title" name="title" type="text" placeholder="Post title" />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
-                                        <textarea id="post-body"></textarea>
+                                        <textarea value={body} id="post-body" name="body"></textarea>
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="form-actions">
                                         <button onMouseUp={this.handleSubmit} type="submit">

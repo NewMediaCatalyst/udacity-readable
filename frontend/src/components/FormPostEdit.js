@@ -6,25 +6,65 @@ import PropTypes from 'prop-types';
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
+import {setSamplePostData, Post} from '../utils/data.js';
 
 
 class FormPostEdit extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            postData: setSamplePostData(),
+            post: new Post()
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
     static propTypes = {
         postID: PropTypes.string.isRequired
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        console.log("clicked button: ", e);
+    static defaultProps = {
+        postID: null
     }
 
-    render() {
-        let {postID} = this.props;
+    componentDidMount() {
+        const {postID} = this.props;
+        let {postData} = this.state,
+            post = (postData !== undefined && postData.length > 0) ?
+                postData.filter((post) => post.id === postID) : false;
+        this.setState({ post: post[0] });
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("handleSubmit: ", e);
+    }
+
+    handleChange(e) {
+        const target = e.target,
+              type = e.target.type,
+              name = e.target.name;
+        let newPost = Object.assign({}, this.state.post);
+        newPost[name] = type === 'checkbox' ? target.checked : target.value;
+
+        this.setState({ post: newPost });
+    }
+
+    renderNoResults() {
+        return <div className="no-results">Missing ID. Unable to edit</div>
+    }
+
+    renderPost() {
+        let {post} = this.state,
+            {id, title, author, timestamp, category, body, voteScore, deleted} = post;
 
         return (
             <div className="view-post-edit">
-                <h1>{`Edit '${postID}' Post`}</h1>
+                <h1>Edit Post</h1>
                 <form>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
@@ -33,16 +73,19 @@ class FormPostEdit extends Component {
                                 <Row>
                                     <Col width={{sm:12, lg:12}} className="post-id">
                                         <label>Post ID:</label>
-                                        <span className="input-text text-uuid">{postID}</span>
+                                        <span className="input-text text-uuid">{id}</span>
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-date">
                                         <label>Post Date:</label>
-                                        <DateTime date={null} />
-                                        <input id="post-date" type="hidden" value={null} />
+                                        <DateTime date={timestamp} />
+                                    </Col>
+                                    <Col width={{sm:12, lg:12}} className="post-deleted">
+                                        <label htmlFor="post-score">Post Score:</label>
+                                        <input onChange={this.handleChange} name="voteScore" value={voteScore} id="post-score" type="text" />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-deleted">
                                         <label>Post Active:</label>
-                                        <input id="post-deleted" type="checkbox" />
+                                        <input onChange={this.handleChange} name="deleted" checked={deleted} id="post-deleted" type="checkbox" />
                                         <label htmlFor="post-deleted">Delete post</label>
                                     </Col>
                                 </Row>
@@ -54,11 +97,11 @@ class FormPostEdit extends Component {
                                 <Row margin={true}>
                                     <Col width={{sm:12,md:6,lg:8}} className="post-author">
                                         <label htmlFor="post-author">Author Name</label>
-                                        <input id="post-author" type="text" placeholder="Post Author" />
+                                        <input onChange={this.handleChange} name="author" value={author} id="post-author" type="text" placeholder="Post Author" />
                                     </Col>
                                     <Col width={{sm:12,md:6,lg:4}} className="post-title">
                                         <label htmlFor="post-cat">Category</label>
-                                        <select id="post-cat">
+                                        <select onChange={this.handleChange} name="category" value={category} id="post-cat">
                                             <option value="">Select</option>
                                             <option value="btc">Bitcoin</option>
                                             <option value="eth">Ethereum</option>
@@ -68,11 +111,11 @@ class FormPostEdit extends Component {
                                     </Col>
                                     <Col width={{sm:12,md:12,lg:12}} className="post-title">
                                         <label htmlFor="post-title">Title</label>
-                                        <input id="post-title" type="text" placeholder="Article title" />
+                                        <input onChange={this.handleChange} name="title" value={title} id="post-title" type="text" placeholder="Article title" />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
-                                        <textarea id="post-body"></textarea>
+                                        <textarea onChange={this.handleChange} name="body" value={body} id="post-body"></textarea>
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="form-actions">
                                         <button onMouseUp={this.handleSubmit} type="submit">
@@ -86,6 +129,12 @@ class FormPostEdit extends Component {
                 </form>
             </div>
         );
+    }
+
+    render() {
+        let {post} = this.state;
+
+        return post ? this.renderPost() : this.renderNoResults();
     }
 }
 

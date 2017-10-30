@@ -13,7 +13,6 @@ class PageHome extends Component {
 
     componentDidMount() {
         const {pgTitle, appSep, appTitle} = this.props;
-        console.log(`componentDidMount (PageHome): ${pgTitle} :: ${appSep} :: ${appTitle}`);
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
     }
 

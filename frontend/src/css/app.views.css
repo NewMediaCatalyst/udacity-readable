@@ -31,23 +31,33 @@
 
 .post-header p { margin-bottom: 0; }
 
-.post-title {
+.view-post .post-title {
     font-size: 2rem;
     line-height: 1.35;
 }
 
-.post-header,
-.post-body {
+.view-post-edit .post-details input,
+.view-post-create .post-deleted input { margin-bottom: 0; }
+
+.view-post .post-header,
+.view-post .post-body {
     margin: 0 0 1rem;
 }
+
+
 
 .post-header { align-items: flex-end; }
 
 
 @media screen and (max-width: 39.9375em) {
-    .view-post-detail .post-author p {
+    .view-post .post-author p {
         margin-bottom: 0;
     }
+}
+
+@media screen and (min-width: 40em) {
+    .view-post .post-edit { text-align: right; }
+    .view-post .text-uuid { display: block; }
 }
 
 @media screen and (min-width: 64em) {

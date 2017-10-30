@@ -34,7 +34,6 @@ class PostList extends Component {
             newPostData = postData.filter((post) => post.category === category);
             this.setState({ postData: newPostData });
         }
-        console.log("PostList :: componentDidMount :: category: ", category, " :: newPostData: ", newPostData);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -78,7 +77,6 @@ class PostList extends Component {
     render() {
         let {postData} = this.state;
 
-        console.log("PostList :: render :: ", postData);
         return (
             <Row className="post-listing">
                 {(postData !== undefined && postData.length > 0) ?

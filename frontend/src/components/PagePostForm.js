@@ -20,7 +20,6 @@ class PagePostForm extends Component {
 
     componentDidMount() {
         const {pgTitle, appSep, appTitle} = this.props;
-        console.log(`componentDidMount (PageCreateEditForm): ${pgTitle} :: ${appSep} :: ${appTitle}`);
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
     }
 
@@ -28,7 +27,6 @@ class PagePostForm extends Component {
         let {match} = this.props,
             postID = (match.params.id !== undefined && match.params.id.length > 0) ?
                 match.params.id : null;
-        console.log("PagePostForm :: postID: " + postID);
 
         return (
             <main className="app-content" role="main">
