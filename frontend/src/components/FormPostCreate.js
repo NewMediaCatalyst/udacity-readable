@@ -44,7 +44,7 @@ class FormPostCreate extends Component {
         return (
             <div className="view-post-create">
                 <h1>Create New Post</h1>
-                <form>
+                <form onSubmit={this.handleSubmit}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
                             <fieldset>
@@ -96,10 +96,10 @@ class FormPostCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
-                                        <textarea value={body} id="post-body" name="body"></textarea>
+                                        <textarea value={body} id="post-body" name="body" />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="form-actions">
-                                        <button onMouseUp={this.handleSubmit} type="submit">
+                                        <button type="submit">
                                             <span className="text">Submit</span>
                                         </button>
                                     </Col>

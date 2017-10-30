@@ -70,7 +70,7 @@ class CommentList extends Component {
                             <strong>Comment ID: </strong>
                             <span className="text">{comment.id}</span>
                         </Col>
-                        <Col width={{sm:3, md:5}} className="comment-edit align-right">
+                        <Col width={{sm:3, md:5}} className="comment-edit">
                             <p><Link to={`/comment/edit/${comment.id}`}>Edit comment &raquo;</Link></p>
                         </Col>
                     </Row>

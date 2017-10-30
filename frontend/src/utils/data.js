@@ -52,7 +52,7 @@ export function setSampleCommentData() {
             timestamp: "2017-10-12T17:10:14.285Z",
             body: "678 Praesent eu sagittis odio. Vivamus lacus urna, consequat non neque condimentum, tincidunt malesuada orci. Duis facilisis, leo sed tincidunt varius, nisl orci ornare ex, et accumsan quam odio vel eros. Etiam pellentesque tempus leo eget molestie. Morbi sit amet lacus ultricies est pulvinar volutpat. Donec eget quam quis tellus auctor dictum non tincidunt libero. Aenean cursus dictum mauris, vel venenatis lorem tincidunt a. Integer id enim interdum, malesuada nunc at, congue velit. Morbi molestie ac purus vitae maximus. Morbi ornare tellus sit amet felis convallis tempor. Nam dolor augue, efficitur sit amet enim luctus, volutpat efficitur mauris. Fusce sodales nunc non magna fermentum, nec rutrum sem blandit. Praesent tristique efficitur leo, sit amet egestas arcu elementum eu. Pellentesque vehicula nulla at est porta, eu maximus est ultricies. Mauris et orci quis elit semper congue in vel odio. Donec blandit eu turpis in mattis.",
             voteScore: 1,
-            deleted: false,
+            deleted: true,
             parentDeleted: false
         }
     ]

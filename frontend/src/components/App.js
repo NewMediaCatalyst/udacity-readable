@@ -10,6 +10,7 @@ import PageHome from './PageHome';
 import PagePost from './PagePost';
 import PageCategory from './PageCategory';
 import PagePostForm from './PagePostForm';
+import PageCommentForm from './PageCommentForm';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -49,6 +50,7 @@ class App extends Component {
                         <Route path="/post/edit/:id" exact component={PagePostForm} />
                         <Route path="/post/create" exact component={PagePostForm} pgTitle="Create New Post" />
                         <Route path="/post/:id" exact component={PagePost} pgTitle="A post" />
+                        <Route path="/comment/edit/:id" exact component={PageCommentForm} />
                     </Switch>
                     <AppFooter />
                 </div>
