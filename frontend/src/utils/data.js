@@ -94,7 +94,7 @@ export function setSamplePostData() {
             author: "Johannes Meserlin",
             category: "xrp",
             timestamp: "2017-10-12T17:10:14.285Z",
-            deleted: true,
+            deleted: false,
             voteScore: 65,
             body: `Sed ac nisi erat. Fusce convallis vitae urna id vulputate. Etiam tempus ex in quam malesuada bibendum. Maecenas facilisis urna sed libero porttitor, nec sodales dolor tristique. In hac habitasse platea dictumst. Nullam nec sodales quam, quis dapibus arcu. Nullam efficitur nisi eu nulla tincidunt scelerisque. Fusce mollis quam quis mi maximus, quis euismod metus consectetur. Mauris non ultricies velit, et faucibus massa. Donec commodo nulla ut rutrum hendrerit. Morbi id augue congue, placerat purus vitae, elementum lectus. Sed eget dui quis massa tristique pulvinar at ut ligula. Donec rhoncus pharetra lectus, interdum tristique velit viverra non. Praesent nec diam laoreet diam placerat mattis id id sem.
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam sit amet tincidunt nunc. Duis at nibh luctus, egestas tortor ac, sodales elit. Duis lacinia posuere urna, ut convallis turpis semper non. Nam placerat eleifend nisl, eget dapibus augue tincidunt sed. Mauris at accumsan turpis. Maecenas posuere volutpat felis vitae posuere. Integer rhoncus, eros at sodales fermentum, neque lectus consectetur urna, ac ullamcorper est sapien sit amet nisi. Praesent quis sodales mi, et euismod lectus. Praesent sed dictum risus. Ut pellentesque scelerisque tincidunt. Integer vitae nibh sed lectus eleifend pulvinar. Aliquam malesuada, tortor non molestie luctus, elit tortor tempor nisi, at scelerisque nisi diam a odio.
