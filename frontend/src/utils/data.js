@@ -22,10 +22,25 @@ export function Post() {
     this.body = "";
 }
 
+// Init data
+export function initCommentData() {
+    return { comments: {} };
+}
+
+export function initCategoryData() {
+    return { categories: [] };
+}
+
+export function initPostData() {
+    return { posts: [] };
+}
+
+
+// Set sample data
 export function setSampleCommentData() {
 
-    return [
-        {
+    return {
+        "c577cb6c-9520-4254-8dad-7b7fd888c76b": {
             id: "c577cb6c-9520-4254-8dad-7b7fd888c76b",
             parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
             author: "Ton ton",
@@ -35,7 +50,7 @@ export function setSampleCommentData() {
             deleted: false,
             parentDeleted: false
         },
-        {
+        "21583556-8b61-4728-ac13-fd83d05f5531": {
             id: "21583556-8b61-4728-ac13-fd83d05f5531",
             parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
             author: "Ton ton",
@@ -45,7 +60,7 @@ export function setSampleCommentData() {
             deleted: false,
             parentDeleted: false
         },
-        {
+        "8cc45236-b12e-49dc-a523-4d35f81a6098": {
             id: "8cc45236-b12e-49dc-a523-4d35f81a6098",
             parentID: "1db0f2ac-ae76-469a-951f-a1b70e74c877",
             author: "Ton ton",
@@ -55,7 +70,7 @@ export function setSampleCommentData() {
             deleted: true,
             parentDeleted: false
         }
-    ]
+    }
 }
 
 export function setSamplePostData() {

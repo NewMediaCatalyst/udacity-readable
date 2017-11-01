@@ -18,7 +18,7 @@ class CommentList extends Component {
         super(props);
 
         this.state = {
-            allComments: setSampleCommentData(),
+            data: setSampleCommentData(),
             comments: [new Comment()]
         }
     }
@@ -33,12 +33,20 @@ class CommentList extends Component {
 
     componentDidMount() {
         const {postID} = this.props;
-        let newComments,
-            {allComments} = this.state;
+        let newComments = [],
+            {data} = this.state;
 
-        newComments = allComments.filter((comment) => {
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].parentID === postID) {
+                newComments.push(data[i]);
+            }
+        }
+        console.log("newComments: ", newComments);
+        /*
+        newComments = data.comments.filter((comment) => {
             return (comment.parentID === postID && !comment.parentDeleted && !comment.deleted);
         });
+        */
 
         this.setState({ comments: newComments });
     }

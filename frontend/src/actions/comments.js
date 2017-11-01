@@ -14,42 +14,48 @@ export const DELETE_COMMENT = "DELETE_COMMENT";  // by comment ID
 // COMMENT :: ACTIONS ////
 
 // CREATE
-export createComment = ({id, parentID, timestamp, title, body, author, category, voteScore, deleted, parentDeleted}) => ({
-    type: CREATE_COMMENT,
-    id,
-    parentID,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted
-});
+export function createComment(id, parentID, timestamp, title, body, author, category, voteScore, deleted, parentDeleted) {
+    return {
+        type: CREATE_COMMENT,
+        id,
+        parentID,
+        timestamp,
+        title,
+        body,
+        author,
+        category,
+        voteScore,
+        deleted
+    }
+};
 
 // READ
-export getComments = (parentID) => ({
-    type: GET_COMMENTS,
-    parentID
-});
+export function getComments(parentID) {
+    return {
+        type: GET_COMMENTS,
+        parentID
+    }
+};
 
 // UPDATE
-export updateComment = (id, parentID, timestamp, body, author, voteScore, deleted, parentDeleted) => ({
-    type: UPDATE_COMMENT,
-    id,
-    parentID,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted,
-    parentDeleted
-});
+export function updateComment(id, parentID, timestamp, body, author, voteScore, deleted, parentDeleted) {
+    return {
+        type: UPDATE_COMMENT,
+        id,
+        parentID,
+        timestamp,
+        body,
+        author,
+        voteScore,
+        deleted,
+        parentDeleted
+    }
+};
 
 // DELETE
-export deleteComment = (id) => ({
-    type: DELETE_COMMENT,
-    id
-});
+export function deleteComment(id) {
+    return {
+        type: DELETE_COMMENT,
+        id
+    }
+};

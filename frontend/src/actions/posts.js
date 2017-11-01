@@ -2,8 +2,6 @@
 
 // POST :: CONSTANTS //////
 
-// POST CATEGORIES
-export const GET_POST_CATEGORIES = "GET_POST_CATEGORIES";
 // CREATE
 export const CREATE_POST = "CREATE_POST";
 // READ
@@ -17,53 +15,58 @@ export const DELETE_POST = "DELETE_POST";
 
 // POST :: ACTIONS //////
 
-// POST CATEGORIES
-export getPostCategories = () => ({
-    type: GET_POST_CATEGORIES
-});
-
 // CREATE
-export createPost = (id, timestamp, title, body, author, category, voteScore, deleted) => ({
-    type: CREATE_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted
-});
+export function createPost(id, timestamp, title, body, author, category, voteScore, deleted) {
+    return {
+        type: CREATE_POST,
+        id,
+        timestamp,
+        title,
+        body,
+        author,
+        category,
+        voteScore,
+        deleted
+    };
+};
 
 // READ
-export getPostsAll = () => ({
-    type: GET_POSTS_ALL
-});
+export function getPostsAll() {
+    return {
+        type: GET_POSTS_ALL
+    }
+};
 
-export getPostsByCat = (category) => ({
-    type: GET_POSTS_BY_CAT,
-    category
-});
+export function getPostsByCat(category) {
+    return {
+        type: GET_POSTS_BY_CAT,
+        category
+    }
+};
 
 // UPDATE
-export updatePost = (id, timestamp, title, body, author, category, voteScore, deleted) => ({
-    type: UPDATE_POST,
-    id,
-    timestamp,
-    title,
-    body,
-    author,
-    category,
-    voteScore,
-    deleted
-});
+export function updatePost(id, timestamp, title, body, author, category, voteScore, deleted) {
+    return {
+        type: UPDATE_POST,
+        id,
+        timestamp,
+        title,
+        body,
+        author,
+        category,
+        voteScore,
+        deleted
+    }
+};
 
 // DELETE
 // TODO: deleting a post, also needs to tell
 // it's comments that it's parentID has been deleted, or 'undeleted'
-export deletePost = (id) => ({
-    type: DELETE_POST,
-    id
-});
+export function deletePost(id) {
+    return {
+        type: DELETE_POST,
+        id
+    }
+};
 
 

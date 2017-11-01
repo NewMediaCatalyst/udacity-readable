@@ -1,5 +1,6 @@
 // deps
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 // app
@@ -11,6 +12,9 @@ import PagePost from './PagePost';
 import PageCategory from './PageCategory';
 import PagePostForm from './PagePostForm';
 import PageCommentForm from './PageCommentForm';
+// app: actions
+import {getPostCategories} from '../actions/categories';
+import {apiFetch} from '../utils/api';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -20,6 +24,14 @@ import '../css/app.views.css';
 
 class App extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            categories: []
+        }
+    }
+
     static defaultProps = {
         appTitle: 'Token Talk',
         appSep: ' | ',
@@ -27,8 +39,19 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const {appTitle} = this.props;
+        const {appTitle, getCategories, categories} = this.props;
         document.title = appTitle;
+
+        getCategories(categories);
+
+        /*
+        apiFetch({action:"category", type:"all"}).then((res) => {
+            return res.json;
+        }).then((json) => {
+            return getCategories({ categories: json })
+        }).catch((err) => console.log("fetchCategories :: error! : ", err));
+        */
+
     }
 
     componentWillUpdate(nextProps) {
@@ -38,11 +61,14 @@ class App extends Component {
     }
 
     render() {
+        let {categories} = this.props;
+        console.log("App :: render : ", categories);
+
         return (
             <Router>
                 <div className="app">
                     <AppHeader />
-                    <AppNav />
+                    <AppNav categories={categories} />
                     <Switch>
                         <Route path="/" exact component={PageHome} pgTitle="Welcome" />
                         <Route path="/posts" exact component={PageHome} pgTitle="Welcome" />
@@ -59,4 +85,20 @@ class App extends Component {
     }
 }
 
-export default App;
+function mapStateToProps({categories, posts, comments}) {
+    return {
+        categories,
+        posts,
+        comments
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getCategories: (categories) => dispatch(getPostCategories(categories))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// export default App;
