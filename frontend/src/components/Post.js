@@ -1,5 +1,6 @@
 // libs
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 
@@ -8,17 +9,18 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
-import {setSamplePostData} from '../utils/data'
 
 
 class Post extends Component {
 
     static propTypes = {
-        postID: PropTypes.string.isRequired
+        postID: PropTypes.string.isRequired,
+        post: PropTypes.object.isRequired
     }
 
-    state = {
-        postData: setSamplePostData()
+    static defaultProps = {
+        postID: "",
+        post: {}
     }
 
     renderNoResults() {
@@ -75,14 +77,22 @@ class Post extends Component {
     }
 
     render() {
-        const {postID} = this.props;
-        let {postData} = this.state,
-            post = (postData !== undefined && postData.length > 0) ?
-            postData.filter((post) => post.id === postID) : false;
-        post = post[0];
+        const {postID, posts, post} = this.props;
+        let thePost = post;
 
-        return post ? this.renderPost(post) : this.renderNoResults();
+        Object.entries(posts).map(([key, value]) => {
+            if (value.id === postID) { thePost = value };
+        });
+
+        return thePost ? this.renderPost(thePost) : this.renderNoResults();
     }
 }
 
-export default Post;
+function mapStateToProps(state) {
+    return {
+        comments: state.comments,
+        posts: state.posts
+    };
+}
+
+export default connect(mapStateToProps)(Post);

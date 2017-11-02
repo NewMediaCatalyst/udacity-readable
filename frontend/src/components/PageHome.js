@@ -1,5 +1,6 @@
 // libs
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 
 // app
 import '../css/app.css';
@@ -17,15 +18,28 @@ class PageHome extends Component {
     }
 
     render() {
-        const {pgTitle} = this.props;
+        const {pgTitle, posts} = this.props;
 
         return (
             <main className="app-content" role="main">
                 <h1>{pgTitle}</h1>
-                <PostList category="all" />
+                <PostList posts={posts} category="all" />
             </main>
         );
     }
 }
+
+
+function mapStateToProps(state) {
+    return {
+        posts: state.posts
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {};
+}
+
+PageHome = connect(mapStateToProps, mapDispatchToProps)(PageHome);
 
 export default PageHome;

@@ -31,8 +31,7 @@ class VoteUpDown extends Component {
     }
 
     state = {
-        ctrlID: uuidV4().slice(0,8),
-        score: this.props.score
+        ctrlID: uuidV4().slice(0,8)
     }
 
     handleUpVote(e) {
@@ -48,12 +47,12 @@ class VoteUpDown extends Component {
     }
 
     render() {
-        let {score, size, type, layout, align} = this.props,
-            {ctrlID} = this.state,
+        const {score, size, type, layout, align} = this.props;
+        let {ctrlID} = this.state,
             titleUp = `${type} +1`,
             titleDown = `${type} -1`,
-            buttonSRTextUp = `Vote ${type.toLowerCase()} up +1`,
-            buttonSRTextDown = `Vote ${type.toLowerCase()} down -1`,
+            buttonSRTextUp = `Vote ${type.toLowerCase()} up 1`,
+            buttonSRTextDown = `Vote ${type.toLowerCase()} down 1`,
             ctrlIDLabel = `vote-label-${ctrlID}`,
             ctrlIDText = `vote-up-down-${ctrlID}`,
             ctnrClasses = classnames({
@@ -64,7 +63,6 @@ class VoteUpDown extends Component {
                 [`t2b`]: layout === "t2b",
                 [`size-${size}`]: (size.length > 0)
             });
-
 
         return (
             <Row className={ctnrClasses}>
@@ -96,7 +94,7 @@ class VoteUpDown extends Component {
                     id={ctrlIDText}
                     className="vote-score"
                     aria-labelledby={ctrlIDLabel}
-                >{Number(score)}</span>
+                >{`${score}`}</span>
             </Row>
         );
     }
