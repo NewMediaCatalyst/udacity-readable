@@ -1,9 +1,6 @@
 // libs
 import {combineReducers} from 'redux';
 
-// Sample data, initializers
-import {setSampleCommentData, setSamplePostData} from '../utils/data';
-
 // Actions
 import {GET_POST_CATEGORIES} from '../actions/categories';
 import {
@@ -18,7 +15,7 @@ function categories(state = [], action) {
     const {categories} = action;
 
     switch (action.type) {
-        case GET_POST_CATEGORIES: return { ...state, categories };
+        case GET_POST_CATEGORIES: return Object.assign({}, state, categories);
         default: return state;
     }
 }

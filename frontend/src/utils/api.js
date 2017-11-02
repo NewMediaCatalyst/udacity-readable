@@ -71,3 +71,10 @@ export function apiFetch(vals) { // vals: {action:'post', type: 'get', etc}
         })
         .catch((err) => console.log("apiFetch :: " + vals.type + ":" + vals.action + " :: ERROR: ", err));
 }
+
+export const getCatAll = (vals = {action: "category", type: "all"}) => {
+    return apiFetch(vals).then((res) => res);
+}
+
+
+

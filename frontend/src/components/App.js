@@ -14,7 +14,7 @@ import PagePostForm from './PagePostForm';
 import PageCommentForm from './PageCommentForm';
 // app: actions
 import {getPostCategories} from '../actions/categories';
-import {apiFetch} from '../utils/api';
+import {getCatAll} from '../utils/api';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -43,14 +43,6 @@ class App extends Component {
         document.title = appTitle;
 
         getCategories(categories);
-
-        /*
-        apiFetch({action:"category", type:"all"}).then((res) => {
-            return res.json;
-        }).then((json) => {
-            return getCategories({ categories: json })
-        }).catch((err) => console.log("fetchCategories :: error! : ", err));
-        */
 
     }
 
@@ -85,20 +77,20 @@ class App extends Component {
     }
 }
 
-function mapStateToProps({categories, posts, comments}) {
+function mapStateToProps(state, props) {
     return {
-        categories,
-        posts,
-        comments
+        categories: state.categories,
+        posts: state.posts,
+        comments: state.comments
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: (categories) => dispatch(getPostCategories(categories))
+        getCategories: (categories) => {
+            return getCatAll().then((categories) => dispatch(getPostCategories(categories)))
+        }
     }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-// export default App;
