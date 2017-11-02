@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 // app
 import PostList from './PostList';
+import {capitalize} from '../utils/data';
 import '../css/app.css';
 
 class PageCategory extends Component {
@@ -20,7 +21,7 @@ class PageCategory extends Component {
         const {category, match} = this.props;
         let type = match !== undefined && match.params.category ?
             match.params.category : "",
-            title = type.toUpperCase() + " posts",
+            title = capitalize(type) + " posts",
             categoryToUse = type.length > 0 ? type : category;
 
         return (

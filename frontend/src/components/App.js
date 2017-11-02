@@ -24,14 +24,6 @@ import '../css/app.views.css';
 
 class App extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            categories: []
-        }
-    }
-
     static defaultProps = {
         appTitle: 'Token Talk',
         appSep: ' | ',
@@ -53,14 +45,15 @@ class App extends Component {
     }
 
     render() {
-        let {categories} = this.props;
+        let {categories} = this.props,
+            links = categories.categories;
         console.log("App :: render : ", categories);
 
         return (
             <Router>
                 <div className="app">
                     <AppHeader />
-                    <AppNav categories={categories} />
+                    <AppNav links={links} />
                     <Switch>
                         <Route path="/" exact component={PageHome} pgTitle="Welcome" />
                         <Route path="/posts" exact component={PageHome} pgTitle="Welcome" />
