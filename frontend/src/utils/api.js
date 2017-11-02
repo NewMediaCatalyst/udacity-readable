@@ -36,7 +36,7 @@ function setVals(vals) {
             case "delete":  // delete a post
                 settings.url += `/posts/${body.id}`; settings.hdr.method = 'DELETE'; break;
             default:
-                console.log("action:post :: didnt find type");
+                console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: SWITCH didn't find type");
         }
 
     } else if (action === "comment") {
@@ -54,7 +54,7 @@ function setVals(vals) {
             case "delete":  // delete a comment
                 settings.url += `/comments/${body.id}`; settings.hdr.method = 'DELETE'; break;
             default:
-                console.log("action:comment :: didnt find type");
+                console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: SWITCH didn't find type");
         }
     }
 
@@ -66,15 +66,8 @@ export function apiFetch(vals) { // vals: {action:'post', type: 'get', etc}
 
     return fetch(url, hdr).then(function (res) {
             let json = res.json();
-            console.log("apiFetch :: " + vals.type + ":" + vals.action + " :: ", json);
+            console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: ", json);
             return json;
         })
-        .catch((err) => console.log("apiFetch :: " + vals.type + ":" + vals.action + " :: ERROR: ", err));
+        .catch((err) => console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: ERROR: ", err));
 }
-
-export const getCatAll = (vals = {action: "category", type: "all"}) => {
-    return apiFetch(vals).then((res) => res);
-}
-
-
-

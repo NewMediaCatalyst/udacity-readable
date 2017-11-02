@@ -13,8 +13,11 @@ import PageCategory from './PageCategory';
 import PagePostForm from './PagePostForm';
 import PageCommentForm from './PageCommentForm';
 // app: actions
-import {getPostCategories} from '../actions/categories';
-import {getCatAll} from '../utils/api';
+import {getCategories} from '../actions/categories';
+import {getPostsAll} from '../actions/posts';
+// app: api calls
+import {apiGetCatAll} from '../utils/api-category';
+import {apiGetPostsAll} from '../utils/api-posts';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -31,10 +34,11 @@ class App extends Component {
     }
 
     componentDidMount() {
-        const {appTitle, getCategories, categories} = this.props;
+        const {appTitle, getCategories, categories, getPosts, posts} = this.props;
         document.title = appTitle;
 
         getCategories(categories);
+        getPosts(posts);
 
     }
 
@@ -81,7 +85,10 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         getCategories: (categories) => {
-            return getCatAll().then((categories) => dispatch(getPostCategories(categories)))
+            return apiGetCatAll().then((categories) => (dispatch(getCategories(categories))))
+        },
+        getPosts: (posts) => {
+            return apiGetPostsAll().then((posts) => (dispatch(getPostsAll(posts))))
         }
     }
 }

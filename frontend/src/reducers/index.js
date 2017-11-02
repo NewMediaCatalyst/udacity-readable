@@ -15,16 +15,16 @@ function categories(state = [], action) {
     const {categories} = action;
 
     switch (action.type) {
-        case GET_POST_CATEGORIES: return Object.assign({}, state, categories);
+        case GET_POST_CATEGORIES: return Object.assign({}, state, categories: categories.categories);
         default: return state;
     }
 }
 
-function posts(state = [], action) {
+function posts(state = {}, action) {
 
     switch (action.type) {
         case CREATE_POST:
-        case GET_POSTS_ALL:
+        case GET_POSTS_ALL: return Object.assign({}, state, action.posts);
         case GET_POSTS_BY_CAT:
         case UPDATE_POST:
         case DELETE_POST:

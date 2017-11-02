@@ -31,9 +31,10 @@ export function createPost(id, timestamp, title, body, author, category, voteSco
 };
 
 // READ
-export function getPostsAll() {
+export function getPostsAll(posts) {
     return {
-        type: GET_POSTS_ALL
+        type: GET_POSTS_ALL,
+        posts
     }
 };
 

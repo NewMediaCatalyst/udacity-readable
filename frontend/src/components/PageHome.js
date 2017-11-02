@@ -17,9 +17,11 @@ class PageHome extends Component {
     }
 
     render() {
+        const {pgTitle} = this.props;
+
         return (
             <main className="app-content" role="main">
-                <h1>Welcome</h1>
+                <h1>{pgTitle}</h1>
                 <PostList category="all" />
             </main>
         );
