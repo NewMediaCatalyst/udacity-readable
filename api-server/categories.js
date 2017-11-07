@@ -22,7 +22,6 @@ const defaultData = {
         path: '/posts/xrp',
         ticker: 'xrp',
         slug: 'xrp'
-
       },
       {
         name: 'litecoin',

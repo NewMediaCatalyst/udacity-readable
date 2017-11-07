@@ -14,7 +14,7 @@ class FormPostEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            postData: setSamplePostData(),
+            postData: setSamplePostData(), // TODO Need to remove this
             post: new Post()
         }
 
@@ -41,7 +41,7 @@ class FormPostEdit extends Component {
     handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("handleSubmit: ", e);
+        console.log("handleSubmit: ", e); // TODO need to submit to API
     }
 
     handleChange(e) {

@@ -19,7 +19,7 @@ class AppNav extends Component {
         links: PropTypes.array.isRequired
     }
 
-    static defaultProps = { // TODO pull categories from API
+    static defaultProps = {
         links: []
     }
 

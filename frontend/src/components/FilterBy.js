@@ -10,17 +10,17 @@ import {setCategory} from '../actions/categories';
 import {showAllPosts, filterPostsByCat} from '../actions/posts';
 import {capitalize} from '../utils/helpers';
 // app: styles
-import '../css/comp.filterlinks.css';
+import '../css/comp.filterby.css';
 
 
-class FilterLinks extends Component {
+class FilterBy extends Component {
 
     static propTypes = {
         category: PropTypes.string.isRequired,
         categories: PropTypes.object.isRequired
     }
 
-    static defaultProps = { // TODO pull categories from API
+    static defaultProps = {
         base: {
             name: 'All',
             path: '/posts/',
@@ -97,4 +97,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilterLinks);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterBy);

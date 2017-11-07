@@ -7,7 +7,8 @@ import _ from 'lodash';
 // app
 import '../css/app.css';
 import PostList from './PostList';
-import FilterLinks from './FilterLinks';
+import SortBy from './SortBy';
+import FilterBy from './FilterBy';
 import {capitalize} from '../utils/helpers';
 import {setCategory} from '../actions/categories';
 import {filterPostsByCat, showAllPosts} from '../actions/posts';
@@ -53,7 +54,8 @@ class PageHome extends Component {
         return (
             <main className="app-content" role="main">
                 <h1>{hdrTitle}</h1>
-                <FilterLinks />
+                <SortBy />
+                <FilterBy />
                 <PostList posts={posts} category={category} />
             </main>
         );

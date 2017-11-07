@@ -36,15 +36,10 @@ function posts(state = {}, action) {
         case GET_POSTS_ALL:
             return Object.assign({}, state, action.posts);
         case FILTER_POSTS_BY_CAT:
-
             let filteredPosts = {};
-
             Object.values(state).map((post, idx) => {
                 if (action.category === post.category) { filteredPosts[idx] = post; }
             });
-
-            console.log("FILTER_POSTS_BY_CAT: 00x1 posts FILTERED: ", filteredPosts);
-
             return Object.assign({}, state, posts: filteredPosts);
 
         case SHOW_ALL_POSTS:    return Object.assign({}, state, posts);
