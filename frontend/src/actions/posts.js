@@ -12,6 +12,10 @@ export const UPDATE_POST = "UPDATE_POST";
 // DELETE
 export const DELETE_POST = "DELETE_POST";
 
+// FILTER / SHOW
+export const SHOW_ALL_POSTS = "SHOW_ALL_POSTS";
+export const FILTER_POSTS_BY_CAT = "FILTER_POSTS_BY_CAT";
+
 
 // POST :: ACTIONS //////
 
@@ -45,6 +49,8 @@ export function getPostsByCat(category) {
     }
 };
 
+
+
 // UPDATE
 export function updatePost(id, timestamp, title, body, author, category, voteScore, deleted) {
     return {
@@ -69,5 +75,21 @@ export function deletePost(id) {
         id
     }
 };
+
+// FILTER POSTS by Category
+export function filterPostsByCat(category) {
+    return {
+        type: FILTER_POSTS_BY_CAT,
+        category
+    }
+}
+
+export function showAllPosts(category) {
+    return {
+        type: SHOW_ALL_POSTS,
+        category: "all"
+    }
+}
+
 
 

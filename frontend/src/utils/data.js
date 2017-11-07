@@ -22,24 +22,6 @@ export function Post() {
     this.body = "";
 }
 
-// Init data
-export function initCommentData() {
-    return { comments: {} };
-}
-
-export function initCategoryData() {
-    return { categories: [] };
-}
-
-export function initPostData() {
-    return { posts: [] };
-}
-
-export function capitalize(word) {
-    let text = word;
-    return text.substr(0,1).toUpperCase() + text.substr(1).toLowerCase();
-}
-
 
 // Set sample data
 export function setSampleCommentData() {

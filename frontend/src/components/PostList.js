@@ -1,6 +1,7 @@
 // libs
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 // app
@@ -8,6 +9,7 @@ import '../css/comp.postlist.css';
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
+import {showAllPosts, filterPostsByCat} from '../actions/posts';
 
 
 class PostList extends Component {
@@ -18,21 +20,13 @@ class PostList extends Component {
     }
 
     static defaultProps = {
-        category: "all"
+        category: "all",
+        posts: {}
     }
 
-    componentDidMount() {
-        // const {category, posts} = this.props;
-        // TODO: add method to weed out deleted posts
-    }
-
-    componentWillReceiveProps(nextProps) {
-        const {category, posts} = this.props;
-
-        if (category !== nextProps.category) {
-            Object.entries(posts).map(([key, value]) => console.log("key: ", key, "; value: ", value))
-            // TODO: add method to weed out deleted posts
-        }
+    shouldComponentUpdate(nextProps, nextState) {
+        const {posts} = this.props;
+        return (posts && posts !== nextProps.posts);
     }
 
     renderPosts() {
@@ -66,7 +60,7 @@ class PostList extends Component {
     }
 
     render() {
-        let {posts} = this.props;
+        const {posts} = this.props;
 
         return (
             <Row className="post-listing">
@@ -76,4 +70,18 @@ class PostList extends Component {
     }
 }
 
-export default PostList;
+function mapStateToProps(state, props) {
+    return {
+        category: state.category,
+        posts: state.posts
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        showAllPosts: (category) => dispatch(showAllPosts(category)),
+        filterPostsByCat: (category) => dispatch(filterPostsByCat(category))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);

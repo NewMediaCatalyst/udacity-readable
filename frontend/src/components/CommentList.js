@@ -41,7 +41,7 @@ class CommentList extends Component {
                 newComments.push(data[i]);
             }
         }
-        console.log("newComments: ", newComments);
+        // console.log("newComments: ", newComments);
         /*
         newComments = data.comments.filter((comment) => {
             return (comment.parentID === postID && !comment.parentDeleted && !comment.deleted);

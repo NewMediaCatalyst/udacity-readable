@@ -1,0 +1,40 @@
+/* app navigation */
+.filter, .filter-links {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-flow: row nowrap;
+}
+
+.filter-links {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.filter-label,
+.filter .filter-item {
+    margin-right: 8px;
+}
+
+.filter-label,
+.filter .filter-link {
+    line-height: 1.25;
+}
+
+.filter .filter-item:last-child {
+    margin-right: 0;
+}
+
+.filter .filter-link {
+    display: block;
+    padding: 1px 4px;
+    background-color: #fff;
+    color: #222;
+    transition: color 0.35s ease-out, background-color 0.35s ease-out;
+}
+
+.filter .filter-link.active {
+    background-color: #222;
+    color: #fff;
+}

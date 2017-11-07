@@ -31,6 +31,8 @@
     overflow: hidden;
 }
 
+.app-nav a * { pointer-events: none; }
+
 .app-nav .icon {
     display: block;
     width: 1.5rem;
