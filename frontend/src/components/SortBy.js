@@ -1,6 +1,15 @@
+// deps
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
+// app
+import {
+    setSortMethod,
+    sortPostsVoteScoreAsc, sortPostsVoteScoreDesc,
+    sortPostsPubDateAsc, sortPostsPubDateDesc
+} from '../actions/posts';
+import '../css/comp.sortby.css';
 
 
 class SortBy extends Component {
@@ -8,9 +17,9 @@ class SortBy extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            sortOpts: this.props.sortMethod
-        }
+        this.state = { sortOpts: this.props.sortMethod }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleChange.passive = true;
     }
 
     static propTypes = {
@@ -30,11 +39,11 @@ class SortBy extends Component {
                 value: "voteScoreAsc"
             },
             {
-                name: "Publish time, descending",
+                name: "Publish date, descending",
                 value: "pubDesc"
             },
             {
-                name: "Publish time, ascending",
+                name: "Publish date, ascending",
                 value: "pubAsc"
             }
         ],
@@ -42,9 +51,22 @@ class SortBy extends Component {
     }
 
 
-    onChange(e) {
-        console.log("e: ", e);
-        this.setState({ sortMethod: e.target.value });
+    handleChange(e) {
+        let value = e.target.value;
+
+        console.log("SortBy :: handleChange :: value: ", value, "; ev: ", e);
+        const {
+            posts, setSortMethod, sortPostsVoteAsc, sortPostsVoteDesc, sortPostsPubdateAsc, sortPostsPubdateDesc
+        } = this.props;
+        setSortMethod(value);
+        this.setState({ sortMethod: value });
+        switch (value) {
+            case "voteScoreAsc": return sortPostsVoteAsc(posts);
+            case "voteScoreDesc": return sortPostsVoteDesc(posts);
+            case "pubAsc": return sortPostsPubdateAsc(posts);
+            case "pubDesc": return sortPostsPubdateDesc(posts);
+            default: console.log("Hmm, unexpected value"); return;
+        }
     }
 
 
@@ -66,4 +88,21 @@ class SortBy extends Component {
     }
 }
 
-export default SortBy;
+function mapStateToProps(state, props) {
+    return {
+        posts: state.posts,
+        sortBy: state.sortMethod
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setSortMethod: (sortMethod) => dispatch(setSortMethod(sortMethod)),
+        sortPostsVoteAsc: (posts) => dispatch(sortPostsVoteScoreAsc(posts)),
+        sortPostsVoteDesc: (posts) => dispatch(sortPostsVoteScoreDesc(posts)),
+        sortPostsPubdateAsc: (posts) => dispatch(sortPostsPubDateAsc(posts)),
+        sortPostsPubdateDesc: (posts) => dispatch(sortPostsPubDateDesc(posts))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SortBy);

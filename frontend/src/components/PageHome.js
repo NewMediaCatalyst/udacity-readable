@@ -9,6 +9,8 @@ import '../css/app.css';
 import PostList from './PostList';
 import SortBy from './SortBy';
 import FilterBy from './FilterBy';
+import Row from './GridRow';
+import Col from './GridColumn';
 import {capitalize} from '../utils/helpers';
 import {setCategory} from '../actions/categories';
 import {filterPostsByCat, showAllPosts} from '../actions/posts';
@@ -53,9 +55,13 @@ class PageHome extends Component {
 
         return (
             <main className="app-content" role="main">
-                <h1>{hdrTitle}</h1>
-                <SortBy />
-                <FilterBy />
+                <header>
+                    <Row>
+                        <Col width={{sm:12}}><h1>{hdrTitle}</h1></Col>
+                        <Col width={{sm:12, md:7, lg:7}} className="hdr-filter"><FilterBy /></Col>
+                        <Col width={{sm:12, md:5, lg:5}} className="hdr-sort"><SortBy /></Col>
+                    </Row>
+                </header>
                 <PostList posts={posts} category={category} />
             </main>
         );

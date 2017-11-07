@@ -48,7 +48,7 @@ class FilterBy extends Component {
             })
 
         return ( // eslint-disable-next-line
-            <nav className="filter" role="navigation">
+            <nav className="filter-by" role="navigation">
                 <p className="filter-label"><strong>Filter by:</strong></p>
                 <ul className="filter-links">
                     <li className={`filter-item fl-${base.slug}`}>

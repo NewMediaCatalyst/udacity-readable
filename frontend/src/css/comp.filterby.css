@@ -1,40 +1,57 @@
-/* app navigation */
-.filter, .filter-links {
-    display: flex;
-    align-items: flex-start;
+/* filter by  */
+
+.hdr-filter {
+    margin-bottom: 0;
+}
+
+.filter-by {
+    display: inline-flex;
+}
+
+.filter-by, .filter-links {
+    align-items: baseline;
     justify-content: flex-start;
     flex-flow: row nowrap;
 }
 
 .filter-links {
+    display: flex;
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
 .filter-label,
-.filter .filter-item {
-    margin-right: 8px;
+.filter-by .filter-item {
+    margin: 0 0.5rem 0 0;
 }
 
 .filter-label,
-.filter .filter-link {
+.filter-by .filter-link {
+    font-size: 0.9rem;
     line-height: 1.25;
 }
 
-.filter .filter-item:last-child {
+.filter-by .filter-item:last-child {
     margin-right: 0;
 }
 
-.filter .filter-link {
+.filter-by .filter-link {
     display: block;
     padding: 1px 4px;
+    max-height: 26px;
     background-color: #fff;
     color: #222;
-    transition: color 0.35s ease-out, background-color 0.35s ease-out;
+    transition: color 0.25s ease-in,
+        background-color 0.25s ease-in;
 }
 
-.filter .filter-link.active {
+.filter-by .filter-link.active {
     background-color: #222;
     color: #fff;
 }
+
+@media screen and (min-width: 40em) { /* was 720px */
+    .hdr-filter { margin-bottom: 1rem; }
+}
+

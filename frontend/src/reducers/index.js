@@ -1,11 +1,14 @@
 // libs
 import {combineReducers} from 'redux';
+import _ from 'lodash';
 
 // Actions
 import {GET_POST_CATEGORIES, SET_CATEGORY} from '../actions/categories';
 import {
     CREATE_POST, GET_POSTS_ALL, GET_POSTS_BY_CAT, UPDATE_POST,
-    DELETE_POST, FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS
+    DELETE_POST, FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS,
+    SORT_BY_VOTE_SCORE_ASC, SORT_BY_VOTE_SCORE_DESC,
+    SORT_BY_PUBDATE_ASC, SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
 } from '../actions/posts';
 import {
     CREATE_COMMENT, GET_COMMENTS, UPDATE_COMMENT, DELETE_COMMENT
@@ -28,7 +31,12 @@ function category(state = "all", action) {
     }
 }
 
-// posts: Object.entries(state.posts).filter((post) => post.category === action.category)
+function sortMethod(state = "", action) {
+    switch (action.type) {
+        case SET_SORT_METHOD: return Object.assign({}, state, sortMethod);
+        default: return state;
+    }
+}
 
 function posts(state = {}, action) {
 
@@ -40,9 +48,20 @@ function posts(state = {}, action) {
             Object.values(state).map((post, idx) => {
                 if (action.category === post.category) { filteredPosts[idx] = post; }
             });
-            return Object.assign({}, state, posts: filteredPosts);
+            return Object.assign({}, filteredPosts);
+        case SHOW_ALL_POSTS:
+            return Object.assign({}, state, posts);
+        case SET_SORT_METHOD:
+            return Object.assign({}, state, posts);
+        case SORT_BY_VOTE_SCORE_ASC:
+            return Object.assign({}, _.orderBy(state, ['voteScore'], ['asc']));
+        case SORT_BY_VOTE_SCORE_DESC:
+            return Object.assign({}, _.orderBy(state, ['voteScore'], ['desc']));
+        case SORT_BY_PUBDATE_ASC:
+            return Object.assign({}, _.orderBy(state, ['timestamp'], ['asc']));
+        case SORT_BY_PUBDATE_DESC:
+            return Object.assign({}, _.orderBy(state, ['timestamp'], ['desc']));
 
-        case SHOW_ALL_POSTS:    return Object.assign({}, state, posts);
         case CREATE_POST:
         case GET_POSTS_BY_CAT:
         case UPDATE_POST:
@@ -67,6 +86,7 @@ export default combineReducers({
     categories,
     category,
     posts,
-    comments
+    comments,
+    sortMethod
 })
 

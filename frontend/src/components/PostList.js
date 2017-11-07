@@ -41,6 +41,7 @@ class PostList extends Component {
                         <DateTime date={value.timestamp} />
                         <span className="post-author"><strong>by: </strong>{value.author}</span>
                         <span className="post-category"><strong>In: </strong>{value.category}</span>
+                        <span className="post-score"><strong>Score: </strong>{value.voteScore}</span>
                     </p>
                     </Link>
                 </li>
