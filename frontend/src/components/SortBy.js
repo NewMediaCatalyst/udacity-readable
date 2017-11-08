@@ -16,19 +16,17 @@ class SortBy extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = { sortOpts: this.props.sortMethod }
         this.handleChange = this.handleChange.bind(this);
-        this.handleChange.passive = true;
+        this.state = {
+            sortMethod: this.props.posts.sortMethod
+        }
     }
 
     static propTypes = {
-        posts: PropTypes.object.isRequired,
-        sortMethod: PropTypes.string.isRequired
+        posts: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        sortMethod: "voteScoreDesc",
         sortOpts: [
             {
                 name: "Vote score, descending",
@@ -47,19 +45,23 @@ class SortBy extends Component {
                 value: "pubAsc"
             }
         ],
-        posts: {}
+        posts: {
+            all: {},
+            default: {},
+            sortMethod: "voteScoreDesc"
+        }
     }
 
 
     handleChange(e) {
         let value = e.target.value;
-
-        console.log("SortBy :: handleChange :: value: ", value, "; ev: ", e);
         const {
             posts, setSortMethod, sortPostsVoteAsc, sortPostsVoteDesc, sortPostsPubdateAsc, sortPostsPubdateDesc
         } = this.props;
+
         setSortMethod(value);
         this.setState({ sortMethod: value });
+
         switch (value) {
             case "voteScoreAsc": return sortPostsVoteAsc(posts);
             case "voteScoreDesc": return sortPostsVoteDesc(posts);
@@ -69,7 +71,6 @@ class SortBy extends Component {
         }
     }
 
-
     render() {
         const {sortOpts} = this.props;
         let {sortMethod} = this.state;
@@ -78,10 +79,10 @@ class SortBy extends Component {
             <div className="sort-by">
                 <label htmlFor="sort-posts-by">Sort by:</label>
                 <select id="sort-posts-by" onChange={this.handleChange} value={sortMethod}>
-                {sortOpts.map((opt) => (
-                    <option key={opt.value} value={opt.value}>{opt.name}</option>
-                    )
-                )}
+                    {sortOpts.map((opt) => (
+                        <option key={opt.value} value={opt.value}>{opt.name}</option>
+                        )
+                    )}
                 </select>
             </div>
         );

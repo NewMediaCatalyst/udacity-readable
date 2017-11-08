@@ -1,49 +1,98 @@
 // libs
 import React, { Component } from 'react';
-import uuidV4 from 'uuid.v4';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 // app
 import Post from './Post';
 import CommentList from './CommentList';
 import FormCommentCreate from './FormCommentCreate';
+import FormPostCreate from './FormPostCreate';
+import FormPostEdit from './FormPostEdit';
+import {getPost} from '../actions/posts';
+import {apiFetch} from '../utils/api';
+import {whichPostAction} from '../utils/helpers';
 
 
 class PagePost extends Component {
 
     static propTypes = {
-        match: PropTypes.object
+        match: PropTypes.object.isRequired
     }
 
     static defaultProps = {
         pgTitle: 'Post',
-        match: null
-    }
-
-    // TODO: replace use of uuid generation
-    state = {
-        postID: uuidV4()
+        match: {}
     }
 
     componentDidMount() {
-        const {pgTitle, appSep, appTitle} = this.props;
-        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
+        const {pgTitle, appSep, appTitle, getPost, match} = this.props;
+        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle;
+
+        if (match && match.params.id) {
+            getPost(match.params.id);
+        }
     }
 
-    render() {
-        let {postID} = this.state, // TODO: remove postID from state
-            {match} = this.props,
-            idToUse = (match.params.id !== undefined && match.params.id.length > 0) ?
-                match.params.id : postID;
+    shouldComponentUpdate(nextProps, nextState) {
+        const {match} = this.props;
+        return nextProps.match !== match;
+    }
 
+    renderPost() {
+        const {match} = this.props;
+        let action =  whichPostAction(match);
+        switch (action) {
+            case "edit": return (
+                <main className="app-content" role="main">
+                    <FormPostEdit />
+                </main>
+            );
+            case "create": return (
+                <main className="app-content" role="main">
+                    <FormPostCreate />
+                </main>
+            );
+            default: return (
+                <main className="app-content" role="main">
+                    <Post /><CommentList /><FormCommentCreate />
+                </main>
+            );
+        }
+
+    }
+
+    renderNoPost() {
+        const {match} = this.props;
+        let action =  whichPostAction(match);
         return (
             <main className="app-content" role="main">
-                <Post postID={idToUse} />
-                <CommentList postID={idToUse} />
-                <FormCommentCreate postID={idToUse} />
+                <h1 className="post-title">Oops!</h1>
+                <p className="no-results">{`Something went wrong! Unable to ${action} post`}</p>
             </main>
         );
     }
+
+    render() {
+        const {post} = this.props;
+        return (post.details) ? this.renderPost() : this.renderNoPost();
+    }
 }
 
-export default PagePost;
+function mapStateToProps(state, props) {
+    return {
+        post: state.post
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getPost: (id) => {
+            return apiFetch({action: "post", type: "get", body: { id }}).then((post) => (
+                dispatch(getPost({id, details: post})))
+            );
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PagePost);

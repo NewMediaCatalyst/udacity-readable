@@ -33,7 +33,7 @@ class PostList extends Component {
         let {posts} = this.props;
 
         return <ol className="post-list">
-            {Object.entries(posts).map(([key, value]) => (
+            {Object.entries(posts.display).map(([key, value]) => (
                 <li className="list-item" key={value.id}>
                     <Link className="post-link" to={`/post/${value.id}`}>
                     <h2 className="post-title">{value.title}</h2>
@@ -80,6 +80,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        showPost: (id) => dispatch(showAllPosts(id)),
         showAllPosts: (category) => dispatch(showAllPosts(category)),
         filterPostsByCat: (category) => dispatch(filterPostsByCat(category))
     };

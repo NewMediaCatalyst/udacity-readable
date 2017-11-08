@@ -23,12 +23,12 @@ class Post extends Component {
         post: {}
     }
 
-    renderNoResults() {
-        return <div className="no-results">Sorry, couldn't load post</div>;
-    }
+    render() {
+        const {post} = this.props;
+        console.log("Post :: render : posts: ", post);
 
-    renderPost(post) {
-        let {id, title, author, timestamp, category, body, voteScore} = post;
+        if (post.details === undefined) { return null; }
+        const {id, title, author, timestamp, category, body, voteScore} = post.details;
 
         return (
             <article className="view-post">
@@ -75,23 +75,11 @@ class Post extends Component {
             </article>
         );
     }
-
-    render() {
-        const {postID, posts, post} = this.props;
-        let thePost = post;
-
-        Object.entries(posts).map(([key, value]) => {
-            if (value.id === postID) { thePost = value };
-        });
-
-        return thePost ? this.renderPost(thePost) : this.renderNoResults();
-    }
 }
 
 function mapStateToProps(state) {
     return {
-        comments: state.comments,
-        posts: state.posts
+        post: state.post
     };
 }
 

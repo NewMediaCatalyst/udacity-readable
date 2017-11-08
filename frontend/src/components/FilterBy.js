@@ -7,7 +7,7 @@ import classnames from 'classnames';
 
 // app
 import {setCategory} from '../actions/categories';
-import {showAllPosts, filterPostsByCat} from '../actions/posts';
+import {showAllPosts, filterPostsByCat, setSortMethod} from '../actions/posts';
 import {capitalize} from '../utils/helpers';
 // app: styles
 import '../css/comp.filterby.css';
@@ -21,6 +21,7 @@ class FilterBy extends Component {
     }
 
     static defaultProps = {
+        sortMethod: "voteScoreDesc",
         base: {
             name: 'All',
             path: '/posts/',
@@ -31,11 +32,17 @@ class FilterBy extends Component {
     }
 
     handleClick = (e) => {
-        const {setCategory, filterPostsByCat, showAllPosts, category} = this.props;
+        const {setCategory, filterPostsByCat, showAllPosts, setSortMethod, sortMethod, category} = this.props;
         let filter = e.target.getAttribute('filter');
         if (filter !== category) {
             setCategory(filter);
-            filter === "all" ? showAllPosts(filter) : filterPostsByCat(filter);
+
+            if (filter === "all") {
+                showAllPosts(filter);
+                setSortMethod(sortMethod);
+            } else {
+                filterPostsByCat(filter);
+            }
         }
     }
 
@@ -91,6 +98,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        setSortMethod: (sortMethod) => dispatch(setSortMethod(sortMethod)),
         setCategory: (category) => dispatch(setCategory(category)),
         showAllPosts: (category) => dispatch(showAllPosts(category)),
         filterPostsByCat: (category) => dispatch(filterPostsByCat(category))

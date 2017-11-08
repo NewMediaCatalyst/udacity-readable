@@ -10,11 +10,10 @@ import AppFooter from './AppFooter';
 import AppNav from './AppNav';
 import PageHome from './PageHome';
 import PagePost from './PagePost';
-import PagePostForm from './PagePostForm';
 import PageCommentForm from './PageCommentForm';
 // app: actions
 import {getCategories} from '../actions/categories';
-import {getPostsAll} from '../actions/posts';
+import {getPostsAll, filterPostsByCat} from '../actions/posts';
 // app: api calls
 import {apiGetCatAll} from '../utils/api-category';
 import {apiGetPostsAll} from '../utils/api-posts';
@@ -46,7 +45,7 @@ class App extends Component {
 
 
     componentDidMount() {
-        const {appTitle, getCategories, categories, getPosts, posts} = this.props;
+        const { appTitle, getCategories, categories, getPosts, posts} = this.props;
         document.title = appTitle;
         getCategories(categories);
         getPosts(posts);
@@ -72,8 +71,8 @@ class App extends Component {
                         <Route path="/" exact component={PageHome} />
                         <Route path="/posts" exact component={PageHome} />
                         <Route path="/posts/:category" component={PageHome} />
-                        <Route path="/post/edit/:id" exact component={PagePostForm} />
-                        <Route path="/post/create" exact component={PagePostForm} pgTitle="Create New Post" />
+                        <Route path="/post/edit/:id" exact component={PagePost} />
+                        <Route path="/post/create" exact component={PagePost} pgTitle="Create New Post" />
                         <Route path="/post/:id" exact component={PagePost} pgTitle="A post" />
                         <Route path="/comment/edit/:id" exact component={PageCommentForm} />
                     </Switch>
@@ -95,6 +94,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),
         getCategories: (categories) => {
             return apiGetCatAll().then((categories) => (dispatch(getCategories(categories))))
         },

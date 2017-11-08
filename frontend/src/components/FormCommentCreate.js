@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import uuidV4 from 'uuid.v4';
+import {connect} from 'react-redux';
 
 // app
 import Row from './GridRow';
@@ -12,7 +13,7 @@ import DateTime from './DateTime';
 class FormCommentCreate extends Component {
 
     static propTypes = {
-        postID: PropTypes.string.isRequired
+        post: PropTypes.object.isRequired
     }
 
     state = {
@@ -26,7 +27,7 @@ class FormCommentCreate extends Component {
     }
 
     render() {
-        const {postID} = this.props;
+        const {post} = this.props, {id} = post;
         let {commentID, commentDate} = this.state;
 
         return (
@@ -44,7 +45,7 @@ class FormCommentCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-post-id">
                                         <label>Post ID:</label>
-                                        <span className="input-text text-uuid">{postID}</span>
+                                        <span className="input-text text-uuid">{id}</span>
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
                                         <label>Comment Date:</label>
@@ -80,4 +81,10 @@ class FormCommentCreate extends Component {
     }
 }
 
-export default FormCommentCreate;
+function mapStateToProps(state) {
+    return {
+        post: state.post
+    };
+}
+
+export default connect(mapStateToProps)(FormCommentCreate);

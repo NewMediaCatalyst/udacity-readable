@@ -1,41 +1,37 @@
 // libs
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import _ from 'lodash';
 
 // app
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
-import {setSamplePostData, Post} from '../utils/data.js';
 
 
 class FormPostEdit extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            postData: setSamplePostData(), // TODO Need to remove this
-            post: new Post()
-        }
-
+        this.state = { post: this.props.post };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     static propTypes = {
-        postID: PropTypes.string.isRequired
+        post: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        postID: null
+        post: {}
     }
 
-    componentDidMount() {
-        const {postID} = this.props;
-        let {postData} = this.state,
-            post = (postData !== undefined && postData.length > 0) ?
-                postData.filter((post) => post.id === postID) : false;
-        this.setState({ post: post[0] });
+    componentWillReceiveProps(nextProps) {
+        const {post} = this.props;
+        if (_.isUndefined(post.details.id) && !(_.isUndefined(nextProps.post.details.id))) {
+            this.setState({ post: nextProps.post });
+        }
     }
 
     handleSubmit(e) {
@@ -45,12 +41,11 @@ class FormPostEdit extends Component {
     }
 
     handleChange(e) {
-        const target = e.target,
-              type = e.target.type,
-              name = e.target.name;
+        const target = e.target, {name, type} = target;
         let newPost = Object.assign({}, this.state.post);
-        newPost[name] = type === 'checkbox' ? target.checked : target.value;
 
+        newPost.details[name] = type === 'checkbox' ? target.checked : target.value;
+        console.log("01 :: handleChange: newPost: ", newPost);
         this.setState({ post: newPost });
     }
 
@@ -60,7 +55,7 @@ class FormPostEdit extends Component {
 
     renderPost() {
         let {post} = this.state,
-            {id, title, author, timestamp, category, body, voteScore, deleted} = post;
+            {id, title, author, timestamp, category, body, voteScore, deleted} = post.details;
 
         return (
             <div className="view-post-edit">
@@ -132,10 +127,15 @@ class FormPostEdit extends Component {
     }
 
     render() {
-        let {post} = this.state;
-
-        return post ? this.renderPost() : this.renderNoResults();
+        let {post} = this.props;
+        return (post && post.details) ? this.renderPost() : this.renderNoResults();
     }
 }
 
-export default FormPostEdit;
+function mapStateToProps(state, props) {
+    return {
+        post: state.post
+    };
+}
+
+export default connect(mapStateToProps)(FormPostEdit);
