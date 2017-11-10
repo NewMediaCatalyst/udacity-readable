@@ -13,6 +13,7 @@ class FormPostCreate extends Component {
 
     constructor(props) {
         super(props);
+
         this.state = {
             post: new Post()
         }

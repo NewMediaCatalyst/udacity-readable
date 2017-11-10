@@ -1,38 +1,54 @@
 // libs
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 // app
 import FormCommentEdit from './FormCommentEdit';
+import {getComment} from '../actions/comments';
+import {apiFetch} from '../utils/api';
 
 
 class PageCommentForm extends Component {
 
     static propTypes = {
-        match: PropTypes.object
+        match: PropTypes.object.isRequired
     }
 
     static defaultProps = {
         pgTitle: 'Create Edit Post',
-        match: null
+        match: {}
     }
 
     componentDidMount() {
-        const {pgTitle, appSep, appTitle} = this.props;
+        const {pgTitle, appSep, appTitle, getComment, match} = this.props;
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
+
+        if (match && match.params && match.params.id) {
+            getComment(match.params.id);
+        }
     }
 
     render() {
-        let {match} = this.props,
-            commentID = (match.params.id !== undefined && match.params.id.length > 0) ?
-                match.params.id : null;
-
         return (
             <main className="app-content" role="main">
-                <FormCommentEdit commentID={commentID} />
+                <FormCommentEdit />
             </main>
         );
     }
 }
 
-export default PageCommentForm;
+function mapStateToProps(state) {
+    return {
+        comment: state.comment
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getComment: (id) => apiFetch({action: "comment", type: "get", body: {id}})
+            .then((comment) => dispatch(getComment(comment)))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PageCommentForm);

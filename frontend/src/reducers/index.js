@@ -11,7 +11,7 @@ import {
     SORT_BY_PUBDATE_ASC, SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
 } from '../actions/posts';
 import {
-    CREATE_COMMENT, GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
+    GET_COMMENT, CREATE_COMMENT, GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
 } from '../actions/comments';
 
 // Reducers
@@ -53,7 +53,16 @@ function comments(state = {all: [], display: {}}, action) {
             return {
                 ...state,
                 all: action.all
-            }
+            };
+        default: return state;
+    }
+}
+
+function comment(state = {comment: {}}, action) {
+
+    switch (action.type) {
+        case GET_COMMENT:
+            return action.comment
         case CREATE_COMMENT:
         case UPDATE_COMMENT:
         case DELETE_COMMENT:
@@ -117,6 +126,7 @@ export default combineReducers({
     category,
     posts,
     post,
-    comments
+    comments,
+    comment
 })
 

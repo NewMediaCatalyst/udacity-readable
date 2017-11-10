@@ -4,6 +4,7 @@
 // CREATE
 export const CREATE_COMMENT = "CREATE_COMMENT";
 // READ
+export const GET_COMMENT = "GET_COMMENT";  // by comment ID
 export const GET_COMMENTS_BY_POST = "GET_COMMENTS_BY_POST";  // by post ID
 // UPDATE
 export const UPDATE_COMMENT = "UPDATE_COMMENT";  // by comment ID
@@ -28,6 +29,13 @@ export function getComments(comments) {
         all: comments
     }
 };
+
+export function getComment(comment) {
+    return {
+        type: GET_COMMENT,
+        comment
+    }
+}
 
 // UPDATE
 export function updateComment(id, parentId, timestamp, body, author, voteScore, deleted, parentDeleted) {
