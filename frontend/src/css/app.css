@@ -59,25 +59,25 @@ a:focus .app-title { color: #ccc; }
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 100%; }
-    .app-content { padding: 20px 10px 50px; }
+    .app-content { padding: 25px 10px 50px; }
 }
 @media (min-width: 720px) { /* was 720px */
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 670px; }
-    .app-content { padding: 20px 12px 60px; }
+    .app-content { padding: 25px 12px 60px; }
 }
 @media (min-width: 64em) { /* was 960px */
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 980px; }
-    .app-content { padding: 25px 15px 70px; }
+    .app-content { padding: 30px 15px 70px; }
 }
 @media (min-width: 75em) { /* was 1024px */
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 1140px; }
-    .app-content { padding: 25px 18px 80px; }
+    .app-content { padding: 30px 18px 80px; }
 }
 
 

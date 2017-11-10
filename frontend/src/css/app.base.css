@@ -19,7 +19,10 @@ h1, h2, h3, h4, h5, h6, legend, .app-content {
 a svg { pointer-events: none; }
 
 /* Forms */
-button { cursor: pointer !important; }
+button {
+    cursor: pointer !important;
+    transition: color 0.65s ease-out, background-color 0.65s ease-out;
+}
 
 button:disabled { cursor: default !important; }
 
@@ -41,6 +44,16 @@ label { font-weight: 500; font-size: 0.875rem; }
 
 .l-sm-horiz label,
 .l-sm-horiz .input-text { display: inline-block; }
+
+.is-invalid-input:not(:focus) {
+    border-color: #6d0019;
+    background-color: #f8e6e7;
+}
+
+.is-invalid-input:focus {
+    border-color: #6b454d;
+    background-color: #f7eff0;
+}
 
 @media screen and (min-width: 40em) { /* was 720px */
 

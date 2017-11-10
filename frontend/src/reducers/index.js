@@ -11,7 +11,7 @@ import {
     SORT_BY_PUBDATE_ASC, SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
 } from '../actions/posts';
 import {
-    CREATE_COMMENT, GET_COMMENTS, UPDATE_COMMENT, DELETE_COMMENT
+    CREATE_COMMENT, GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
 } from '../actions/comments';
 
 // Reducers
@@ -45,6 +45,22 @@ function post(state = { id: "", details: {}}, action) {
         default: return state;
     }
 }
+
+function comments(state = {all: [], display: {}}, action) {
+
+    switch (action.type) {
+        case GET_COMMENTS_BY_POST:
+            return {
+                ...state,
+                all: action.all
+            }
+        case CREATE_COMMENT:
+        case UPDATE_COMMENT:
+        case DELETE_COMMENT:
+        default: return state;
+    }
+}
+
 
 function posts(state = {all:{}, display:{}, sortMethod: "voteScoreDesc"}, action) {
 
@@ -91,17 +107,6 @@ function posts(state = {all:{}, display:{}, sortMethod: "voteScoreDesc"}, action
                 ...state,
                 display: Object.assign({}, _.orderBy(state.display, ['timestamp'], ['desc']))
             };
-        default: return state;
-    }
-}
-
-function comments(state = {}, action) {
-
-    switch (action.type) {
-        case CREATE_COMMENT:
-        case GET_COMMENTS:
-        case UPDATE_COMMENT:
-        case DELETE_COMMENT:
         default: return state;
     }
 }

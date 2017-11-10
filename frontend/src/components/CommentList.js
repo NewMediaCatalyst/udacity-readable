@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 // app
 import '../css/comp.commentlist.css';
@@ -9,53 +10,40 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
-import {setSampleCommentData, Comment} from '../utils/data.js';
+import {getComments} from '../actions/comments';
+import {apiFetch} from '../utils/api';
 
 
 class CommentList extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            data: setSampleCommentData(),
-            comments: [new Comment()]
-        }
-    }
-
     static propTypes = {
-        postID: PropTypes.string.isRequired
+        post: PropTypes.object.isRequired,
+        comments: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        postID: ""
+        post: { id: ""},
+        comments: {}
     }
 
     componentDidMount() {
-        const {postID} = this.props;
-        let newComments = [],
-            {data} = this.state;
+        const {getComments, post} = this.props;
+        if (post.id !== "") { getComments(post.id); }
+    }
 
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].parentID === postID) {
-                newComments.push(data[i]);
-            }
+    componentWillUpdate(nextProps, nextState) {
+        const {post, getComments} = this.props;
+
+        if (post.id === "" && nextProps.post.id !== "") {
+            getComments(nextProps.post.id);
         }
-        // console.log("newComments: ", newComments);
-        /*
-        newComments = data.comments.filter((comment) => {
-            return (comment.parentID === postID && !comment.parentDeleted && !comment.deleted);
-        });
-        */
-
-        this.setState({ comments: newComments });
     }
 
     renderComments() {
-        let {comments} = this.state;
+        let {comments} = this.props;
 
         return <ol className="comment-list">
-            {comments.map((comment) => (
+            {comments.all.map((comment) => (
                 <li className="list-item" key={comment.id}>
                     <Row className="comment-header">
                         <Col width={{sm:8, md:5}} className="comment-author">
@@ -96,12 +84,12 @@ class CommentList extends Component {
     }
 
     render() {
-        let {comments} = this.state;
+        let {comments} = this.props;
 
         return (
             <Row className="comment-listing">
                 <Col width={{sm:12}}>
-                    {(comments !== undefined && comments.length > 0) ?
+                    {(comments && comments.all && comments.all.length > 0) ?
                         this.renderComments() : this.renderNoResults() }
                 </Col>
             </Row>
@@ -109,4 +97,18 @@ class CommentList extends Component {
     }
 }
 
-export default CommentList;
+function mapStateToProps(state) {
+    return {
+        post: state.post,
+        comments: state.comments
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        getComments: (parentId) => apiFetch({action: "comment", type: "all", body: {parentId}})
+            .then((comments) => dispatch(getComments(comments)))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CommentList);

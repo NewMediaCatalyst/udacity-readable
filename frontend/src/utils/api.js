@@ -42,7 +42,7 @@ function setVals(vals) {
     } else if (action === "comment") {
         switch (type) {
             case "all":     // get all comments for a post
-                settings.url += `/posts/${body.id}/comments`; settings.hdr.method = 'GET'; break;
+                settings.url += `/posts/${body.parentId}/comments`; settings.hdr.method = 'GET'; break;
             case "add":     // add comment to post
                 settings.url += `/comments`; settings.hdr.method = 'POST'; break;
             case "get":     // get single comment

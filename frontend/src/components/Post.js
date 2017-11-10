@@ -14,12 +14,10 @@ import VoteUpDown from './VoteUpDown';
 class Post extends Component {
 
     static propTypes = {
-        postID: PropTypes.string.isRequired,
         post: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        postID: "",
         post: {}
     }
 

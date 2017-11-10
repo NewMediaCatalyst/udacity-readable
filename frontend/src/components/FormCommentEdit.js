@@ -1,12 +1,13 @@
 // libs
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 
 // app
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
-import {setSampleCommentData, Comment} from '../utils/data.js';
+import {Comment} from '../utils/data.js';
 
 
 class FormCommentEdit extends Component {
@@ -14,7 +15,6 @@ class FormCommentEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            commentData: setSampleCommentData(),
             comment: new Comment()
         }
 
@@ -30,14 +30,6 @@ class FormCommentEdit extends Component {
         commentID: null
     }
 
-    componentDidMount() {
-        const {commentID} = this.props;
-        let {commentData} = this.state,
-            comment = (commentData !== undefined && commentData.length > 0) ?
-                commentData.filter((comment) => comment.id === commentID) : false;
-        this.setState({ comment: comment[0] });
-    }
-
     handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -45,12 +37,10 @@ class FormCommentEdit extends Component {
     }
 
     handleChange(e) {
-        const target = e.target,
-              type = e.target.type,
-              name = e.target.name;
+        const target = e.target, type = target.type, name = target.name;
         let newComment = Object.assign({}, this.state.comment);
-        newComment[name] = type === 'checkbox' ? target.checked : target.value;
 
+        newComment[name] = type === 'checkbox' ? target.checked : target.value;
         this.setState({ comment: newComment });
     }
 
@@ -123,4 +113,11 @@ class FormCommentEdit extends Component {
     }
 }
 
-export default FormCommentEdit;
+function mapStateToProps(state) {
+    return {
+        comments: state.comments,
+        comment: state.comment
+    }
+}
+
+export default connect(mapStateToProps)(FormCommentEdit);

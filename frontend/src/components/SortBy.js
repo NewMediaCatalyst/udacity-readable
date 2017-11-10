@@ -67,7 +67,7 @@ class SortBy extends Component {
             case "voteScoreDesc": return sortPostsVoteDesc(posts);
             case "pubAsc": return sortPostsPubdateAsc(posts);
             case "pubDesc": return sortPostsPubdateDesc(posts);
-            default: console.log("Hmm, unexpected value"); return;
+            default: console.log("Hmm, SortBy has unexpected value"); return;
         }
     }
 
