@@ -5,13 +5,15 @@ import _ from 'lodash';
 // Actions
 import {GET_POST_CATEGORIES, SET_CATEGORY} from '../actions/categories';
 import {
-    GET_POST, CREATE_POST, GET_POSTS_ALL, GET_POSTS_BY_CAT,
-    UPDATE_POST, DELETE_POST, FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS,
-    SORT_BY_VOTE_SCORE_ASC, SORT_BY_VOTE_SCORE_DESC,
-    SORT_BY_PUBDATE_ASC, SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
+    GET_POST, VOTE_POST, CREATE_POST, GET_POSTS_ALL,
+    GET_POSTS_BY_CAT, UPDATE_POST, DELETE_POST,
+    FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS, SORT_BY_VOTE_SCORE_ASC,
+    SORT_BY_VOTE_SCORE_DESC, SORT_BY_PUBDATE_ASC,
+    SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
 } from '../actions/posts';
 import {
-    GET_COMMENT, CREATE_COMMENT, GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
+    GET_COMMENT, VOTE_COMMENT, CREATE_COMMENT,
+    GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
 } from '../actions/comments';
 
 // Reducers
@@ -38,6 +40,11 @@ function post(state = { id: "", details: {}}, action) {
                 id: action.id,
                 details: action.details
             };
+        case VOTE_POST:
+            return {
+                ...state,
+                details: state.details
+            };
         case CREATE_POST:
         case GET_POSTS_BY_CAT:
         case UPDATE_POST:
@@ -52,7 +59,9 @@ function comments(state = {all: [], display: {}}, action) {
         case GET_COMMENTS_BY_POST:
             return {
                 ...state,
-                all: action.all
+                all: action.all.map((comment) => ({
+                    [comment.id]: comment
+                }))
             };
         default: return state;
     }
@@ -63,9 +72,17 @@ function comment(state = {comment: {}}, action) {
     switch (action.type) {
         case GET_COMMENT:
             return action.comment
+        case VOTE_COMMENT:
+            return {
+                id: action.id,
+                option: action.option
+            };
         case CREATE_COMMENT:
+            return action.comment
         case UPDATE_COMMENT:
+            return action.comment
         case DELETE_COMMENT:
+            return action.comment
         default: return state;
     }
 }

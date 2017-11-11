@@ -4,11 +4,29 @@
 
 .vote-ctrl > * { line-height: 1.2; }
 
+.vote-ctrl .button-icon,
+.vote-score {
+    transition: color 0.5s ease-out;
+}
+
 .vote-ctrl .button-icon {
     padding: 4px;
     width: 32px;
     height: 32px;
     position: relative;
+    color: #222;
+}
+
+.vote-ctrl .button-vote-up:hover:not(:disabled),
+.vote-ctrl .button-vote-up:focus:not(:disabled),
+.vote-ctrl .button-vote-up:hover ~ .vote-score {
+    color: #007012;
+}
+
+.vote-ctrl .button-vote-down:hover:not(:disabled),
+.vote-ctrl .button-vote-down:focus:not(:disabled),
+.vote-ctrl .button-vote-down:hover ~ .vote-score {
+    color: #6d0019;
 }
 
 

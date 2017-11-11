@@ -8,26 +8,27 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 import {Comment} from '../utils/data';
+import {apiFetch} from '../utils/api';
+import {updateComment} from '../actions/comments';
 
 
 class FormCommentEdit extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            comment: new Comment(),
-            touched: {
-                author: false,
-                body: false,
-                voteScore: false
-            },
-            receivedComment: false
-        }
-
         this.handleBlur = this.handleBlur.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    state = {
+        comment: new Comment(),
+        touched: {
+            author: false,
+            body: false,
+            voteScore: false
+        },
+        receivedComment: false
     }
 
     static propTypes = {
@@ -39,14 +40,15 @@ class FormCommentEdit extends Component {
     }
 
     componentDidMount() {
-        const {comment} = this.props;
-        let newComment = Object.assign({}, comment);
-        if (comment.parentId !== "") {
+        let {comment} = this.state;
+
+        if (this.props.comment.parentId !== undefined) {
+            let newComment = Object.assign({}, comment);
             this.setState({ comment: newComment });
         }
     }
 
-    componentWillUpdate(nextProps) {
+    componentWillUpdate(nextProps, nextState) {
         let {receivedComment} = this.state, newComment;
 
         if (!receivedComment && nextProps.comment.parentId !== undefined && nextProps.comment.parentId.length > 0) {
@@ -73,7 +75,7 @@ class FormCommentEdit extends Component {
               name = target.name,
               value = type === "checkbox" ? target.checked : target.value;
         let newComment = Object.assign({}, this.state.comment);
-        newComment[name] = value;
+        newComment[name] = type === "number" ? Number(value) : value;
         this.setState({comment: newComment});
         this.forceUpdate();
     }
@@ -81,7 +83,15 @@ class FormCommentEdit extends Component {
     handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("handleSubmit: ", e);
+        const {updateComment} = this.props;
+        let {comment} = this.state,
+            {id} = comment;
+
+        console.log("isValidForm: ", (!this.isInvalidForm(this.validateForm())));
+        console.log("comment: ", comment);
+        if (!this.isInvalidForm(this.validateForm())) {
+            updateComment(comment, id);
+        }
     }
 
     validateForm() {
@@ -94,7 +104,7 @@ class FormCommentEdit extends Component {
         }
     }
 
-    isValidForm(errors) {
+    isInvalidForm(errors) {
         return Object.keys(errors).some(error => errors[error])
     }
 
@@ -133,7 +143,9 @@ class FormCommentEdit extends Component {
                                             name="voteScore"
                                             value={voteScore}
                                             id="comment-score"
-                                            type="text"
+                                            type="number"
+                                            step="1"
+                                            min="1"
                                         />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-deleted">
@@ -178,13 +190,14 @@ class FormCommentEdit extends Component {
                                             onBlur={this.handleBlur}
                                             onChange={this.handleChange}
                                             className={(touched.body && errors.body) ? 'is-invalid-input' : null}
-                                            name="body" value={body}
+                                            name="body"
+                                            value={body}
                                             id="comment-body"
                                             placeholder="Comment text"
                                         />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="form-actions">
-                                        <button type="submit" disabled={this.isValidForm(errors)}>
+                                        <button type="submit" disabled={this.isInvalidForm(errors)}>
                                             <span className="text">Submit</span>
                                         </button>
                                     </Col>
@@ -198,15 +211,25 @@ class FormCommentEdit extends Component {
     }
 
     render() {
-        let {comment} = this.state;
-        return (comment.parentId !== "") ? this.renderComment() : this.renderNoResults();
+        let {comment} = this.state, {parentId} = comment;
+        return (parentId !== "") ? this.renderComment() : this.renderNoResults();
     }
 }
 
 function mapStateToProps(state) {
     return {
         comment: state.comment
-    }
+    };
 }
 
-export default connect(mapStateToProps)(FormCommentEdit);
+function mapDispatchToProps(dispatch) {
+    return {
+        updateComment: (comment, id) => {
+                console.log()
+                return apiFetch({ action: "comment", type: "edit", body: comment })
+                    .then((res) => dispatch(updateComment(comment)))
+            }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormCommentEdit);

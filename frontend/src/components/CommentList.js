@@ -42,36 +42,39 @@ class CommentList extends Component {
     renderComments() {
         let {comments} = this.props;
 
+        console.log("renderComments :: comments: ", comments);
         return <ol className="comment-list">
-            {comments.all.map((comment) => (
-                <li className="list-item" key={comment.id}>
+            {comments.all.map((comment) => {
+            let {id, author, timestamp, voteScore, body} = Object.values(comment)[0];
+                return <li className="list-item" key={id}>
                     <Row className="comment-header">
                         <Col width={{sm:8, md:5}} className="comment-author">
                             <strong>By: </strong>
-                            <span className="text">{comment.author}</span>
+                            <span className="text">{author}</span>
                         </Col>
                         <Col width={{sm:8, md:4}} className="comment-date">
                             <strong>posted: </strong>
-                            <DateTime date={comment.timestamp} />
+                            <DateTime date={timestamp} />
                         </Col>
                         <Col width={{sm:4, md:3}} className="comment-score">
-                            <VoteUpDown size="sm" type="Comment" score={comment.voteScore} />
+                            <VoteUpDown id={id} size="sm" type="comment" score={voteScore} />
                         </Col>
                     </Row>
                     <Row className="comment-content">
-                        <Col width={{sm:12}} className="comment-body">{comment.body}</Col>
+                        <Col width={{sm:12}} className="comment-body">{body}</Col>
                     </Row>
                     <Row className="comment-footer">
                         <Col width={{sm:9, md:7}} className="comment-id">
                             <strong>Comment ID: </strong>
-                            <span className="text">{comment.id}</span>
+                            <span className="text">{id}</span>
                         </Col>
                         <Col width={{sm:3, md:5}} className="comment-edit">
-                            <p><Link to={`/comment/edit/${comment.id}`}>Edit comment &raquo;</Link></p>
+                            <p><Link to={`/comment/edit/${id}`}>Edit comment &raquo;</Link></p>
                         </Col>
                     </Row>
                 </li>
-            ))}
+            })
+        }
         </ol>
     }
 

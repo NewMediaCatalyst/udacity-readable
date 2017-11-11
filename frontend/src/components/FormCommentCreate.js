@@ -159,7 +159,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         createComment: (comment) => {
-            return apiFetch({action: "comment", type: "add", body: comment}).then((res) => (dispatch(createComment(comment))))
+            return apiFetch({action: "comment", type: "add", body: comment}).then((res) => dispatch(createComment(comment)))
         }
     };
 }

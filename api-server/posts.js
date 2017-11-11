@@ -193,15 +193,25 @@ function add (token, post) {
 }
 
 function vote (token, id, option) {
+
+    console.log("vote :: id: ", id, "; option: ", option);
+
   return new Promise((res) => {
     let posts = getData(token)
     post = posts[id]
+
+    console.log("vote :: post: ", post);
+
     switch(option) {
         case "upVote":
+            console.log("vote :: post.voteScore: ", post.voteScore);
             post.voteScore = post.voteScore + 1
+            console.log("vote :: post.voteScore: ", post.voteScore);
             break
         case "downVote":
+            console.log("vote :: post.voteScore: ", post.voteScore);
             post.voteScore = post.voteScore - 1
+            console.log("vote :: post.voteScore: ", post.voteScore);
             break
         default:
             console.log(`posts.vote received incorrect parameter: ${option}`)

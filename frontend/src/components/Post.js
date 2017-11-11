@@ -47,7 +47,7 @@ class Post extends Component {
                         </p>
                     </Col>
                     <Col width={{sm:5, md:12, lg:4}} className="post-score">
-                        <VoteUpDown score={Number(voteScore)} />
+                        <VoteUpDown id={id} score={Number(voteScore)} />
                     </Col>
                 </Row>
                 <Row margin={true} className="post-body">

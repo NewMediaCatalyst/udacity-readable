@@ -8,6 +8,8 @@ export const GET_POST = "GET_POST";
 export const CREATE_POST = "CREATE_POST";
 // UPDATE
 export const UPDATE_POST = "UPDATE_POST";
+// VOTE
+export const VOTE_POST = "VOTE_POST";
 // DELETE
 export const DELETE_POST = "DELETE_POST";
 
@@ -69,7 +71,14 @@ export function getPostsByCat(category) {
     }
 };
 
-
+// VOTE
+export function votePost(details) {
+    return {
+        type: VOTE_POST,
+        id: details.id,
+        option: details.option
+    }
+}
 
 // UPDATE
 export function updatePost(id, timestamp, title, body, author, category, voteScore, deleted) {

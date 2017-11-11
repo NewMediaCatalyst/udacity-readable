@@ -2,7 +2,7 @@
 // action:  all, byCat, add, get, vote, edit, delete
 function setVals(vals) {
     // constants
-    const baseURL = 'http://172.16.0.9:3001';
+    const baseURL = 'http://localhost:3001';
     const hdrBase = {
         "Authorization": "arbitrary-string-1",
         "Accept": "application/json",
@@ -14,7 +14,14 @@ function setVals(vals) {
             url: baseURL,
             hdr: { method: "", headers: new Headers(hdrBase)},
         };
-    if (body) { settings.body = body; }
+    // if (body) { settings.body = body; }
+
+    if (action === "comment" && type === "edit") {
+
+        console.log("setVals: body: ", body);
+    }
+
+    // console.log("setVals: body: ", body);
 
     if (action === "category") { // only 1 api type for categories
         settings.url += "/categories"; settings.hdr.method = 'GET';
@@ -30,7 +37,10 @@ function setVals(vals) {
             case "get":     // get single post
                 settings.url += `/posts/${body.id}`; settings.hdr.method = 'GET'; break;
             case "vote":     // vote on a post; string: "upVote", "downVote"
-                settings.url += `/posts/${body.id}`; settings.hdr.method = 'POST'; break;
+                settings.url += `/posts/${body.id}`;
+                settings.hdr.method = 'POST';
+                settings.hdr.body = JSON.stringify(body);
+                break;
             case "edit":     // edit a post
                 settings.url += `/posts/${body.id}`; settings.hdr.method = 'PUT'; break;
             case "delete":  // delete a post
@@ -48,9 +58,15 @@ function setVals(vals) {
             case "get":     // get single comment
                 settings.url += `/comments/${body.id}`; settings.hdr.method = 'GET'; break;
             case "vote":    // vote on a comment; string: "upVote", "downVote"
-                settings.url += `/comments/${body.id}`; settings.hdr.method = 'POST'; break;
+                settings.url += `/comments/${body.id}`;
+                settings.hdr.method = 'POST';
+                settings.hdr.body = JSON.stringify(body);
+                break;
             case "edit":    // edit a comment
-                settings.url += `/comments/${body.id}`; settings.hdr.method = 'PUT'; break;
+                settings.url += `/comments/${body.id}`;
+                settings.hdr.body = JSON.stringify(body);
+                settings.hdr.method = 'PUT';
+                break;
             case "delete":  // delete a comment
                 settings.url += `/comments/${body.id}`; settings.hdr.method = 'DELETE'; break;
             default:
@@ -58,11 +74,22 @@ function setVals(vals) {
         }
     }
 
+    if (action === "comment" && type === "edit") {
+
+        console.log("setVals: settings: ", settings);
+    }
+    // console.log("setVals: settings: ", settings);
     return settings;
 }
 
 export function apiFetch(vals) { // vals: {action:'post', type: 'get', etc}
     let settings = setVals(vals), {url, hdr} = settings;
+
+    if (vals.action === "comment" && vals.type === "edit") {
+        console.log("apiFetch :: settings: ", settings);
+        console.log("apiFetch :: hdr: ", hdr);
+    }
+
 
     return fetch(url, hdr).then(function (res) {
             let json = res.json();

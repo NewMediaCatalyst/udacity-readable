@@ -6,7 +6,7 @@ export function Comment() {
     this.timestamp = new Date().toISOString();
     this.body = "";
     this.author = "";
-    this.voteScore =  1;
+    this.voteScore = 1;
     this.deleted = false;
     this.parentDeleted = false;
 }
