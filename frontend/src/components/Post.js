@@ -23,10 +23,9 @@ class Post extends Component {
 
     render() {
         const {post} = this.props;
-        console.log("Post :: render : posts: ", post);
-
         if (post.details === undefined) { return null; }
         const {id, title, author, timestamp, category, body, voteScore} = post.details;
+        console.log("Post :: render : voteScore: ", voteScore);
 
         return (
             <article className="view-post">
@@ -47,7 +46,7 @@ class Post extends Component {
                         </p>
                     </Col>
                     <Col width={{sm:5, md:12, lg:4}} className="post-score">
-                        <VoteUpDown id={id} score={Number(voteScore)} />
+                        <VoteUpDown id={id} score={voteScore} />
                     </Col>
                 </Row>
                 <Row margin={true} className="post-body">

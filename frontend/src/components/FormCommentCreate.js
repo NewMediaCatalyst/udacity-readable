@@ -64,7 +64,7 @@ class FormCommentCreate extends Component {
         }
     }
 
-    isValidForm(errors) {
+    isInvalidForm(errors) {
         if (errors === undefined) { return true; }
         return Object.keys(errors).some(error => errors[error]);
     }
@@ -139,7 +139,7 @@ class FormCommentCreate extends Component {
                             </fieldset>
                         </Col>
                         <Col width={{sm:12, md:9,lg:8}} className="form-actions">
-                            <button type="submit" disabled={this.isValidForm(errors)}>
+                            <button type="submit" disabled={this.isInvalidForm(errors)}>
                                 <span className="text">Submit</span>
                             </button>
                         </Col>

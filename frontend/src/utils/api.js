@@ -14,18 +14,12 @@ function setVals(vals) {
             url: baseURL,
             hdr: { method: "", headers: new Headers(hdrBase)},
         };
-    // if (body) { settings.body = body; }
 
-    if (action === "comment" && type === "edit") {
-
-        console.log("setVals: body: ", body);
-    }
-
-    // console.log("setVals: body: ", body);
-
+    // CATEGORIES
     if (action === "category") { // only 1 api type for categories
         settings.url += "/categories"; settings.hdr.method = 'GET';
 
+    // POSTS
     } else if (action === "post") {
         switch (type) {
             case "all":    // get all posts
@@ -33,7 +27,10 @@ function setVals(vals) {
             case "byCat":  // get all posts by a category
                 settings.url += `/${body.category}/posts`; settings.hdr.method = 'GET'; break;
             case "add":     // create a new post
-                settings.url += "/posts"; settings.hdr.method = 'POST'; break;
+                settings.url += "/posts";
+                settings.hdr.method = 'POST';
+                settings.hdr.body = JSON.stringify(body);
+                break;
             case "get":     // get single post
                 settings.url += `/posts/${body.id}`; settings.hdr.method = 'GET'; break;
             case "vote":     // vote on a post; string: "upVote", "downVote"
@@ -49,6 +46,7 @@ function setVals(vals) {
                 console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: SWITCH didn't find type");
         }
 
+    // COMMENTS
     } else if (action === "comment") {
         switch (type) {
             case "all":     // get all comments for a post
@@ -74,11 +72,10 @@ function setVals(vals) {
         }
     }
 
-    if (action === "comment" && type === "edit") {
-
+    if (action === "post" && type === "add") {
         console.log("setVals: settings: ", settings);
     }
-    // console.log("setVals: settings: ", settings);
+
     return settings;
 }
 

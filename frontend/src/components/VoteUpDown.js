@@ -48,31 +48,25 @@ class VoteUpDown extends Component {
 
     handleUpVote(e) {
         e.preventDefault(); e.stopPropagation();
-        const {type, id, voteComment, votePost} = this.props;
-        let {score} = this.state, details = {id, option: "upVote"};
-
-        console.log("00 handleUpVote :: type: ", type, "; id: ", id, "; score: ", score);
-
+        const {score, type, id, voteComment, votePost} = this.props;
+        let details = {id, option: "upVote"};
         this.setState({ score: Number(score) + 1 })
-
         type === "comment" ? voteComment(details) : votePost(details);
     }
 
     handleDownVote(e) {
         e.preventDefault(); e.stopPropagation();
-        const {type, id, voteComment, votePost} = this.props;
-        let details, {score} = this.state,
+        const {score, type, id, voteComment, votePost} = this.props;
+        let details,
             numScore = Number(score);
 
-        console.log("00 handleDownVote :: type: ", type, "; id: ", id, "; score: ", score, "; numScore: ", numScore);
-
+        console.log("handleDownVote :: OUTSIDE :: numScore: ", numScore);
         if (numScore >= 2) {
-            console.log("01 handleDownVote :: (score >= 2): ");
+            console.log("handleDownVote :: INSIDE :: numScore: ", numScore);
             this.setState({ score: numScore - 1 });
             details = {id, option: "downVote"};
             type === "comment" ? voteComment(details) : votePost(details);
         }
-
     }
 
     render() {
@@ -86,12 +80,17 @@ class VoteUpDown extends Component {
             ctrlIDText = `vote-up-down-${ctrlID}`,
             ctnrClasses = classnames({
                 [`vote-ctrl`]: true,
+                [`type-${type}`]: true,
                 [`align-right`]: align === "align-right",
                 [`align-left`]: align === "align-left",
                 [`l2r`]: layout === "l2r",
                 [`t2b`]: layout === "t2b",
-                [`size-${size}`]: (size.length > 0)
-            });
+                [`size-${size}`]: (size.length > 0),
+                [`digit-1`]: (score < 10),
+                [`digit-2`]: (score < 100 && score >= 10),
+                [`digit-3`]: (score < 1000 && score >= 100)
+            }),
+            voteScore = score;
 
         return (
             <Row className={ctnrClasses}>
@@ -123,7 +122,7 @@ class VoteUpDown extends Component {
                     id={ctrlIDText}
                     className="vote-score"
                     aria-labelledby={ctrlIDLabel}
-                >{score.toString()}</span>
+                >{voteScore.toString()}</span>
             </Row>
         );
     }
@@ -132,9 +131,10 @@ class VoteUpDown extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         voteComment: (body) => apiFetch({action: "comment", type: "vote", body})
-            .then((res) => dispatch(voteComment(body))),
+            .then((res) => dispatch(voteComment(res))),
+
         votePost: (body) => apiFetch({action: "post", type: "vote", body})
-            .then((res) => dispatch(votePost(body)))
+            .then((res) => dispatch(votePost(res)))
     };
 }
 

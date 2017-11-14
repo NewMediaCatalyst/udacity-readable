@@ -5,7 +5,7 @@ import _ from 'lodash';
 // Actions
 import {GET_POST_CATEGORIES, SET_CATEGORY} from '../actions/categories';
 import {
-    GET_POST, VOTE_POST, CREATE_POST, GET_POSTS_ALL,
+    GET_POST, VOTE_POST, ADD_POST, GET_POSTS_ALL,
     GET_POSTS_BY_CAT, UPDATE_POST, DELETE_POST,
     FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS, SORT_BY_VOTE_SCORE_ASC,
     SORT_BY_VOTE_SCORE_DESC, SORT_BY_PUBDATE_ASC,
@@ -41,11 +41,12 @@ function post(state = { id: "", details: {}}, action) {
                 details: action.details
             };
         case VOTE_POST:
+            let updatedPost = Object.assign({}, state.details);
+            updatedPost.voteScore = action.details.voteScore
             return {
                 ...state,
-                details: state.details
+                details: updatedPost
             };
-        case CREATE_POST:
         case GET_POSTS_BY_CAT:
         case UPDATE_POST:
         case DELETE_POST:
@@ -107,6 +108,16 @@ function posts(state = {all:{}, display:{}, sortMethod: "voteScoreDesc"}, action
             return {
                 ...state,
                 display: Object.assign({}, state.all) // state.all default sorted 'voteScore, desc'
+            };
+        case ADD_POST:
+            const {id} = action.post.id
+            let updateAll = Object.assign({}, state.all);
+            updateAll[id] = action.post
+            _.orderBy(updateAll, ['voteScore'], ['desc']);
+            return {
+                ...state,
+                all: Object.assign({}, updateAll),
+                display: Object.assign({}, updateAll)
             };
         case SET_SORT_METHOD:
             return {

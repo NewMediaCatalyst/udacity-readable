@@ -5,7 +5,7 @@
 // READ
 export const GET_POST = "GET_POST";
 // CREATE
-export const CREATE_POST = "CREATE_POST";
+export const ADD_POST = "ADD_POST";
 // UPDATE
 export const UPDATE_POST = "UPDATE_POST";
 // VOTE
@@ -34,17 +34,10 @@ export const SORT_BY_PUBDATE_DESC = "SORT_BY_PUBDATE_DESC";
 // POST :: ACTIONS //////
 
 // CREATE
-export function createPost(id, timestamp, title, body, author, category, voteScore, deleted) {
+export function addPost(post) {
     return {
-        type: CREATE_POST,
-        id,
-        timestamp,
-        title,
-        body,
-        author,
-        category,
-        voteScore,
-        deleted
+        type: ADD_POST,
+        post
     };
 };
 
@@ -72,11 +65,10 @@ export function getPostsByCat(category) {
 };
 
 // VOTE
-export function votePost(details) {
+export function votePost(post) {
     return {
         type: VOTE_POST,
-        id: details.id,
-        option: details.option
+        post
     }
 }
 
