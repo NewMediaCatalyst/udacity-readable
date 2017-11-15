@@ -34,7 +34,6 @@ class PostList extends Component {
 
         return <ol className="post-list">
             {Object.entries(posts.display).map(([key, value]) => {
-                console.log("PostList :: renderPosts: value.id: ", value.id, "; value: ", value);
                 return <li className="list-item" key={value.id}>
                     <Link className="post-link" to={`/post/${value.id}`}>
                     <h2 className="post-title">{value.title}</h2>

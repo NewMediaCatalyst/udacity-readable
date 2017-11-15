@@ -60,9 +60,7 @@ class VoteUpDown extends Component {
         let details,
             numScore = Number(score);
 
-        console.log("handleDownVote :: OUTSIDE :: numScore: ", numScore);
         if (numScore >= 2) {
-            console.log("handleDownVote :: INSIDE :: numScore: ", numScore);
             this.setState({ score: numScore - 1 });
             details = {id, option: "downVote"};
             type === "comment" ? voteComment(details) : votePost(details);
@@ -110,6 +108,7 @@ class VoteUpDown extends Component {
                     title={titleDown}
                     type="button"
                     aria-controls={ctrlIDText}
+                    disabled={(score <= 1)}
                 >
                     <ThumbsDownIcon className="icon icon-thumbs-down" />
                     <span className="show-for-sr">{buttonSRTextDown}</span>

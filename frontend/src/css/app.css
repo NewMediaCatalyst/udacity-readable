@@ -1,5 +1,8 @@
 /* app */
-.app { margin: 0 auto; }
+.app {
+    margin: 0 auto;
+    background-color: #d9d9d9;
+}
 
 .grid-x, .app-content { max-width: 80rem; }
 

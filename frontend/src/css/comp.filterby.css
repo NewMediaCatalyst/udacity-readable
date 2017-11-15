@@ -46,6 +46,11 @@
         background-color 0.25s ease-in;
 }
 
+.filter-by .filter-link:hover:not(.active),
+.filter-by .filter-link:focus:not(.active) {
+    color: #258faf;
+}
+
 .filter-by .filter-link.active {
     background-color: #222;
     color: #fff;

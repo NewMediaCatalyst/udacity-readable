@@ -48,11 +48,10 @@ export function updateComment(comment) {
 }
 
 // VOTE ON COMMENT
-export function voteComment(details) {
+export function voteComment(comment) {
     return {
         type: VOTE_COMMENT,
-        id: details.id,
-        option: details.option
+        comment
     }
 }
 

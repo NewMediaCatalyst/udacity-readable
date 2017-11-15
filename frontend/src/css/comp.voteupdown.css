@@ -60,11 +60,19 @@
     text-align: center;
 }
 
+/* post vote sizing */
 .digit-1 .vote-score { min-width: 32px; }
 
 .digit-2 .vote-score { min-width: 48px; }
 
 .digit-3 .vote-score { min-width: 61px; }
+
+/* comment vote sizing */
+.digit-1.type-comment .vote-score { min-width: 28px; }
+
+.digit-2.type-comment .vote-score { min-width: 34px; }
+
+.digit-3.type-comment .vote-score { min-width: 44px; }
 
 .size-sm .vote-score {
     font-size: 1.125rem;

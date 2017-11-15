@@ -42,7 +42,7 @@ function post(state = { id: "", details: {}}, action) {
             };
         case VOTE_POST:
             let updatedPost = Object.assign({}, state.details);
-            updatedPost.voteScore = action.details.voteScore
+            updatedPost.voteScore = action.post.voteScore;
             return {
                 ...state,
                 details: updatedPost
@@ -54,15 +54,22 @@ function post(state = { id: "", details: {}}, action) {
     }
 }
 
-function comments(state = {all: [], display: {}}, action) {
+function comments(state = {all: {}, display: {}}, action) {
 
     switch (action.type) {
         case GET_COMMENTS_BY_POST:
+            let allComments = {};
+            action.all.map((comment) => allComments[comment.id] = comment)
             return {
                 ...state,
-                all: action.all.map((comment) => ({
-                    [comment.id]: comment
-                }))
+                all: allComments
+            };
+        case VOTE_COMMENT:
+            let updatedComment = Object.assign({}, state.all);
+            updatedComment[action.comment.id].voteScore = action.comment.voteScore;
+            return {
+                ...state,
+                details: updatedComment
             };
         default: return state;
     }
@@ -73,11 +80,6 @@ function comment(state = {comment: {}}, action) {
     switch (action.type) {
         case GET_COMMENT:
             return action.comment
-        case VOTE_COMMENT:
-            return {
-                id: action.id,
-                option: action.option
-            };
         case CREATE_COMMENT:
             return action.comment
         case UPDATE_COMMENT:

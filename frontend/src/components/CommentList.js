@@ -42,10 +42,11 @@ class CommentList extends Component {
     renderComments() {
         let {comments} = this.props;
 
-        console.log("renderComments :: comments: ", comments);
+        console.log("00 renderComments :: comments: ", comments);
         return <ol className="comment-list">
-            {comments.all.map((comment) => {
-            let {id, author, timestamp, voteScore, body} = Object.values(comment)[0];
+            {Object.values(comments.all).map((comment) => {
+            console.log("01 renderComments :: comment: ", comment);
+            let {id, author, timestamp, voteScore, body} = comment;
                 return <li className="list-item" key={id}>
                     <Row className="comment-header">
                         <Col width={{sm:8, md:5}} className="comment-author">
@@ -92,8 +93,7 @@ class CommentList extends Component {
         return (
             <Row className="comment-listing">
                 <Col width={{sm:12}}>
-                    {(comments && comments.all && comments.all.length > 0) ?
-                        this.renderComments() : this.renderNoResults() }
+                    {(comments.all) ? this.renderComments() : this.renderNoResults()}
                 </Col>
             </Row>
         );
@@ -110,7 +110,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getComments: (parentId) => apiFetch({action: "comment", type: "all", body: {parentId}})
-            .then((comments) => dispatch(getComments(comments)))
+            .then((comments) => { console.log("CommentList :: comments: ", comments); dispatch(getComments(comments)) })
     };
 }
 
