@@ -17,7 +17,14 @@ class FormPostCreate extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = this.initState();
+        this.handleBlur = this.handleBlur.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    initState() {
+        return {
             post: new Post(),
             touched: {
                 author: false,
@@ -27,10 +34,6 @@ class FormPostCreate extends Component {
                 voteScore: false
             }
         }
-
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleBlur(e) {
@@ -58,7 +61,13 @@ class FormPostCreate extends Component {
         console.log("clicked submit button: post: ", post);
         if(this.isInvalidForm(this.validateForm)) {
             addPost(post);
+            this.resetForm();
         }
+    }
+
+    resetForm() {
+        let baseState = this.initState(), {post, touched} = baseState;
+        this.setState({ post, touched });
     }
 
     validate() {

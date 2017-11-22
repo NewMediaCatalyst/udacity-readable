@@ -8,6 +8,7 @@ import _ from 'lodash';
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
+import {Post} from '../utils/data';
 import {apiFetch} from '../utils/api';
 import {getPost, updatePost} from '../actions/posts';
 
@@ -18,7 +19,7 @@ class FormPostEdit extends Component {
         super(props);
 
         this.state = {
-            post: {},
+            post: new Post(),
             matchId: "",
             touched: {
                 author: false,
@@ -45,51 +46,35 @@ class FormPostEdit extends Component {
     }
 
     componentDidMount() {
-        const {match} = this.props,
-              matchId = (match && match.params && typeof match.params.id !== 'undefined')
-                ? match.params.id : "";
+        const {match, posts} = this.props, {all, display} = posts,
+              matchId = (match && match.params && typeof match.params.id !== 'undefined') ? match.params.id : "";
+        let displayId = display[0] || "";
+
         if (matchId !== "") {
             this.setState({ matchId: matchId });
             getPost(matchId);
+        }
+        if (!_.isUndefined(display) && displayId.length > 0) {
+            this.setState({ post: all[displayId] });
         }
     }
 
     shouldComponentUpdate(nextProps) {
-        let {post, matchId} = this.state;
-        const nextMatchId = (nextProps.match
-            && nextProps.match.params && typeof nextProps.match.params.id !== 'undefined')
-                ? nextProps.match.params.id : "";
-        console.log("shouldComponentUpdate :: _.isEmpty(post): ", _.isEmpty(post), "; match !== nextProps.match: ", matchId !== nextProps.match);
-        console.log("shouldComponentUpdate :: state.matchId: ",  matchId, "; nextProps.match: ", nextProps.match, "; nextMatchId: ", nextMatchId);
-        // return _.isEmpty(post) || matchId !== nextMatchId;
-        // TODO: update to correct shouldComponentUpdate state
-        return true;
+        let {post} = this.state,
+            nextMatchId = (nextProps.match && nextProps.match.params && typeof nextProps.match.params.id !== 'undefined') ? nextProps.match.params.id : "";
+        const {posts} = this.props, {display} = posts;
+        return ((!_.isUndefined(display[0]) ) || nextMatchId !== post.id);
     }
 
     componentWillReceiveProps(nextProps) {
-        let {matchId, post} = this.state;
-        const {posts, match} = this.props,
-            nextMatchId = (nextProps.match && nextProps.match.params
-                && typeof nextProps.match.params.id !== 'undefined')
-                ? nextProps.match.params.id : "";
-        if (matchId !== "") {
-            this.setState({ matchId: matchId });
-            getPost(matchId);
+        const {posts} = this.props, {all, display} = posts;
+        let {post} = this.state, displayId = display[0] || "";
+
+        if ( !_.isUndefined(display) || (displayId.length > 0 && post.id !== displayId) )   {
+            this.setState({ post: all[displayId] });
         }
 
-        console.log("00 componentWillReceiveProps :: posts: ",  posts, "; match: ", match, "; nextProps.match: ", nextProps.match);
-        console.log("01 componentWillReceiveProps :: post: ",  post);
-        console.log("02 componentWillReceiveProps :: nextProps: ",  nextProps);
-
-        if (_.isEmpty(post)) {
-            if (matchId !== "") {
-                this.setState({ post: nextProps.posts.display[matchId] });
-            }
-            console.log("03 componentWillReceiveProps :: _.isEmpty(post): ", _.isEmpty(post));
-            this.setState({ post: nextProps.posts.display[nextMatchId] });
-        }
     }
-
 
     handleBlur(e) {
         const target = e.target, name = target.name;
@@ -102,17 +87,13 @@ class FormPostEdit extends Component {
         e.preventDefault();
         const {updatePost} = this.props;
         let {post} = this.state;
-        if(this.isInvalidForm(this.validate)) {
-            updatePost(post);
-        }
+        if (this.isInvalidForm(this.validate)) { updatePost(post); }
     }
 
     handleChange(e) {
         const target = e.target, {name, type} = target;
         let newPost = Object.assign({}, this.state.post);
-
-        newPost.details[name] = type === 'checkbox' ? target.checked : target.value;
-        console.log("01 :: handleChange: newPost: ", newPost);
+        newPost[name] = type === 'checkbox' ? target.checked : target.value;
         this.setState({ post: newPost });
     }
 
@@ -133,17 +114,11 @@ class FormPostEdit extends Component {
         }
     }
 
-    renderNoResults() {
-        return <div className="no-results">Missing ID. Unable to edit</div>
-    }
+    render() {
+        let {post, touched} = this.state;
 
-    renderPost() {
-        let {post, touched} = this.state,
-            {id, title, author, timestamp, category,
-                body, voteScore, deleted
-            } = post,
+        let {id, title, author, timestamp, category, body, voteScore, deleted} = post,
             errors = this.validateForm();
-        console.log("renderPost :: post: ", post);
 
 
         return (
@@ -258,12 +233,6 @@ class FormPostEdit extends Component {
         );
     }
 
-    render() {
-        let {post} = this.state;
-        console.log("FormPostEdit :: render :: state.post: ", post);
-        return (post && typeof post.id !== 'undefined')
-            ? this.renderPost() : this.renderNoResults();
-    }
 }
 
 function mapStateToProps(state, props) {

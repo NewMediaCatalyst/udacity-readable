@@ -31,7 +31,7 @@ class FormCommentCreate extends Component {
     }
 
     static propTypes = {
-        post: PropTypes.object.isRequired
+        posts: PropTypes.object.isRequired
     }
 
     handleSubmit(e) {
@@ -70,7 +70,7 @@ class FormCommentCreate extends Component {
     }
 
     render() {
-        const {post} = this.props,
+        const {posts} = this.props, postID = posts.display[0],
               errors = this.validate();
         let {comment, touched} = this.state,
             {id, timestamp, body, author, voteScore, deleted, parentDeleted} = comment;
@@ -91,8 +91,8 @@ class FormCommentCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-post-id">
                                         <label>Post ID:</label>
-                                        <span className="input-text text-uuid">{post.id}</span>
-                                        <input name="parentId" type="hidden" value={post.id} />
+                                        <span className="input-text text-uuid">{postID}</span>
+                                        <input name="parentId" type="hidden" value={postID} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
                                         <label>Comment Date:</label>
@@ -152,7 +152,7 @@ class FormCommentCreate extends Component {
 
 function mapStateToProps(state) {
     return {
-        post: state.post
+        posts: state.posts
     };
 }
 

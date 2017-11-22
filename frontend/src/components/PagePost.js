@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 // app
 import Post from './Post';
@@ -39,9 +40,7 @@ class PagePost extends Component {
         return nextProps.match !== match;
     }
 
-    renderPost() {
-        const {match} = this.props;
-        let action =  whichPostAction(match);
+    renderPost(action) {
         switch (action) {
             case "edit": return (
                 <main className="app-content" role="main">
@@ -59,29 +58,26 @@ class PagePost extends Component {
                 </main>
             );
         }
-
     }
 
-    renderNoPost() {
-        const {match} = this.props;
-        let action =  whichPostAction(match);
+    renderNoPost(action) {
         return (
-            <main className="app-content" role="main">
-                <h1 className="post-title">Oops!</h1>
-                <p className="no-results">{`Something went wrong! Unable to ${action} post`}</p>
-            </main>
+            <main className="app-content" role="main"></main>
         );
     }
 
     render() {
-        const {post} = this.props;
-        return (post.details) ? this.renderPost() : this.renderNoPost();
+        const {match, posts} = this.props, postID = posts.display[0];
+        let action =  whichPostAction(match);
+        return (!_.isUndefined(postID) && postID.length > 0)
+            ? this.renderPost(action)
+            : this.renderNoPost(action);
     }
 }
 
 function mapStateToProps(state, props) {
     return {
-        post: state.post
+        posts: state.posts
     }
 }
 

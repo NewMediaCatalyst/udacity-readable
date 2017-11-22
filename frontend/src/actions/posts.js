@@ -15,6 +15,7 @@ export const DELETE_POST = "DELETE_POST";
 
 
 // POSTS :: CONSTANTS //////
+
 // READ
 export const GET_POSTS_ALL = "GET_POSTS_ALL";
 export const GET_POSTS_BY_CAT = "GET_POSTS_BY_CAT";
