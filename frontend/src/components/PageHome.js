@@ -12,8 +12,9 @@ import FilterBy from './FilterBy';
 import Row from './GridRow';
 import Col from './GridColumn';
 import {capitalize} from '../utils/helpers';
+// app: actions
 import {setCategory} from '../actions/categories';
-import {filterPostsByCat, showAllPosts} from '../actions/posts';
+
 
 class PageHome extends Component {
 
@@ -36,15 +37,18 @@ class PageHome extends Component {
         const {pgTitle, appSep, appTitle, match, category, setCategory} = this.props;
 
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle;
-
         // required for setting initial navigation and settings
         (!_.isUndefined(match.params) && !_.isUndefined(match.params.category))
-            ? setCategory(match.params.category)
-            : setCategory(category);
+            ? setCategory(match.params.category) : setCategory(category);
+    }
+
+    shouldComponentUpdate(nextProps, next) {
+        const {category} = this.props;
+        return nextProps.match.params && nextProps.match.params.category !== category;
     }
 
     render() {
-        const {pgTitle, posts, category, categories} = this.props;
+        const {pgTitle, category, categories} = this.props;
         let catObj, hdrTitle = pgTitle;
 
         if (!_.isUndefined(categories.categories) && category !== "all") {
@@ -58,11 +62,11 @@ class PageHome extends Component {
                 <header>
                     <Row>
                         <Col width={{sm:12}}><h1>{hdrTitle}</h1></Col>
-                        <Col width={{sm:12, md:7, lg:7}} className="hdr-filter"><FilterBy /></Col>
-                        <Col width={{sm:12, md:5, lg:5}} className="hdr-sort"><SortBy /></Col>
+                        <Col width={{sm:12, md:6, lg:7}} className="hdr-filter"><FilterBy /></Col>
+                        <Col width={{sm:12, md:6, lg:5}} className="hdr-sort"><SortBy /></Col>
                     </Row>
                 </header>
-                <PostList posts={posts} category={category} />
+                <PostList />
             </main>
         );
     }
@@ -79,9 +83,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setCategory: (category) => dispatch(setCategory(category)),
-        filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),
-        showAllPosts: (category) => dispatch(showAllPosts(category))
+        setCategory: (category) => dispatch(setCategory(category))
     }
 }
 

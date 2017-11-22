@@ -6,7 +6,7 @@ h1, h2, h3, h4, h5, h6, legend {
     text-rendering: optimizeLegibility;
 }
 
-h1, h2, h3, h4, h5, h6, legend, .app-content {
+h1, h2, h3, h4, h5, h6, legend, .app-content, .app-footer {
     font-family:"Montserrat","Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
 }
 

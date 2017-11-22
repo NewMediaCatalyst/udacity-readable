@@ -1,15 +1,17 @@
+body { background-color: #d9d9d9 !important;}
+
 /* app */
-.app {
-    margin: 0 auto;
-    background-color: #d9d9d9;
-}
+.app { margin: 0 auto; }
 
 .grid-x, .app-content { max-width: 80rem; }
 
 
 /* app header */
-.app-title, .app-logo {
-    display: inline-block;
+.app-title, .app-logo { display: inline-block; }
+
+.app-logo-link {
+    position: relative;
+    left: -10px;
 }
 
 .app-logo {
@@ -19,7 +21,10 @@
     top: -4px;
 }
 
-.app-title { font-size: 1.5em; color: #fff; }
+.app-title {
+    font-size: 1.5em;
+    color: #fff;
+}
 
 a:hover .app-title,
 a:focus .app-title { color: #ccc; }
@@ -37,8 +42,16 @@ a:focus .app-title { color: #ccc; }
     overflow: hidden;
 }
 
+.app-footer {
+    color: #888;
+    padding-top: 7px;
+}
+
 .app-header .grid-x,
-.app-footer .grid-x { padding-left: 5px; padding-right: 5px; }
+.app-footer .grid-x {
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 
 /* shared: content, header, footer */
@@ -89,25 +102,31 @@ a:focus .app-title { color: #ccc; }
 }
 
 
-@media (min-width: 40em) { /* was 560px */
+@media (min-width: 40em) {
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 100%; }
     .app-content { padding: 25px 12px 50px; }
 }
-@media (min-width: 720px) { /* was 720px */
+@media (min-width: 720px) {
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 670px; }
     .app-content { padding: 25px 18px 60px; }
+    .app-header .grid-x,
+    .app-footer .grid-x { padding-left: 10px; padding-right: 10px; }
+    .app-logo-link { left: -10px; }
 }
-@media (min-width: 64em) { /* was 960px */
+@media (min-width: 64em) {
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 980px; }
-    .app-content { padding: 30px 20px 70px; }
+    .app-content { padding: 30px 20px 70px; min-height: 450px; }
+    .app-header .grid-x,
+    .app-footer .grid-x { padding-left: 15px; padding-right: 15px; }
+    .app-logo-link { left: -15px; }
 }
-@media (min-width: 75em) { /* was 1024px */
+@media (min-width: 75em) {
     .app-header .grid-x,
     .app-footer .grid-x,
     .app-content { max-width: 1140px; }

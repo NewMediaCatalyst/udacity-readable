@@ -45,15 +45,15 @@ export function addPost(post) {
 export function getPost(post) {
     return {
         type: GET_POST,
-        id: post.id,
-        details: post.details
+        post
     }
 };
 
 export function getPostsAll(posts) {
     return {
         type: GET_POSTS_ALL,
-        posts
+        posts: posts.posts,
+        category: posts.category
     }
 };
 
@@ -73,17 +73,10 @@ export function votePost(post) {
 }
 
 // UPDATE
-export function updatePost(id, timestamp, title, body, author, category, voteScore, deleted) {
+export function updatePost(post) {
     return {
         type: UPDATE_POST,
-        id,
-        timestamp,
-        title,
-        body,
-        author,
-        category,
-        voteScore,
-        deleted
+        post
     }
 };
 
@@ -105,7 +98,7 @@ export function filterPostsByCat(category) {
     }
 }
 
-export function showAllPosts(category) {
+export function showAllPosts() {
     return {
         type: SHOW_ALL_POSTS,
         category: "all"

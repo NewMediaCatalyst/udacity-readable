@@ -4,44 +4,98 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+
 // app
 import '../css/comp.postlist.css';
 import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
-import {showAllPosts, filterPostsByCat} from '../actions/posts';
-
+// app: actions
+import {setCategory} from '../actions/categories';
+import {showAllPosts, filterPostsByCat, getPostsAll} from '../actions/posts';
+// app: api calls
+import {apiGetPostsAll} from '../utils/api-posts';
 
 class PostList extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            hasFiltered: false,
+            hasPosts: false
+        }
+    }
+
     static propTypes = {
         category: PropTypes.string.isRequired,
-        posts: PropTypes.object.isRequired
+        posts: PropTypes.object.isRequired,
+        match: PropTypes.object.isRequired
     }
 
     static defaultProps = {
         category: "all",
-        posts: {}
+        posts: {},
+        match: { params: undefined }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        const {posts} = this.props;
-        return (posts && posts !== nextProps.posts);
+        const {posts, category} = this.props;
+        let {hasFiltered, hasPosts} = this.state;
+
+        console.log("00x0 shouldComponentUpdate :: PostList :: Should Update? nextProps.category !== category: ", nextProps.category !== category, "; nextProps.posts.display !== posts.display: ", nextProps.posts.display !== posts.display)
+        return !hasFiltered || !hasPosts || nextProps.category !== category || nextProps.posts.display !== posts.display;
+    }
+
+    componentDidMount() {
+        const {category, getPostsAll} = this.props;
+        console.log("00x1 componentDidMount :: category: ", category, "; props: ", this.props);
+        // required for setting initial navigation and settings
+        getPostsAll(category);
+    }
+
+    componentWillReceiveProps(nextProps, nextState) {
+        const {category, posts, showAllPosts, setCategory, filterPostsByCat} = this.props,
+              nextCategory = nextProps.category, nextPosts = nextProps.posts;
+        let {hasFiltered, hasPosts} = this.state;
+
+        console.log("00x2 componentWillReceiveProps :: category: ", category, "; nextProps.category: ", nextProps.category);
+        console.log("00x3 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
+
+        if ((posts && posts.length > 0) || (nextPosts && nextPosts.length > 0)) {
+            this.setState({ hasPosts: true });
+        }
+
+        if (!hasFiltered) {
+            setCategory(nextCategory);
+            nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
+            this.setState({ hasFiltered: true });
+            console.log("00x4 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
+
+        } else if (category !== nextCategory) {
+            setCategory(nextCategory);
+            nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
+            console.log("00x5 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
+
+        }
+
+        console.log("00x6 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
+
     }
 
     renderPosts() {
-        let {posts} = this.props;
+        let {posts} = this.props, {all, display} = posts;
 
         return <ol className="post-list">
-            {Object.entries(posts.display).map(([key, value]) => {
-                return <li className="list-item" key={value.id}>
-                    <Link className="post-link" to={`/post/${value.id}`}>
-                    <h2 className="post-title">{value.title}</h2>
+            {display.map((key) => {
+                const {id, title, timestamp, author, category, voteScore} = all[key];
+                return <li className="list-item" key={id}>
+                    <Link className="post-link" to={`/post/${id}`}>
+                    <h2 className="post-title">{title}</h2>
                     <p className="post-meta">
-                        <DateTime date={value.timestamp} />
-                        <span className="post-author"><strong>by: </strong>{value.author}</span>
-                        <span className="post-category"><strong>In: </strong>{value.category}</span>
-                        <span className="post-score"><strong>Score: </strong>{value.voteScore}</span>
+                        <DateTime date={timestamp} />
+                        <span className="post-author"><strong>by: </strong>{author}</span>
+                        <span className="post-category"><strong>In: </strong>{category}</span>
+                        <span className="post-score"><strong>Score: </strong>{voteScore}</span>
                     </p>
                     </Link>
                 </li>
@@ -81,9 +135,22 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        setCategory: (category) => dispatch(setCategory(category)),
         showPost: (id) => dispatch(showAllPosts(id)),
-        showAllPosts: (category) => dispatch(showAllPosts(category)),
-        filterPostsByCat: (category) => dispatch(filterPostsByCat(category))
+        showAllPosts: () => dispatch(showAllPosts()),
+        filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),
+        getPostsAll: (category) => apiGetPostsAll()
+            .then((posts) => (dispatch(getPostsAll({posts, category}))))
+            .then((posts) => {
+                console.log("00 getPostsAll :: category: ", category);
+                if (category !== "all") {
+                    console.log("01 getPostsAll :: category: ", category);
+                    dispatch(filterPostsByCat(category));
+                } else {
+                    console.log("02 getPostsAll :: category: ", category);
+                    dispatch(showAllPosts());
+                }
+            })
     };
 }
 

@@ -12,10 +12,11 @@
 }
 
 .post-listing .post-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 400;
-    line-height: inherit;
-    margin: 0;
+    line-height: 1.125;
+    margin: 0 0 0.3125rem;
+    padding-right: 0.75rem;
     color: #333;
     transition: color 0.35s ease-out;
 }
@@ -53,4 +54,8 @@
 
 .post-list .list-item + .list-item {
     border-top: 1px solid #aaa;
+}
+
+@media (min-width: 720px) {
+    .post-listing .post-title { font-size: 1.25rem; padding-right: 0; }
 }

@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import _ from 'lodash';
 
 // app
 import Row from './GridRow';
@@ -14,24 +15,31 @@ import VoteUpDown from './VoteUpDown';
 class Post extends Component {
 
     static propTypes = {
-        post: PropTypes.object.isRequired
+        posts: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        post: {}
+        posts: {}
     }
 
     render() {
-        const {post} = this.props;
-        if (post.details === undefined) { return null; }
-        const {id, title, author, timestamp, category, body, voteScore} = post.details;
-        console.log("Post :: render : voteScore: ", voteScore);
+        const {all, display} = this.props.posts;
+        if (_.isUndefined(display[0]) || _.isUndefined(all)) { return null; }
+        console.log("display: ", display, "; all: ", all);
+        const {id, title, author, timestamp, category, body, voteScore, commentCount} = all[display[0]];
 
         return (
             <article className="view-post">
                 <Row className="post-header">
                     <Col width={{sm:12}} className="post-title-col">
-                        <h1 className="post-title">{title}</h1>
+                        <h1 className="post-title">
+                            <span className="text">{title}</span>
+                        </h1>
+                        {commentCount > 0 &&
+                            <p className="post-title-comments">
+                                {`${commentCount} comments`}
+                            </p>
+                        }
                     </Col>
                     <Col width={{sm:9, md:12, lg:4}} className="post-author">
                         <p>
@@ -76,7 +84,7 @@ class Post extends Component {
 
 function mapStateToProps(state) {
     return {
-        post: state.post
+        posts: state.posts
     };
 }
 

@@ -13,10 +13,8 @@ import PagePost from './PagePost';
 import PageCommentForm from './PageCommentForm';
 // app: actions
 import {getCategories} from '../actions/categories';
-import {getPostsAll, filterPostsByCat} from '../actions/posts';
 // app: api calls
 import {apiGetCatAll} from '../utils/api-category';
-import {apiGetPostsAll} from '../utils/api-posts';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -27,28 +25,21 @@ import '../css/app.views.css';
 class App extends Component {
 
     static propTypes = {
-        match: PropTypes.object,
-        posts: PropTypes.object.isRequired,
-        categories: PropTypes.object.isRequired,
-        category: PropTypes.string.isRequired
+
+        categories: PropTypes.object.isRequired
     }
 
     static defaultProps = {
         appTitle: "Token Talk",
         appSep: " | ",
         pgTitle: "Welcome",
-        category: "all",
-        categories: {},
-        match: { params: undefined },
-        posts: {}
+        categories: {}
     }
 
-
     componentDidMount() {
-        const { appTitle, getCategories, categories, getPosts, posts} = this.props;
+        const { appTitle, getCategories, categories} = this.props;
         document.title = appTitle;
         getCategories(categories);
-        getPosts(posts);
     }
 
     componentWillUpdate(nextProps) {
@@ -85,23 +76,15 @@ class App extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        categories: state.categories,
-        category: state.category,
-        posts: state.posts,
-        comments: state.comments
+        categories: state.categories
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),
-        getCategories: (categories) => {
-            return apiGetCatAll().then((categories) => (dispatch(getCategories(categories))))
-        },
-        getPosts: (posts) => {
-            return apiGetPostsAll().then((posts) => (dispatch(getPostsAll(posts))))
-        }
-    }
+        getCategories: (categories) => apiGetCatAll()
+            .then((categories) => (dispatch(getCategories(categories))))
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

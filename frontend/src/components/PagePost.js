@@ -29,7 +29,7 @@ class PagePost extends Component {
         const {pgTitle, appSep, appTitle, getPost, match} = this.props;
         document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle;
 
-        if (match && match.params.id) {
+        if (match && typeof match.params.id !== 'undefined') {
             getPost(match.params.id);
         }
     }
@@ -89,7 +89,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getPost: (id) => {
             return apiFetch({action: "post", type: "get", body: { id }}).then((post) => (
-                dispatch(getPost({id, details: post})))
+                dispatch(getPost(post)))
             );
         }
     };

@@ -13,7 +13,7 @@ class AppHeader extends Component {
         return (
             <header className="app-header" role="banner">
                 <Row margin={true}>
-                    <Link to="/" title="Token Talk homepage">
+                    <Link className="app-logo-link" to="/" title="Token Talk homepage">
                         <img src={logo} className="app-logo" alt="logo" />
                         <h1 className="app-title">Token Talk</h1>
                     </Link>

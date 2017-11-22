@@ -29,19 +29,19 @@ class SortBy extends Component {
     static defaultProps = {
         sortOpts: [
             {
-                name: "Vote score, descending",
+                name: "Votes, hi to low",
                 value: "voteScoreDesc"
             },
             {
-                name: "Vote score, ascending",
+                name: "Votes, low to hi",
                 value: "voteScoreAsc"
             },
             {
-                name: "Publish date, descending",
+                name: "Published, new to old",
                 value: "pubDesc"
             },
             {
-                name: "Publish date, ascending",
+                name: "Published, old to new",
                 value: "pubAsc"
             }
         ],

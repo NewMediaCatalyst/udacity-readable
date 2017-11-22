@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import _ from 'lodash';
 
 // app
 import '../css/comp.commentlist.css';
@@ -17,36 +18,41 @@ import {apiFetch} from '../utils/api';
 class CommentList extends Component {
 
     static propTypes = {
-        post: PropTypes.object.isRequired,
+        posts: PropTypes.object.isRequired,
         comments: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        post: { id: ""},
+        posts: { all: {}, display: [] },
         comments: {}
     }
 
     componentDidMount() {
-        const {getComments, post} = this.props;
-        if (post.id !== "") { getComments(post.id); }
+        const {getComments, posts} = this.props;
+        let postId = !_.isUndefined(posts.display) ? posts.display : "";
+
+        if (postId !== "") {
+            getComments(posts.display[0]);
+        }
     }
 
     componentWillUpdate(nextProps, nextState) {
-        const {post, getComments} = this.props;
-
-        if (post.id === "" && nextProps.post.id !== "") {
-            getComments(nextProps.post.id);
+        const {posts, getComments} = this.props;
+        let postId = !_.isUndefined(posts.display[0]) ? posts.display[0] : "",
+            nextPostId = !_.isUndefined(nextProps.posts.display[0]) ? nextProps.posts.display[0] : "";
+        console.log("00 CommentList :: componentWillUpdate :: postId: ", postId, "; nextPostId: ", nextPostId);
+        if (postId === "" && nextPostId !== "") {
+            getComments(nextPostId);
+            console.log("01 CommentList :: componentWillUpdate :: IF statement :: postId: ", postId, "; nextPostId: ", nextPostId);
         }
     }
 
     renderComments() {
-        let {comments} = this.props;
+        const {display, all} = this.props.comments;
 
-        console.log("00 renderComments :: comments: ", comments);
         return <ol className="comment-list">
-            {Object.values(comments.all).map((comment) => {
-            console.log("01 renderComments :: comment: ", comment);
-            let {id, author, timestamp, voteScore, body} = comment;
+            {display.map((cId) => {
+                let {id, author, timestamp, voteScore, body} = all[cId];
                 return <li className="list-item" key={id}>
                     <Row className="comment-header">
                         <Col width={{sm:8, md:5}} className="comment-author">
@@ -93,7 +99,7 @@ class CommentList extends Component {
         return (
             <Row className="comment-listing">
                 <Col width={{sm:12}}>
-                    {(comments.all) ? this.renderComments() : this.renderNoResults()}
+                    {(comments.display.length > 0) ? this.renderComments() : this.renderNoResults()}
                 </Col>
             </Row>
         );
@@ -102,7 +108,7 @@ class CommentList extends Component {
 
 function mapStateToProps(state) {
     return {
-        post: state.post,
+        posts: state.posts,
         comments: state.comments
     };
 }

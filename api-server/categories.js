@@ -13,7 +13,7 @@ const defaultData = {
       },
       {
         name: 'ethereum',
-        path: '/posts/xrp',
+        path: '/posts/eth',
         ticker: 'eth',
         slug: 'eth'
       },
