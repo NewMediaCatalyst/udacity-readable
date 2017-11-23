@@ -39,7 +39,10 @@ function setVals(vals) {
                 settings.hdr.body = JSON.stringify(body);
                 break;
             case "edit":     // edit a post
-                settings.url += `/posts/${body.id}`; settings.hdr.method = 'PUT'; break;
+                settings.url += `/posts/${body.id}`;
+                settings.hdr.method = 'PUT';
+                settings.hdr.body = JSON.stringify(body);
+                break;
             case "delete":  // delete a post
                 settings.url += `/posts/${body.id}`; settings.hdr.method = 'DELETE'; break;
             default:

@@ -88,8 +88,7 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
             console.log("UPDATE_POST :: updatePostAll: ", updatePostAll);
             return {
                 ...state,
-                all: Object.assign({}, updatePostAll),
-                display: Object.assign({}, updatePostAll)
+                all: Object.assign({}, updatePostAll)
             };
 
         case SET_SORT_METHOD:

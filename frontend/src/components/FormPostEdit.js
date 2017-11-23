@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import {Link} from 'react-router-dom';
 
 // app
 import Row from './GridRow';
@@ -27,10 +28,13 @@ class FormPostEdit extends Component {
                 title: false,
                 voteScore: false,
                 body: false
-            }
+            },
+            showMessage: false
         };
 
         this.handleBlur = this.handleBlur.bind(this);
+        this.handleCloseMessage = this.handleCloseMessage.bind(this);
+        this.handlePostUpdate = this.handlePostUpdate.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -42,7 +46,11 @@ class FormPostEdit extends Component {
 
     static defaultProps = {
         posts: {},
-        match: {}
+        match: {},
+        message: {
+            success: ["Success!", "post was edited!"],
+            error: ["Error! Editing post", "failed!"]
+        }
     }
 
     componentDidMount() {
@@ -62,18 +70,22 @@ class FormPostEdit extends Component {
     shouldComponentUpdate(nextProps) {
         let {post} = this.state,
             nextMatchId = (nextProps.match && nextProps.match.params && typeof nextProps.match.params.id !== 'undefined') ? nextProps.match.params.id : "";
-        const {posts} = this.props, {display} = posts;
-        return ((!_.isUndefined(display[0]) ) || nextMatchId !== post.id);
+        const {posts} = this.props, {all, display} = posts;
+        return (all !== nextProps.posts.all || (!_.isUndefined(display[0])) || nextMatchId !== post.id);
     }
 
     componentWillReceiveProps(nextProps) {
         const {posts} = this.props, {all, display} = posts;
         let {post} = this.state, displayId = display[0] || "";
 
-        if ( !_.isUndefined(display) || (displayId.length > 0 && post.id !== displayId) )   {
+        if (all !== nextProps.posts.all || !_.isUndefined(display) || (displayId.length > 0 && post.id !== displayId)) {
             this.setState({ post: all[displayId] });
         }
+    }
 
+    componentWillUnmount() {
+        clearTimeout(this.updateTimer);
+        clearTimeout(this.closeTimer);
     }
 
     handleBlur(e) {
@@ -83,11 +95,25 @@ class FormPostEdit extends Component {
         this.setState({ touched: updateTouch });
     }
 
+    handleCloseMessage() {
+        this.setState({ showMessage: false });
+    }
+
+    handlePostUpdate() {
+        const {posts} = this.props, {all, display} = posts;
+        this.setState({ post: all[display[0]] });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         const {updatePost} = this.props;
         let {post} = this.state;
-        if (this.isInvalidForm(this.validate)) { updatePost(post); }
+        if (this.isInvalidForm(this.validate)) {
+            updatePost(post);
+            this.setState({ showMessage: true });
+            this.updateTimer = setTimeout(this.handlePostUpdate, 350);
+            this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
+        }
     }
 
     handleChange(e) {
@@ -115,15 +141,24 @@ class FormPostEdit extends Component {
     }
 
     render() {
-        let {post, touched} = this.state;
+        let {post, touched, showMessage} = this.state;
+        const {message} = this.props;
 
         let {id, title, author, timestamp, category, body, voteScore, deleted} = post,
-            errors = this.validateForm();
-
+            errors = this.validateForm(),
+            successHeading = message.success[0],
+            successText = message.success[1];
 
         return (
             <div className="view-post-edit">
                 <h1>Edit Post</h1>
+                {showMessage && <div className="callout message success">
+                    <h3>{successHeading}</h3>
+                    <p><strong>{title}</strong> <span>{successText}</span><br />
+                        <Link className="message-link" to={`/posts/${id}`}>View post &raquo;</Link>
+                        <Link className="message-link" to="/posts/">View post in listing &raquo;</Link>
+                    </p>
+                </div>}
                 <form onSubmit={this.handleSubmit}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">

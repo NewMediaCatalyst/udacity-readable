@@ -80,6 +80,61 @@ label { font-weight: 500; font-size: 0.875rem; }
     background-color: #f7eff0;
 }
 
+/* Zurb Foundation callout */
+.callout {
+    position: relative;
+    margin: 0 0 1rem;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(10, 10, 10, 0.25);
+    border-radius: 4px;
+    background-color: #fff;
+    color: #0a0a0a;
+}
+
+.callout.success {
+    background-color: #e1faea;
+}
+
+.callout.success,
+.message.success h2,
+.message.success h3,
+.message.success h4 {
+    color: #54a570;
+}
+
+.callout.error,
+.message.error h2,
+.message.error h3,
+.message.error h4 {
+    color: #ad0303;
+}
+
+.message {
+    min-height: 0;
+    transition: min-height 0.35s ease-out;
+}
+
+.message.error,
+.message.success {
+    min-height: 55px;
+}
+
+.message h2,
+.message h3,
+.message h4 {
+    line-height: 1.125;
+    margin: 0 0 0.35rem;
+}
+
+.message p { margin: 0; }
+
+.message-link {
+    display: inline-block;
+}
+
+.message-link + .message-link { margin-left: 1rem; }
+
+
 @media screen and (min-width: 40em) { /* was 720px */
 
     .comment-main, .post-main { order: 1; }
