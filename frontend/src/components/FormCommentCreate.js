@@ -38,8 +38,12 @@ class FormCommentCreate extends Component {
         e.preventDefault();
         const {createComment} = this.props;
         let {comment} = this.state;
-        console.log("form submitted: ", e.target);
         createComment(comment);
+
+        this.setState({
+            comment: new Comment(),
+            touched: { author: false, body: false }
+        });
     }
 
     handleChange(e) {

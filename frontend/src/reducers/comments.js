@@ -30,6 +30,32 @@ export const comments = (state = {all: {}, display: []}, action) => {
                 all: allPostComments,
                 display: displayPostComments
             };
+        case CREATE_COMMENT:
+            const createId = action.comment.id;
+            let displayCreateComments = [],
+                allCreateComments = Object.assign({}, state.all);
+
+            allCreateComments[createId] = action.comment;
+            let allCreatePostsCArr = _.orderBy(Object.values(allCreateComments)
+                .map((comment) => comment), ['voteScore'], ['desc']);
+
+            allCreatePostsCArr.map((comment) => {
+                if (!comment.deleted && !comment.parentDeleted) {
+                    displayCreateComments.push(comment.id);
+                }
+                return allCreateComments[comment.id] = comment;
+            });
+
+            console.log("CREATE_COMMENT :: allCreateComments: ", allCreateComments);
+            console.log("CREATE_COMMENT :: allCreatePostsCArr: ", allCreatePostsCArr);
+            console.log("CREATE_COMMENT :: displayCreateComments: ", displayCreateComments);
+
+
+            return {
+                ...state,
+                all: allCreateComments,
+                display: displayCreateComments
+            }
         case VOTE_COMMENT:
             let updatedComment = Object.assign({}, state.all);
             updatedComment[action.comment.id].voteScore = action.comment.voteScore;
@@ -45,7 +71,7 @@ export const comments = (state = {all: {}, display: []}, action) => {
                 ...state,
                 all: allComments,
                 display: [getId]
-            }
+            };
         case UPDATE_COMMENT:
             const updateId = action.comment.id;
             let allUpdateComments = Object.assign({}, state.all);
@@ -54,9 +80,8 @@ export const comments = (state = {all: {}, display: []}, action) => {
                 ...state,
                 all: allUpdateComments,
                 display: [updateId]
-            }
-        case CREATE_COMMENT:
-            return action.comment;
+            };
+
         case DELETE_COMMENT:
             return action.comment;
         default:
