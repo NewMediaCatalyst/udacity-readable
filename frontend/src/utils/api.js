@@ -57,6 +57,7 @@ function setVals(vals) {
             case "add":     // add comment to post
                 settings.url += `/comments`;
                 settings.hdr.method = 'POST';
+                settings.hdr.body = JSON.stringify(body);
                 break;
             case "get":     // get single comment
                 settings.url += `/comments/${body.id}`;
@@ -81,21 +82,11 @@ function setVals(vals) {
         }
     }
 
-    if (action === "post" && type === "add") {
-        console.log("setVals: settings: ", settings);
-    }
-
     return settings;
 }
 
 export function apiFetch(vals) { // vals: {action:'post', type: 'get', etc}
     let settings = setVals(vals), {url, hdr} = settings;
-
-    if (vals.action === "comment" && vals.type === "edit") {
-        console.log("apiFetch :: settings: ", settings);
-        console.log("apiFetch :: hdr: ", hdr);
-    }
-
 
     return fetch(url, hdr).then(function (res) {
             let json = res.json();

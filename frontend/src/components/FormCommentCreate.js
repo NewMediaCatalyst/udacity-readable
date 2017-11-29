@@ -34,16 +34,28 @@ class FormCommentCreate extends Component {
         posts: PropTypes.object.isRequired
     }
 
+    componentDidMount() {
+        const {posts} = this.props, postID = posts.display[0] || "";
+        let updatedComment = Object.assign({}, this.state.comment);
+
+        if (postID.length > 0) {
+            updatedComment.parentId = postID;
+            this.setState({ comment: updatedComment });
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         const {createComment} = this.props;
         let {comment} = this.state;
-        createComment(comment);
 
-        this.setState({
-            comment: new Comment(),
-            touched: { author: false, body: false }
-        });
+        if (!this.isInvalidForm(this.validate())) {
+            createComment(comment);
+            this.setState({
+                comment: new Comment(),
+                touched: { author: false, body: false }
+            });
+        }
     }
 
     handleChange(e) {
@@ -74,10 +86,9 @@ class FormCommentCreate extends Component {
     }
 
     render() {
-        const {posts} = this.props, postID = posts.display[0],
-              errors = this.validate();
+        const errors = this.validate();
         let {comment, touched} = this.state,
-            {id, timestamp, body, author, voteScore, deleted, parentDeleted} = comment;
+            {id, timestamp, body, author, voteScore, deleted, parentDeleted, parentId} = comment;
 
         return (
             <div id="comment-create" className="view-comment-create">
@@ -95,8 +106,8 @@ class FormCommentCreate extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-post-id">
                                         <label>Post ID:</label>
-                                        <span className="input-text text-uuid">{postID}</span>
-                                        <input name="parentId" type="hidden" value={postID} />
+                                        <span className="input-text text-uuid">{parentId}</span>
+                                        <input name="parentId" type="hidden" value={parentId} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
                                         <label>Comment Date:</label>
@@ -162,9 +173,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        createComment: (comment) => {
-            return apiFetch({action: "comment", type: "add", body: comment}).then((res) => dispatch(createComment(comment)))
-        }
+        createComment: (comment) => apiFetch({action: "comment", type: "add",
+            body: comment}).then((res) => dispatch(createComment(comment)))
     };
 }
 
