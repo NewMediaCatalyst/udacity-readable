@@ -55,9 +55,13 @@ function setVals(vals) {
             case "all":     // get all comments for a post
                 settings.url += `/posts/${body.parentId}/comments`; settings.hdr.method = 'GET'; break;
             case "add":     // add comment to post
-                settings.url += `/comments`; settings.hdr.method = 'POST'; break;
+                settings.url += `/comments`;
+                settings.hdr.method = 'POST';
+                break;
             case "get":     // get single comment
-                settings.url += `/comments/${body.id}`; settings.hdr.method = 'GET'; break;
+                settings.url += `/comments/${body.id}`;
+                settings.hdr.method = 'GET';
+                break;
             case "vote":    // vote on a comment; string: "upVote", "downVote"
                 settings.url += `/comments/${body.id}`;
                 settings.hdr.method = 'POST';
@@ -69,7 +73,9 @@ function setVals(vals) {
                 settings.hdr.method = 'PUT';
                 break;
             case "delete":  // delete a comment
-                settings.url += `/comments/${body.id}`; settings.hdr.method = 'DELETE'; break;
+                settings.url += `/comments/${body.id}`;
+                settings.hdr.method = 'DELETE';
+                break;
             default:
                 console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: SWITCH didn't find type");
         }

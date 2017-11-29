@@ -87,7 +87,7 @@ class PostList extends Component {
 
         return <ol className="post-list">
             {display.map((key) => {
-                const {id, title, timestamp, author, category, voteScore} = all[key];
+                const {id, title, timestamp, author, category, voteScore, commentCount} = all[key];
                 return <li className="list-item" key={id}>
                     <Link className="post-link" to={`/post/${id}`}>
                     <h2 className="post-title">{title}</h2>
@@ -96,6 +96,7 @@ class PostList extends Component {
                         <span className="post-author"><strong>by: </strong>{author}</span>
                         <span className="post-category"><strong>In: </strong>{category}</span>
                         <span className="post-score"><strong>Score: </strong>{voteScore}</span>
+                        <span className="post-comments"><strong>Comments: </strong>{commentCount}</span>
                     </p>
                     </Link>
                 </li>

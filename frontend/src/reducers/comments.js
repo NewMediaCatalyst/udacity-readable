@@ -16,6 +16,8 @@ export const comments = (state = {all: {}, display: []}, action) => {
         case GET_COMMENTS_BY_POST:
             let allPostsCArr, allPostComments = {}, displayPostComments = [];
             allPostsCArr = _.orderBy(action.all.map((comment) => comment), ['voteScore'], ['desc']);
+            console.log("GET_COMMENTS_BY_POST :: action.comment: ", action.comment);
+            console.log("GET_COMMENTS_BY_POST :: allPostsCArr: ", allPostsCArr);
             allPostsCArr.map((comment) => {
                 if (!comment.deleted && !comment.parentDeleted) {
                     displayPostComments.push(comment.id);
@@ -36,10 +38,24 @@ export const comments = (state = {all: {}, display: []}, action) => {
                 details: updatedComment
             };
         case GET_COMMENT:
-            return action.comment;
-        case CREATE_COMMENT:
-            return action.comment;
+            const getId = action.comment.id;
+            let allComments = Object.assign({}, state.all);
+            allComments[getId] = action.comment;
+            return {
+                ...state,
+                all: allComments,
+                display: [getId]
+            }
         case UPDATE_COMMENT:
+            const updateId = action.comment.id;
+            let allUpdateComments = Object.assign({}, state.all);
+            allUpdateComments[updateId] = action.comment;
+            return {
+                ...state,
+                all: allUpdateComments,
+                display: [updateId]
+            }
+        case CREATE_COMMENT:
             return action.comment;
         case DELETE_COMMENT:
             return action.comment;

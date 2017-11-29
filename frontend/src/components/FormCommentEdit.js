@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+import _ from 'lodash';
+import {Link} from 'react-router-dom';
 
 // app
 import Row from './GridRow';
@@ -16,56 +18,84 @@ class FormCommentEdit extends Component {
 
     constructor(props) {
         super(props);
+        this.handleCloseMessage = this.handleCloseMessage.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
 
-    state = {
-        comment: new Comment(),
-        touched: {
-            author: false,
-            body: false,
-            voteScore: false
-        },
-        receivedComment: false
+        this.state = {
+            comment: new Comment(),
+            touched: {
+                author: false,
+                body: false,
+                voteScore: false
+            },
+            receivedComment: false,
+            showMessage: false
+        };
     }
 
     static propTypes = {
-        comment: PropTypes.object.isRequired
+        comments: PropTypes.object.isRequired,
+        message: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        comment: {}
+        comments: {},
+        message: {
+            success: ["Success!", "Comment was edited!"],
+            error: ["Error!", "Editing comment failed!"]
+        }
     }
 
     componentDidMount() {
-        let {comment} = this.state;
+        const {comments} = this.props, {all, display} = comments;
+        let id = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "";
 
-        if (this.props.comment.parentId !== undefined) {
-            let newComment = Object.assign({}, comment);
-            this.setState({ comment: newComment });
+        if (id.length > 0 && !_.isUndefined(all[id])) {
+            this.setState({
+                comment: Object.assign({}, all[id]),
+                receivedComment: true
+            });
         }
     }
 
-    componentWillUpdate(nextProps, nextState) {
-        let {receivedComment} = this.state, newComment;
+    componentWillReceiveProps(nextProps, nextState) {
+        const {comments} = this.props, {display} = comments;
+        let {receivedComment} = this.state,
+            curId = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "",
+            nextId = (!_.isUndefined(nextProps.comments.display)
+                        && !_.isEmpty(nextProps.comments.display))
+                        ? nextProps.comments.display[0] : "";
 
-        if (!receivedComment && nextProps.comment.parentId !== undefined && nextProps.comment.parentId.length > 0) {
-            newComment = Object.assign({}, nextProps.comment);
-            this.setState({ receivedComment: true, comment: newComment });
+        if ( (!receivedComment && nextId.length > 0) || (curId !== nextId)) {
+            this.setState({
+                comment: Object.assign({}, nextProps.comments.all[nextId]),
+                receivedComment: true
+            });
         }
+
     }
 
     shouldComponentUpdate(nextProps) {
-        return !this.state.receivedComment;
+        const {comments} = this.props, {display} = comments;
+        let {receivedComment, showMessage} = this.state,
+            curId = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "",
+            nextId = (!_.isUndefined(nextProps.comments.display)
+                        && !_.isEmpty(nextProps.comments.display))
+                        ? nextProps.comments.display[0] : "";
+        return showMessage || !receivedComment || (curId !== nextId);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.closeTimer);
     }
 
     handleBlur(e) {
         const target = e.target, name = target.name;
         let updateTouch = Object.assign({}, this.state.touched);
         updateTouch[name] = true;
-        this.setState({touched: updateTouch});
+        this.setState({ touched: updateTouch });
         this.forceUpdate();
     }
 
@@ -80,6 +110,10 @@ class FormCommentEdit extends Component {
         this.forceUpdate();
     }
 
+    handleCloseMessage() {
+        this.setState({ showMessage: false });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         e.stopPropagation();
@@ -87,14 +121,14 @@ class FormCommentEdit extends Component {
         let {comment} = this.state,
             {id} = comment;
 
-        console.log("isValidForm: ", (!this.isInvalidForm(this.validateForm())));
-        console.log("comment: ", comment);
-        if (!this.isInvalidForm(this.validateForm())) {
+        if (!this.isInvalidForm(this.validate())) {
             updateComment(comment, id);
+            this.setState({ showMessage: true });
+            this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
         }
     }
 
-    validateForm() {
+    validate() {
         let {author, body, voteScore} = this.state.comment;
 
         return {
@@ -113,13 +147,26 @@ class FormCommentEdit extends Component {
     }
 
     renderComment() {
-        let {comment, touched} = this.state,
-            {id, author, timestamp, body, voteScore, deleted, parentDeleted, parentId} = comment;
-        let errors = this.validateForm();
+        let {comment, touched, showMessage} = this.state,
+            {id, author, timestamp, body, voteScore, deleted, parentDeleted, parentId} = comment,
+            errors = this.validate();
+        const {success}= this.props.message,
+              successHeading = success[0],
+              successText = success[1];
 
         return (
             <div className="view-post-edit">
                 <h1>Edit Comment</h1>
+                {showMessage && <div className="callout message success">
+                    <h3>{successHeading}</h3>
+                    <p>
+                        <span>{`${successText} `}</span>
+                        <Link
+                            className="message-link"
+                            to={`/post/${parentId}`}
+                        >View updated comment &raquo;</Link>
+                    </p>
+                </div>}
                 <form onSubmit={this.handleSubmit}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="comment-details">
@@ -129,6 +176,15 @@ class FormCommentEdit extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-id">
                                         <label>Comment ID:</label>
                                         <span className="input-text text-uuid">{id}</span>
+                                    </Col>
+                                    <Col width={{sm:12, lg:12}} className="comment-id">
+                                        <label>Parent Post ID:</label>
+                                        <Link
+                                            to={`/post/${parentId}`}
+                                            title={`View post (${parentId})`}
+                                            className="input-text text-uuid"
+                                        >View post</Link>
+                                        <input name="parentId" type="hidden" value={parentId} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
                                         <label>Comment Date:</label>
@@ -160,9 +216,7 @@ class FormCommentEdit extends Component {
                                         <label htmlFor="comment-deleted">Delete comment</label>
                                     </Col>
                                     <div>
-                                        <input name="deleted" type="hidden" value={deleted} />
                                         <input name="parentDeleted" type="hidden" value={parentDeleted} />
-                                        <input name="parentId" type="hidden" value={parentId} />
                                     </div>
                                 </Row>
                             </fieldset>
@@ -218,17 +272,15 @@ class FormCommentEdit extends Component {
 
 function mapStateToProps(state) {
     return {
-        comment: state.comment
+        comments: state.comments
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        updateComment: (comment, id) => {
-                console.log()
-                return apiFetch({ action: "comment", type: "edit", body: comment })
-                    .then((res) => dispatch(updateComment(comment)))
-            }
+        updateComment: (comment, id) => apiFetch({
+            action: "comment", type: "edit", body: comment })
+            .then((res) => dispatch(updateComment(comment)))
     };
 }
 
