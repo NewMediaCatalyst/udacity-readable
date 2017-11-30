@@ -27,9 +27,21 @@
 .app-nav a {
     color: inherit;
     display: block;
-    padding: 0.125rem;
+    padding: 0;
     border-radius: 50%;
     overflow: hidden;
+    transition: border-color 0.25s ease-out;
+    border: 2px groove transparent;
+    outline: 0;
+}
+
+.app-nav a:hover,
+.app-nav a:focus {
+    border-color: #959595;
+}
+
+.app-nav a:active {
+    border-color: #d5d5d5;
 }
 
 .app-nav a * { pointer-events: none; }

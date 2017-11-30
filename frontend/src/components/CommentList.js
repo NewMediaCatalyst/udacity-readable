@@ -40,10 +40,9 @@ class CommentList extends Component {
         const {posts, getComments} = this.props;
         let postId = !_.isUndefined(posts.display[0]) ? posts.display[0] : "",
             nextPostId = !_.isUndefined(nextProps.posts.display[0]) ? nextProps.posts.display[0] : "";
-        console.log("00 CommentList :: componentWillUpdate :: postId: ", postId, "; nextPostId: ", nextPostId);
+
         if (postId === "" && nextPostId !== "") {
             getComments(nextPostId);
-            console.log("01 CommentList :: componentWillUpdate :: IF statement :: postId: ", postId, "; nextPostId: ", nextPostId);
         }
     }
 
@@ -116,7 +115,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getComments: (parentId) => apiFetch({action: "comment", type: "all", body: {parentId}})
-            .then((comments) => { console.log("CommentList :: comments: ", comments); dispatch(getComments(comments)) })
+            .then((comments) => dispatch(getComments(comments)))
     };
 }
 

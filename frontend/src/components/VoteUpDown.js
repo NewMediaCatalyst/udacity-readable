@@ -20,12 +20,14 @@ class VoteUpDown extends Component {
 
     constructor(props) {
         super(props);
-        this.handleUpVote = this.handleUpVote.bind(this);
-        this.handleDownVote = this.handleDownVote.bind(this);
+
         this.state = {
             ctrlID: uuidV4().slice(0,8),
             score: this.props.score
         }
+
+        this.handleUpVote = this.handleUpVote.bind(this);
+        this.handleDownVote = this.handleDownVote.bind(this);
     }
 
     static propTypes = {
@@ -50,17 +52,17 @@ class VoteUpDown extends Component {
         e.preventDefault(); e.stopPropagation();
         const {score, type, id, voteComment, votePost} = this.props;
         let details = {id, option: "upVote"};
-        this.setState({ score: Number(score) + 1 })
+
+        this.setState({ score: Number(score) + 1 });
         type === "comment" ? voteComment(details) : votePost(details);
     }
 
     handleDownVote(e) {
         e.preventDefault(); e.stopPropagation();
         const {score, type, id, voteComment, votePost} = this.props;
-        let details,
-            numScore = Number(score);
+        let details, numScore = Number(score);
 
-        if (numScore >= 2) {
+        if (numScore >= 2) {   // prevent negative value voteScores
             this.setState({ score: numScore - 1 });
             details = {id, option: "downVote"};
             type === "comment" ? voteComment(details) : votePost(details);

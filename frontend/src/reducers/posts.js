@@ -21,11 +21,9 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
         case GET_POSTS_ALL:
             let getPostsAllSorted = {}, getPostsToDisplay = [],
                 getPostsSorted = _.orderBy(action.posts, ['voteScore'], ['desc']);
-
             getPostsSorted.map((post) => getPostsAllSorted[post.id] = post);
             getPostsToDisplay = Object.values(getPostsAllSorted).filter((post) =>
                 post.category === action.posts.category);
-
             return {
                 ...state,
                 all: getPostsAllSorted,
@@ -43,20 +41,17 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
             };
 
         case VOTE_POST:
-            let updatedPost = Object.assign({}, state.details);
-            updatedPost.voteScore = action.post.voteScore;
+            let voteAllPosts = Object.assign({}, state.all);
+            const {id: votePostId} = action.post;
+            voteAllPosts[votePostId] = action.post;
             return {
                 ...state,
-                details: updatedPost
+                all: voteAllPosts
             };
-
-        case DELETE_POST:
-            return state;
 
         case FILTER_POSTS_BY_CAT:
             let filteredState = _.filter(state.all, (post) => action.category === post.category);
             let filteredPostsDisplay = Object.values(filteredState).map((post) => post.id);
-            console.log("FILTER_POSTS_BY_CAT :: action.category: ", action.category ," :: filteredState: ", filteredState, "; filteredPostsDisplay: ", filteredPostsDisplay);
             return {
                 ...state,
                 display: filteredPostsDisplay
@@ -65,27 +60,30 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
         case SHOW_ALL_POSTS:
             let showPostsAll = Object.assign({}, state.all), showPostsDisplay = [];
             showPostsDisplay = Object.values(showPostsAll).map((post) => post.id);
-            console.log("SHOW_ALL_POSTS :: action.category: ", action.category ," :: showPostsAll: ", showPostsAll, "; showPostsDisplay: ", showPostsDisplay);
             return {
                 ...state,
                 display: showPostsDisplay // state.all default sorted 'voteScore, desc'
             };
 
         case ADD_POST:
-            let addPostAll = Object.assign({}, state.all);
-            addPostAll[action.post.id] = action.post;
-            _.orderBy(addPostAll, ['voteScore'], ['desc']);
+            const {id: addPostId} = action.post;
+            let addPostsAllSorted = {}, addPostsToDisplay = [],
+                addPostsAll = Object.assign({}, state.all);
+            addPostsAll[addPostId] = action.post;
+            addPostsAll = _.orderBy(addPostsAll, ['voteScore'], ['desc']);
+            addPostsToDisplay = addPostsAll.map((post) => {
+                addPostsAllSorted[post.id] = post;
+                return post.id;
+            });
             return {
                 ...state,
-                all: Object.assign({}, addPostAll),
-                display: Object.assign({}, addPostAll)
+                all: addPostsAll,
+                display: addPostsToDisplay
             };
 
         case UPDATE_POST:
             let updatePostAll = Object.assign({}, state.all);
             updatePostAll[action.post.id] = action.post;
-            console.log("UPDATE_POST :: action.post: ", action.post);
-            console.log("UPDATE_POST :: updatePostAll: ", updatePostAll);
             return {
                 ...state,
                 all: Object.assign({}, updatePostAll)
@@ -136,6 +134,9 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
                 ...state,
                 display: sortScoreDateDescDisplay
             };
+
+        case DELETE_POST:
+            return state;
 
         default:
             return state;

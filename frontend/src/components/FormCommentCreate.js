@@ -17,17 +17,20 @@ class FormCommentCreate extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        this.state = this.initState();
+        this.handleBlur = this.handleBlur.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    initState() {
+        return {
             comment: new Comment(),
             touched: {
                 author: false,
                 body: false
             }
-        };
-
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        }
     }
 
     static propTypes = {
@@ -51,10 +54,7 @@ class FormCommentCreate extends Component {
 
         if (!this.isInvalidForm(this.validate())) {
             createComment(comment);
-            this.setState({
-                comment: new Comment(),
-                touched: { author: false, body: false }
-            });
+            this.setState(this.initState());
         }
     }
 

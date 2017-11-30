@@ -21,13 +21,29 @@
     transition: color 0.35s ease-out;
 }
 
+.post-link {
+    display: block;
+    transition: background-color 0.35s ease-out;
+    padding: 0.85rem 0;
+    outline: 0;
+}
+
+.post-link:hover,
+.post-link:focus {
+    background-color: #f5f5f5;
+}
+
+.post-link:active {
+    background-color: #d5d5d5;
+}
+
 .post-link:hover .post-title,
 .post-link:focus .post-title {
     color: #2ba6cb;
 }
 
 .post-list .list-item {
-    padding: 0.85rem 0;
+    padding: 0;
 }
 
 .post-listing .post-meta {

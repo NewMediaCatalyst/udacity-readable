@@ -44,11 +44,13 @@
     color: #222;
     transition: color 0.25s ease-in,
         background-color 0.25s ease-in;
+    outline: 0;
 }
 
 .filter-by .filter-link:hover:not(.active),
 .filter-by .filter-link:focus:not(.active) {
     color: #258faf;
+    background-color: #e5e5e5;
 }
 
 .filter-by .filter-link.active {
