@@ -33,6 +33,7 @@
     transition: border-color 0.25s ease-out;
     border: 2px groove transparent;
     outline: 0;
+    max-width: 34px;
 }
 
 .app-nav a:hover,

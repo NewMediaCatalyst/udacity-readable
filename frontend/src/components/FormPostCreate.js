@@ -1,6 +1,8 @@
 // libs
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 
 // app
@@ -18,6 +20,7 @@ class FormPostCreate extends Component {
         super(props);
 
         this.state = this.initState();
+        this.handleCloseMessage = this.handleCloseMessage.bind(this);
         this.handleBlur = this.handleBlur.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,8 +35,25 @@ class FormPostCreate extends Component {
                 category: false,
                 body: false,
                 voteScore: false
-            }
+            },
+            showMessage: false,
+            prevPostId: ""
         }
+    }
+
+    static propTypes = {
+        message: PropTypes.object.isRequired
+    }
+
+    static defaultProps = {
+        message: {
+            success: ["Success!", "Post was created!"],
+            error: ["Error!", "Creating post failed!"]
+        }
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.closeTimer);
     }
 
     handleBlur(e) {
@@ -54,20 +74,26 @@ class FormPostCreate extends Component {
         this.setState({ post: newPost });
     }
 
+    handleCloseMessage() {
+        this.setState({ showMessage: false });
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         const {addPost} = this.props;
         let {post} = this.state;
-        console.log("clicked submit button: post: ", post);
-        if(this.isInvalidForm(this.validateForm)) {
+
+        if (this.isInvalidForm(this.validateForm)) {
             addPost(post);
-            this.resetForm();
+            this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
+            this.resetForm(post.id);
         }
     }
 
-    resetForm() {
-        let baseState = this.initState(), {post, touched} = baseState;
-        this.setState({ post, touched });
+    resetForm(id) {
+        this.setState(Object.assign(this.initState(),
+            {showMessage: true, prevPostId: id}
+        ));
     }
 
     validate() {
@@ -89,13 +115,24 @@ class FormPostCreate extends Component {
     }
 
     render() {
-        let {post, touched} = this.state,
+        let {post, touched, showMessage, prevPostId} = this.state,
             {id, title, author, timestamp, category, body, voteScore, deleted} = post,
             errors = this.validate();
+        const {message} = this.props,
+              successHeading = message.success[0],
+              successText = message.success[1],
+              newPostLink = `/post/${prevPostId}`;
 
         return (
             <div className="view-post-create">
                 <h1>Create New Post</h1>
+                {showMessage && <div className="callout message success">
+                    <h3>{successHeading}</h3>
+                    <p><span>{`${successText} `}</span>
+                        <Link className="message-link" to={newPostLink}>View new post &raquo;</Link>
+                        <Link className="message-link" to="/posts/">View post in listing &raquo;</Link>
+                    </p>
+                </div>}
                 <form onSubmit={this.handleSubmit}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
@@ -214,12 +251,6 @@ class FormPostCreate extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        
-    };
-}
-
 function mapDispatchToProps(dispatch) {
     return {
         addPost: (post) => apiFetch({action: 'post', type: 'add', body: post})
@@ -230,4 +261,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FormPostCreate);
+export default connect(null, mapDispatchToProps)(FormPostCreate);

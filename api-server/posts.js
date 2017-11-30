@@ -182,8 +182,6 @@ function getAll (token) {
 }
 
 function add (token, post) {
-
-    console.log("API :: post:add :: post: ", post);
   return new Promise((res) => {
     let posts = getData(token)
 
@@ -206,25 +204,17 @@ function add (token, post) {
 function vote (token, id, option) {
   return new Promise((res) => {
     let posts = getData(token)
-    post = posts[id]
-
-    console.log("vote :: post: ", post);
+    post = posts[id];
 
     switch(option) {
         case "upVote":
-            console.log("vote :: post.voteScore: ", post.voteScore);
-            post.voteScore = post.voteScore + 1;
-            console.log("vote :: post.voteScore: ", post.voteScore);
-            break
+            post.voteScore = post.voteScore + 1; break;
         case "downVote":
-            console.log("vote :: post.voteScore: ", post.voteScore);
-            post.voteScore = post.voteScore - 1;
-            console.log("vote :: post.voteScore: ", post.voteScore);
-            break;
+            post.voteScore = post.voteScore - 1; break;
         default:
-            console.log(`posts.vote received incorrect parameter: ${option}`)
+            console.log(`posts.vote received incorrect parameter: ${option}`);
     }
-    res(post)
+    res(post);
   })
 }
 
