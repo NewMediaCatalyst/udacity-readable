@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import _ from 'lodash';
 
 // app
 import Post from './Post';
@@ -16,6 +15,12 @@ import {whichPostAction} from '../utils/helpers';
 
 
 class PagePost extends Component {
+
+
+    constructor(props) {
+        super(props);
+        this.state = { action: "create" };
+    }
 
     static propTypes = {
         match: PropTypes.object.isRequired
@@ -33,46 +38,60 @@ class PagePost extends Component {
         if (match && typeof match.params.id !== 'undefined') {
             getPost(match.params.id);
         }
+        this.setState({ action: whichPostAction(match) });
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        const {match} = this.props;
-        return nextProps.match !== match;
-    }
+    componentWillReceiveProps(nextProps, nextState) {
+        let {action} = this.state,
+            newAction = whichPostAction(nextProps.match);
 
-    renderPost(action) {
-        switch (action) {
-            case "edit": return (
-                <main className="app-content" role="main">
-                    <FormPostEdit />
-                </main>
-            );
-            case "create": return (
-                <main className="app-content" role="main">
-                    <FormPostCreate />
-                </main>
-            );
-            default: return (
-                <main className="app-content" role="main">
-                    <Post /><CommentList /><FormCommentCreate />
-                </main>
-            );
+        if (newAction !== action) {
+            this.setState({ action: newAction });
         }
     }
 
-    renderNoPost(action) {
+    shouldComponentUpdate(nextProps, nextState) {
+        let {action} = this.state,
+            newAction = whichPostAction(nextProps.match);
+        return newAction !== action;
+    }
+
+    renderEdit() {
         return (
-            <main className="app-content" role="main"></main>
+            <main className="app-content" role="main">
+                <FormPostEdit />
+            </main>
         );
     }
 
-    render() {
-        const {match, posts} = this.props, postID = posts.display[0];
-        let action =  whichPostAction(match);
-        return (!_.isUndefined(postID) && postID.length > 0)
-            ? this.renderPost(action)
-            : this.renderNoPost(action);
+    renderCreate() {
+        return (
+            <main className="app-content" role="main">
+                <FormPostCreate />
+            </main>
+        );
     }
+
+    renderPost() {
+        return (
+            <main className="app-content" role="main">
+                <Post /><CommentList /><FormCommentCreate />
+            </main>
+        );
+    }
+
+
+    render() {
+        let {action} =  this.state;
+
+        switch (action) {
+            case "edit": return this.renderEdit();
+            case "read": return this.renderPost();
+            default: return this.renderCreate();
+        }
+
+    }
+
 }
 
 function mapStateToProps(state, props) {

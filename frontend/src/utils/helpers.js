@@ -4,10 +4,11 @@ export function capitalize(word) {
 }
 
 export function whichPostAction(match) {
-    if (match === undefined && match.path === undefined) { return "read"; }
+    if (match === undefined && match.path === undefined) { return "create"; }
     switch (match.path) {
         case "/post/edit/:id": return "edit";
+        case "/post/:id": return "read";
         case "/post/create": return "create";
-        default: return "read";
+        default: return "create";
     }
 }
