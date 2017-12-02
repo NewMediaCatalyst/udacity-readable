@@ -42,24 +42,19 @@ class PostList extends Component {
         const {posts, category} = this.props;
         let {hasFiltered, hasPosts} = this.state;
 
-        console.log("00x0 shouldComponentUpdate :: PostList :: Should Update? nextProps.category !== category: ", nextProps.category !== category, "; nextProps.posts.display !== posts.display: ", nextProps.posts.display !== posts.display)
         return !hasFiltered || !hasPosts || nextProps.category !== category || nextProps.posts.display !== posts.display;
     }
 
     componentDidMount() {
         const {category, getPostsAll} = this.props;
-        console.log("00x1 componentDidMount :: category: ", category, "; props: ", this.props);
-        // required for setting initial navigation and settings
-        getPostsAll(category);
+
+        getPostsAll(category); // required for setting initial navigation and settings
     }
 
     componentWillReceiveProps(nextProps, nextState) {
         const {category, posts, showAllPosts, setCategory, filterPostsByCat} = this.props,
               nextCategory = nextProps.category, nextPosts = nextProps.posts;
-        let {hasFiltered, hasPosts} = this.state;
-
-        console.log("00x2 componentWillReceiveProps :: category: ", category, "; nextProps.category: ", nextProps.category);
-        console.log("00x3 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
+        let {hasFiltered} = this.state;
 
         if ((posts && posts.length > 0) || (nextPosts && nextPosts.length > 0)) {
             this.setState({ hasPosts: true });
@@ -69,16 +64,11 @@ class PostList extends Component {
             setCategory(nextCategory);
             nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
             this.setState({ hasFiltered: true });
-            console.log("00x4 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
 
         } else if (category !== nextCategory) {
             setCategory(nextCategory);
             nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
-            console.log("00x5 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
-
         }
-
-        console.log("00x6 componentWillReceiveProps :: hasFiltered: ", hasFiltered, "; hasPosts: ", hasPosts);
 
     }
 
@@ -142,16 +132,9 @@ function mapDispatchToProps(dispatch) {
         filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),
         getPostsAll: (category) => apiGetPostsAll()
             .then((posts) => (dispatch(getPostsAll({posts, category}))))
-            .then((posts) => {
-                console.log("00 getPostsAll :: category: ", category);
-                if (category !== "all") {
-                    console.log("01 getPostsAll :: category: ", category);
-                    dispatch(filterPostsByCat(category));
-                } else {
-                    console.log("02 getPostsAll :: category: ", category);
-                    dispatch(showAllPosts());
-                }
-            })
+            .then((posts) => (category !== "all")
+                ? dispatch(filterPostsByCat(category))
+                : dispatch(showAllPosts()))
     };
 }
 

@@ -9,7 +9,7 @@ class AppFooter extends Component {
 
     render() {
         return (
-            <footer className="app-footer">
+            <footer className="app-footer" role="contentinfo">
                 <Row>
                     <p>&copy; Copyright 2017 Token Talk</p>
                 </Row>

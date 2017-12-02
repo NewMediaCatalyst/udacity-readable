@@ -17,6 +17,18 @@
     color: #222;
 }
 
+.vote-ctrl .button-icon:focus {
+    outline: 1px dashed #999;
+}
+
+.vote-ctrl .button-vote-down:active {
+    outline-color: #6d0019;
+}
+
+.vote-ctrl .button-vote-up:active {
+    outline-color: #007012;
+}
+
 .button-vote-up:hover:not(:disabled),
 .button-vote-up:hover:not(:disabled) ~ .vote-score,
 .button-vote-up:focus:not(:disabled),
