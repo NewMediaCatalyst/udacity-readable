@@ -96,7 +96,11 @@
 
 /* layout: left to right */
 .l2r .button-icon { top: -5px; }
-.vote-ctrl.l2r { align-items: baseline; flex-flow: row nowrap; }
+.vote-ctrl.l2r {
+    align-items: baseline;
+    flex-flow: row nowrap;
+    display: inline-flex;
+}
 
 /* layout: top to bottom */
 .vote-ctrl.t2b { align-items: center; flex-flow: column nowrap; }

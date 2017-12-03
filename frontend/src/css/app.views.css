@@ -24,10 +24,14 @@
 
 .post-header { position: relative; }
 
-.post-header .post-title { order: 1 }
-.post-header .post-author { order: 3 }
-.post-header .post-date { order: 4 }
-.post-header .post-score { position: absolute; bottom: 5px; right: 0; }
+.post-header .post-title { order: 1; }
+.post-header .post-author { order: 2; }
+.post-header .post-score { order: 3; text-align: left; }
+
+.post-header .post-author-text,
+.post-header .post-pubdate-text { display: inline-block; }
+
+.post-header .post-author-text { padding-right: 1rem; }
 
 .post-header p { margin-bottom: 0; }
 
@@ -74,7 +78,7 @@
 }
 
 @media screen and (min-width: 64em) {
-    .post-header .post-score { order: 4; position: relative; bottom: auto; right: auto; }
+    .post-header .post-score { order: 4; text-align: right; }
     .post-header .post-author { order: 2 }
     .post-header .post-date { order: 3 }
 }

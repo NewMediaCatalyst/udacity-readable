@@ -31,21 +31,9 @@ class Post extends Component {
         if (id) { getPost(id); }
     }
 
-/*
-    componentWillReceiveProps(nextProps) {
-        const {meta: curMeta} = this.props.meta, {id: curId} = curMeta.match,
-              {meta, posts, getPost} = nextProps, {id: nextId} = meta.match;
-        let nextPostExists = (nextId && posts && posts.all && typeof posts.all[nextId] !== 'undefined');
-
-        if (nextId && !nextPostExists || curId !== nextId) { getPost(nextId); }
-    }
-*/
-
-
     componentWillReceiveProps(nextProps) {
         const {meta, posts, getPost} = nextProps, {id} = meta.match;
         let postExists = (id && posts && posts.all && typeof posts.all[id] !== 'undefined');
-
         if (id && !postExists) { getPost(id); }
     }
 
@@ -63,20 +51,20 @@ class Post extends Component {
                             <p className="post-title-comments">{`${commentCount} comments`}</p>
                         }
                     </Col>
-                    <Col width={{sm:9, md:12, lg:4}} className="post-author">
+                    <Col width={{sm:12, md:12, lg:8}} className="post-author">
                         <p>
-                            <strong>By: </strong>
-                            <span className="text text-author">{author}</span>
+                            <span className="post-author-text">
+                                <strong>By: </strong>
+                                <span className="text text-author">{author}</span>
+                            </span>
+                            <span className="post-pubdate-text">
+                                <strong>Published: </strong>
+                                <DateTime date={timestamp} />
+                            </span>
                         </p>
                     </Col>
-                    <Col width={{sm:8, md:6, lg:4}} className="post-date">
-                        <p>
-                            <strong>Published: </strong>
-                            <DateTime date={timestamp} />
-                        </p>
-                    </Col>
-                    <Col width={{sm:5, md:12, lg:4}} className="post-score">
-                        <VoteUpDown id={postId} score={voteScore} />
+                    <Col width={{sm:12, md:12, lg:4}} className="post-score">
+                        <VoteUpDown align="" id={postId} score={voteScore} />
                     </Col>
                 </Row>
                 <Row margin={true} className="post-body">

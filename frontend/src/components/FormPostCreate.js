@@ -254,10 +254,7 @@ class FormPostCreate extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         addPost: (post) => apiFetch({action: 'post', type: 'add', body: post})
-            .then((res) => {
-                console.log("FormPostCreate :: addPost :: api response: ", res);
-                dispatch(addPost(post));
-            })
+            .then((post) => dispatch(addPost(post)))
     };
 }
 
