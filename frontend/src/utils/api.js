@@ -44,7 +44,9 @@ function setVals(vals) {
                 settings.hdr.body = JSON.stringify(body);
                 break;
             case "delete":  // delete a post
-                settings.url += `/posts/${body.id}`; settings.hdr.method = 'DELETE'; break;
+                settings.url += `/posts/${body.id}`;
+                settings.hdr.method = 'DELETE';
+                break;
             default:
                 console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: SWITCH didn't find type");
         }

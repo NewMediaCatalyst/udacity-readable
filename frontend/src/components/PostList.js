@@ -107,11 +107,11 @@ class PostList extends Component {
     }
 
     render() {
-        const {posts} = this.props;
+        const {display} = this.props.posts;
 
         return (
             <Row className="post-listing">
-                {posts ? this.renderPosts() : this.renderNoResults() }
+                {display.length > 0 ? this.renderPosts() : this.renderNoResults() }
             </Row>
         );
     }

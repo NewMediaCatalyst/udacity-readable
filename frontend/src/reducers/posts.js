@@ -4,11 +4,12 @@ import _ from 'lodash';
 
 // Actions
 import {
-    GET_POST, VOTE_POST, ADD_POST, GET_POSTS_ALL,
-    UPDATE_POST, DELETE_POST, FILTER_POSTS_BY_CAT,
-    SHOW_ALL_POSTS, SORT_BY_VOTE_SCORE_ASC,
-    SORT_BY_VOTE_SCORE_DESC, SORT_BY_PUBDATE_ASC,
-    SORT_BY_PUBDATE_DESC, SET_SORT_METHOD
+    GET_POST, VOTE_POST, ADD_POST,
+    GET_POSTS_ALL, UPDATE_POST, DELETE_POST,
+    FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS,
+    SORT_BY_VOTE_SCORE_ASC, SORT_BY_VOTE_SCORE_DESC,
+    SORT_BY_PUBDATE_ASC, SORT_BY_PUBDATE_DESC,
+    SET_SORT_METHOD
 } from '../actions/posts';
 
 
@@ -133,7 +134,15 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
             };
 
         case DELETE_POST:
-            return state;
+            const {id: deleteId} = action.post;
+            let deletePostAll = Object.assign({}, state.all),
+                deletePostDisplay = state.display.filter((postId) => postId !== deleteId);
+            deletePostAll[deleteId] = action.post;
+            return {
+                ...state,
+                all: deletePostAll,
+                display: deletePostDisplay
+            }
 
         default:
             return state;

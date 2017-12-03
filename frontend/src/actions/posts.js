@@ -82,12 +82,10 @@ export function updatePost(post) {
 };
 
 // DELETE
-// TODO: deleting a post, also needs to tell
-// it's comments that it's parentID has been deleted, or 'undeleted'
-export function deletePost(id) {
+export function deletePost(post) {
     return {
         type: DELETE_POST,
-        id
+        post
     }
 };
 

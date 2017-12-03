@@ -11,10 +11,15 @@ import Col from './GridColumn';
 import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
 import {apiFetch} from '../utils/api';
-import {getPost} from '../actions/posts';
+import {getPost, deletePost} from '../actions/posts';
 
 
 class Post extends Component {
+
+    constructor(props) {
+        super(props);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
 
     static propTypes = {
         posts: PropTypes.object.isRequired,
@@ -35,6 +40,13 @@ class Post extends Component {
         const {meta, posts, getPost} = nextProps, {id} = meta.match;
         let postExists = (id && posts && posts.all && typeof posts.all[id] !== 'undefined');
         if (id && !postExists) { getPost(id); }
+    }
+
+    handleDelete(e) {
+        e.preventDefault();
+        const {deletePost, meta} = this.props, {id} = meta.match;
+        deletePost(id);
+        window.location.href = e.target.getAttribute("href");
     }
 
     renderPost(id, all) {
@@ -84,7 +96,11 @@ class Post extends Component {
                         </p>
                     </Col>
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
-                        <p><Link to={`/post/edit/${postId}`}>Edit post &raquo;</Link></p>
+                        <p>
+                            <strong>Actions: </strong>
+                            <Link onClick={this.handleDelete} className="post-link-delete" to="/posts/">Delete post &raquo;</Link>
+                            <Link className="post-link-edit" to={`/post/edit/${postId}`}>Edit post &raquo;</Link>
+                        </p>
                     </Col>
                 </Row>
             </article>
@@ -117,9 +133,12 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         getPost: (id) => {
-            return apiFetch({action: "post", type: "get", body: { id }}).then((post) => (
-                dispatch(getPost(post)))
-            );
+            return apiFetch({action: "post", type: "get", body: { id }})
+                .then((post) => dispatch(getPost(post)))
+        },
+        deletePost: (id) => {
+            return apiFetch({action: "post", type: "delete", body: { id }})
+                .then((post) => dispatch(deletePost(post)))
         }
     };
 }
