@@ -12,6 +12,7 @@ import DateTime from './DateTime';
 import {Post} from '../utils/data';
 import {apiFetch} from '../utils/api';
 import {getPost, updatePost} from '../actions/posts';
+import {setPageTitle} from '../actions/meta';
 
 
 class FormPostEdit extends Component {
@@ -51,11 +52,13 @@ class FormPostEdit extends Component {
         message: {
             success: ["Success!", "post was edited!"],
             error: ["Error! Editing post", "failed!"]
-        }
+        },
+        title: { page: "Edit Post" }
     }
 
     componentDidMount() {
-        const {match, posts} = this.props, {all, display} = posts,
+        const {match, posts, title, setPageTitle} = this.props,
+              {all, display} = posts,
               matchId = (match && match.params && typeof match.params.id !== 'undefined') ? match.params.id : "";
         let displayId = display[0] || "";
 
@@ -66,6 +69,7 @@ class FormPostEdit extends Component {
         if (!_.isUndefined(display) && displayId.length > 0) {
             this.setState({ post: all[displayId] });
         }
+        setPageTitle({page: title.page});
     }
 
     shouldComponentUpdate(nextProps) {
@@ -284,7 +288,8 @@ function mapDispatchToProps(dispatch) {
                 .then((post) => dispatch(getPost(post)))
         },
         updatePost: (post) => apiFetch({action: "post", type: "edit", body: post})
-            .then((res) => dispatch(updatePost(res)))
+            .then((res) => dispatch(updatePost(res))),
+        setPageTitle: (title) => dispatch(setPageTitle(title))
     }
 }
 

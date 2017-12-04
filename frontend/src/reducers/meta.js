@@ -1,9 +1,9 @@
 // Actions
-import {SET_MATCH} from '../actions/meta';
+import {SET_MATCH, SET_PAGE_TITLE} from '../actions/meta';
 
 
 // Reducers
-export const meta = (state = { title: {}, match: {}}, action) => {
+export const meta = (state = { title: {app:"",page:"",sep:""}, match: {}}, action) => {
 
     switch (action.type) {
         case SET_MATCH:
@@ -14,6 +14,17 @@ export const meta = (state = { title: {}, match: {}}, action) => {
             return {
                 title: state.title,
                 match: setMatch
+            };
+        case SET_PAGE_TITLE:
+            const {app, sep, page} = action.title;
+            let {app: stateApp, sep: stateSep, page: statePage} = state.title;
+            return {
+                ...state,
+                title: {
+                    app: app || stateApp,
+                    page: page || statePage,
+                    sep: sep || stateSep
+                }
             };
         default:
             return state;

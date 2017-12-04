@@ -11,9 +11,10 @@ import SortBy from './SortBy';
 import FilterBy from './FilterBy';
 import Row from './GridRow';
 import Col from './GridColumn';
-import {capitalize} from '../utils/helpers';
+import {setCategoryTitle} from '../utils/helpers';
 // app: actions
 import {setCategory} from '../actions/categories';
+import {setPageTitle} from '../actions/meta';
 
 
 class PageHome extends Component {
@@ -26,7 +27,7 @@ class PageHome extends Component {
     }
 
     static defaultProps = {
-        pgTitle: "Welcome",
+
         category: "all",
         categories: {},
         posts: {},
@@ -34,28 +35,32 @@ class PageHome extends Component {
     }
 
     componentDidMount() {
-        const {pgTitle, appSep, appTitle, match, category, setCategory} = this.props;
+        const {match, category, setCategory} = this.props;
 
-        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle;
         // required for setting initial navigation and settings
         (!_.isUndefined(match.params) && !_.isUndefined(match.params.category))
             ? setCategory(match.params.category) : setCategory(category);
     }
 
     shouldComponentUpdate(nextProps, next) {
-        const {category} = this.props;
-        return nextProps.match.params && nextProps.match.params.category !== category;
+        const {category, meta} = this.props,
+            {page: curPage} = meta.title,
+            {page: nextPage} = nextProps.meta.title;
+        return curPage !== nextPage || (nextProps.match.params && nextProps.match.params.category !== category);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const {meta, setPageTitle} = this.props,
+            {page: curPage} = meta.title,
+            {category: nextCategory, categories: nextCategories} = nextProps;
+        let nextPage = setCategoryTitle(nextCategories, nextCategory);
+
+        if (curPage !== nextPage) { setPageTitle({ page: nextPage }); }
     }
 
     render() {
-        const {pgTitle, category, categories} = this.props;
-        let catObj, hdrTitle = pgTitle;
-
-        if (!_.isUndefined(categories.categories) && category !== "all") {
-            catObj = Object.values(categories.categories).filter(item => item.ticker === category)[0];
-            hdrTitle = (!_.isUndefined(catObj.name)) ? capitalize(catObj.name) + " posts" : "Posts";
-        }
-
+        const {category, categories} = this.props;
+        let hdrTitle = setCategoryTitle(categories, category);
 
         return (
             <main className="app-content" role="main">
@@ -77,13 +82,15 @@ function mapStateToProps(state) {
     return {
         posts: state.posts,
         categories: state.categories,
-        category: state.category
+        category: state.category,
+        meta: state.meta
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        setCategory: (category) => dispatch(setCategory(category))
+        setCategory: (category) => dispatch(setCategory(category)),
+        setPageTitle: (title) => dispatch(setPageTitle(title))
     }
 }
 

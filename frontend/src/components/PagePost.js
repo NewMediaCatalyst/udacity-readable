@@ -27,13 +27,11 @@ class PagePost extends Component {
     }
 
     static defaultProps = {
-        pgTitle: 'Post',
         match: {}
     }
 
     componentDidMount() {
-        const {pgTitle, appSep, appTitle, match, setMatch} = this.props;
-        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle;
+        const {match, setMatch} = this.props;
 
         if (match && typeof match.params.id !== 'undefined') {
             setMatch(match);

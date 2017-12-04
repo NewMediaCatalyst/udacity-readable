@@ -16,14 +16,11 @@ class PageCommentForm extends Component {
     }
 
     static defaultProps = {
-        pgTitle: 'Create Edit Post',
         match: {}
     }
 
     componentDidMount() {
-        const {pgTitle, appSep, appTitle, getComment, match} = this.props;
-        document.title = pgTitle ? pgTitle + appSep + appTitle : appTitle
-
+        const {getComment, match} = this.props;
         if (match && match.params && match.params.id) {
             getComment(match.params.id);
         }

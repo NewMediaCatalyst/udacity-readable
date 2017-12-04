@@ -13,6 +13,7 @@ import PagePost from './PagePost';
 import PageCommentForm from './PageCommentForm';
 // app: actions
 import {getCategories} from '../actions/categories';
+import {setPageTitle} from '../actions/meta';
 // app: api calls
 import {apiGetCatAll} from '../utils/api-category';
 // app: styles
@@ -25,28 +26,30 @@ import '../css/app.views.css';
 class App extends Component {
 
     static propTypes = {
-
         categories: PropTypes.object.isRequired
     }
 
     static defaultProps = {
-        appTitle: "Token Talk",
-        appSep: " | ",
-        pgTitle: "Welcome",
+        title: {
+            app: "Token Talk",
+            sep: " | ",
+            page: "Welcome",
+        },
         categories: {}
     }
 
     componentDidMount() {
-        const { appTitle, getCategories, categories} = this.props;
-        document.title = appTitle;
+        const {title, setPageTitle, getCategories, categories} = this.props,
+            {app, sep, page} = title;
+
+        setPageTitle(title);
+        document.title = page + sep + app;  // set <title>
         getCategories(categories);
     }
 
-    componentWillUpdate(nextProps) {
-        const {appTitle, appSep} = this.props;
-
-        document.title = nextProps.pgTitle ?
-            nextProps.pgTitle + appSep + appTitle : appTitle;
+    componentWillReceiveProps(nextProps) {
+        const {meta} = nextProps, {app, page, sep} = meta.title;
+        document.title = page.length > 0 ? page + sep + app : app;  // update <title>
     }
 
     render() {
@@ -63,8 +66,8 @@ class App extends Component {
                         <Route path="/posts" exact component={PageHome} />
                         <Route path="/posts/:category" component={PageHome} />
                         <Route path="/post/edit/:id" exact component={PagePost} />
-                        <Route path="/post/create" exact component={PagePost} pgTitle="Create New Post" />
-                        <Route path="/post/:id" exact component={PagePost} pgTitle="A post" />
+                        <Route path="/post/create" exact component={PagePost} />
+                        <Route path="/post/:id" exact component={PagePost} />
                         <Route path="/comment/edit/:id" exact component={PageCommentForm} />
                     </Switch>
                     <AppFooter />
@@ -76,14 +79,16 @@ class App extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        categories: state.categories
+        categories: state.categories,
+        meta: state.meta
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         getCategories: (categories) => apiGetCatAll()
-            .then((categories) => (dispatch(getCategories(categories))))
+            .then((categories) => (dispatch(getCategories(categories)))),
+        setPageTitle: (title) => (dispatch(setPageTitle(title)))
     };
 }
 

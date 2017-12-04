@@ -12,6 +12,7 @@ import DateTime from './DateTime';
 import {Post} from '../utils/data';
 import {apiFetch} from '../utils/api';
 import {addPost} from '../actions/posts';
+import {setPageTitle} from '../actions/meta';
 
 
 class FormPostCreate extends Component {
@@ -49,7 +50,13 @@ class FormPostCreate extends Component {
         message: {
             success: ["Success!", "Post was created!"],
             error: ["Error!", "Creating post failed!"]
-        }
+        },
+        title: { page: "Create Post" }
+    }
+
+    componentDidMount() {
+        const {title, setPageTitle} = this.props;
+        setPageTitle({page: title.page});
     }
 
     componentWillUnmount() {
@@ -254,7 +261,8 @@ class FormPostCreate extends Component {
 function mapDispatchToProps(dispatch) {
     return {
         addPost: (post) => apiFetch({action: 'post', type: 'add', body: post})
-            .then((post) => dispatch(addPost(post)))
+            .then((post) => dispatch(addPost(post))),
+        setPageTitle: (title) => dispatch(setPageTitle(title))
     };
 }
 

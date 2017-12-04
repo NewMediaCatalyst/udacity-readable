@@ -11,6 +11,7 @@ import Col from './GridColumn';
 import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
 import {apiFetch} from '../utils/api';
+import {setPageTitle} from '../actions/meta';
 import {getPost, deletePost} from '../actions/posts';
 
 
@@ -28,7 +29,8 @@ class Post extends Component {
 
     static defaultProps = {
         posts: {},
-        meta: {}
+        meta: {},
+        title: { page: "" }
     }
 
     componentDidMount() {
@@ -37,9 +39,18 @@ class Post extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {meta, posts, getPost} = nextProps, {id} = meta.match;
-        let postExists = (id && posts && posts.all && typeof posts.all[id] !== 'undefined');
+        const {setPageTitle, getPost, meta: curMeta} = this.props,
+            {page: curTitle} = curMeta.title,
+            {meta: nextMeta, posts} = nextProps,
+            {id} = nextMeta.match,
+            {all} = posts,
+            nextTitle = all[id].title;
+        let postExists = (id && posts && all && typeof all[id] !== 'undefined');
+
         if (id && !postExists) { getPost(id); }
+        if (id && postExists && curTitle !== nextTitle) {
+            setPageTitle({page: nextTitle});
+        }
     }
 
     handleDelete(e) {
@@ -139,7 +150,8 @@ function mapDispatchToProps(dispatch) {
         deletePost: (id) => {
             return apiFetch({action: "post", type: "delete", body: { id }})
                 .then((post) => dispatch(deletePost(post)))
-        }
+        },
+        setPageTitle: (title) => (dispatch(setPageTitle(title)))
     };
 }
 
