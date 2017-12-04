@@ -11,11 +11,16 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
-import {getComments} from '../actions/comments';
+import {getComments, deleteComment} from '../actions/comments';
 import {apiFetch} from '../utils/api';
 
 
 class CommentList extends Component {
+
+    constructor(props){
+        super(props);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
 
     static propTypes = {
         posts: PropTypes.object.isRequired,
@@ -25,6 +30,12 @@ class CommentList extends Component {
     static defaultProps = {
         posts: { all: {}, display: [] },
         comments: {}
+    }
+
+    handleDelete(e) {
+        e.preventDefault();
+        const {deleteComment} = this.props;
+        deleteComment(e.target.id);
     }
 
     componentDidMount() {
@@ -70,12 +81,23 @@ class CommentList extends Component {
                         <Col width={{sm:12}} className="comment-body">{body}</Col>
                     </Row>
                     <Row className="comment-footer">
-                        <Col width={{sm:9, md:7}} className="comment-id">
+                        <Col width={{sm:12, md:6, lg:8}} className="comment-id">
                             <strong>Comment ID: </strong>
                             <span className="text">{id}</span>
                         </Col>
-                        <Col width={{sm:3, md:5}} className="comment-edit">
-                            <p><Link to={`/comment/edit/${id}`}>Edit comment &raquo;</Link></p>
+                        <Col width={{sm:12, md:6, lg:4}} className="comment-edit">
+                            <p><strong>Actions: </strong>
+                                <Link
+                                    className="comment-delete-link action-link"
+                                    onClick={this.handleDelete}
+                                    id={id}
+                                    to="#"
+                                    >Delete comment &raquo;</Link>
+                                <Link
+                                    className="comment-edit-link action-link"
+                                    to={`/comment/edit/${id}`}
+                                    >Edit comment &raquo;</Link>
+                            </p>
                         </Col>
                     </Row>
                 </li>
@@ -115,7 +137,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         getComments: (parentId) => apiFetch({action: "comment", type: "all", body: {parentId}})
-            .then((comments) => dispatch(getComments(comments)))
+            .then((comments) => dispatch(getComments(comments))),
+        deleteComment: (id) => apiFetch({action: "comment", type: "delete", body: {id}})
+            .then((comment) => dispatch(deleteComment(comment)))
     };
 }
 

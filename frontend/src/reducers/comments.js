@@ -78,7 +78,17 @@ export const comments = (state = {all: {}, display: []}, action) => {
             };
 
         case DELETE_COMMENT:
-            return action.comment;
+            const deleteId = action.comment.id;
+            let allDeleteComments = Object.assign({}, state.all),
+                displayDeleteComments = state.display.filter((id) => id !== deleteId);
+            console.log("DELETE_COMMENT :: deleteId: ", deleteId, "; displayDeleteComments: ", displayDeleteComments)
+            delete allDeleteComments[deleteId];
+            console.log("DELETE_COMMENT :: allDeleteComments: ", allDeleteComments);
+            return {
+                ...state,
+                all: allDeleteComments,
+                display: displayDeleteComments
+            };
         default:
             return state;
     }

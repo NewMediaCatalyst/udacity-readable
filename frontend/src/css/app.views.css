@@ -65,8 +65,12 @@
 
 .post-header { align-items: flex-end; }
 
-.view-post .post-edit a { display: inline-block; margin-left: 10px; }
-.view-post .post-edit a + a { margin-left: 15px; }
+.action-link { display: inline-block; }
+
+.view-post .action-link,
+.view-comment-create .action-link { margin-left: 5px; }
+
+.action-link + .action-link { margin-left: 15px; }
 
 
 @media screen and (max-width: 39.9375em) {
@@ -82,6 +86,7 @@
 
 @media screen and (min-width: 64em) {
     .post-header .post-score { order: 4; text-align: right; }
+    .comment-header .comment-score { text-align: right; }
     .post-header .post-author { order: 2 }
     .post-header .post-date { order: 3 }
 }

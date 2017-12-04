@@ -98,8 +98,8 @@ class Post extends Component {
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
                         <p>
                             <strong>Actions: </strong>
-                            <Link onClick={this.handleDelete} className="post-link-delete" to="/posts/">Delete post &raquo;</Link>
-                            <Link className="post-link-edit" to={`/post/edit/${postId}`}>Edit post &raquo;</Link>
+                            <Link onClick={this.handleDelete} className="post-link-delete action-link" to="/posts/">Delete post &raquo;</Link>
+                            <Link className="post-link-edit action-link" to={`/post/edit/${postId}`}>Edit post &raquo;</Link>
                         </p>
                     </Col>
                 </Row>

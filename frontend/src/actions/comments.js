@@ -57,9 +57,9 @@ export function voteComment(comment) {
 
 
 // DELETE
-export function deleteComment(id) {
+export function deleteComment(comment) {
     return {
         type: DELETE_COMMENT,
-        id
+        comment
     }
 };
