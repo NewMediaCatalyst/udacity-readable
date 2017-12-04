@@ -90,10 +90,8 @@ function setVals(vals) {
 export function apiFetch(vals) { // vals: {action:'post', type: 'get', etc}
     let settings = setVals(vals), {url, hdr} = settings;
 
-    return fetch(url, hdr).then(function (res) {
-            let json = res.json();
-            console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: ", json);
-            return json;
-        })
-        .catch((err) => console.log("apiFetch :: " + vals.action + ":" + vals.type + " :: ERROR: ", err));
+    return fetch(url, hdr).then((res) => res.json())
+        .catch((err) => {
+            console.log("ERROR :: apiFetch :: " + vals.action + ":" + vals.type + " :: ERROR: ", err)
+        });
 }
