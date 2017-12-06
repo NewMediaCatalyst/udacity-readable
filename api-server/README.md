@@ -1,15 +1,4 @@
-# Readable App (Token Talk)
-
-## TL;DR
-This project represents two separate projects in one built as a project for my [Udacity React Nanodegree](https://www.udacity.com/course/react-nanodegree--nd019) requirements.
-* frontend UI as react, redux, and css code
-    * located in the /frontend/ folder at the project root
-    * I utilized 'create-react-app' to initialize this project
-    * I created the remaining frontend React, Redux, and CSS code
-* the API server
-    * located in the /api-server/ folder at the project root
-    * I didn't edit or write this code, but my frontend code called the API routes it provided
-
+NOTE: See main project README.md one directory above.
 
 ## API Server
 
