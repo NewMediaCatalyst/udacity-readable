@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 // app
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
-import AppNav from './AppNav';
 import PageHome from './PageHome';
 import PagePost from './PagePost';
 import PageCommentForm from './PageCommentForm';
@@ -53,14 +52,11 @@ class App extends Component {
     }
 
     render() {
-        let {categories} = this.props,
-            links = categories.categories;
 
         return (
             <Router>
                 <div className="app">
                     <AppHeader />
-                    <AppNav links={links} />
                     <Switch>
                         <Route path="/" exact component={PageHome} />
                         <Route path="/posts" exact component={PageHome} />

@@ -1,15 +1,20 @@
 // deps
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
+
 
 // app
 import logo from '../img/logo.svg';
 import Row from './GridRow';
+import AppNav from './AppNav';
 
 
 class AppHeader extends Component {
 
     render() {
+        const {categories} = this.props, links = categories.categories;
+
         return (
             <header className="app-header" role="banner">
                 <Row margin={true}>
@@ -17,10 +22,18 @@ class AppHeader extends Component {
                         <img src={logo} className="app-logo" alt="logo" />
                         <h1 className="app-title">Token Talk</h1>
                     </Link>
+                    <AppNav links={links} />
                 </Row>
             </header>
         );
     }
 }
 
-export default AppHeader;
+function mapStateToProps(state, props) {
+    return {
+        categories: state.categories
+    };
+}
+
+
+export default connect(mapStateToProps)(AppHeader);

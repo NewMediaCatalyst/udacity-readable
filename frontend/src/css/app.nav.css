@@ -20,9 +20,7 @@
     justify-content: space-between;
 }
 
-.app-nav li {
-    flex: 1 1 auto;
-}
+.app-nav li { flex: 1 1 auto; }
 
 .app-nav a {
     color: inherit;
@@ -41,9 +39,7 @@
     border-color: #959595;
 }
 
-.app-nav a:active {
-    border-color: #d5d5d5;
-}
+.app-nav a:active { border-color: #d5d5d5; }
 
 .app-nav a * { pointer-events: none; }
 
@@ -72,34 +68,65 @@
     transition: background-color 0.25s ease-out;
 }
 
-@media (min-width: 40em) {  /* was 560px */
-    .app-nav ul { padding: 0 40px; }
-    .app-nav .icon { width: 1.65rem; height: 1.65rem; background-size: 1.65rem 1.65rem; }
-}
+.nav-btc .icon { background-image: url("../img/coins/bitcoin.png"); }
 
-@media (min-width: 720px) {  /* was 720px */
-    .app-nav { left: 0; top: 0; bottom: 0; padding: 1rem 0.25rem; max-width: 44px; }
-    .app-nav ul { padding: 0; flex-flow: column nowrap; }
-    .app-nav li + li { margin-top: 0.75rem; }
-    .app-nav .icon { width: 1.85rem; height: 1.85rem; background-size: 1.85rem 1.85rem; }
-}
+.nav-ltc .icon { background-image: url("../img/coins/litecoin.png"); }
 
-@media (min-width: 75em) {  /* was 1024px */
-    .app-nav { padding: 1rem 0.5rem; max-width: 52px; }
-    .app-nav .icon { width: 2rem; height: 2rem; background-size: 2rem 2rem; }
-}
+.nav-eth .icon { background-image: url("../img/coins/ether.png"); }
 
-.nav-btc .icon {
-    background-image: url("../img/coins/bitcoin.png");
-}
-.nav-ltc .icon {
-    background-image: url("../img/coins/litecoin.png");
-}
-.nav-eth .icon {
-    background-image: url("../img/coins/ether.png");
-}
 .nav-xrp .icon {
     background-image: url("../img/coins/ripple.png");
     position: relative;
     left: -2px;
+}
+
+@media (min-width: 40em) { /* 640px */
+
+    .app-nav ul { padding: 0 40px; }
+
+    .app-nav .icon {
+        width: 1.65rem;
+        height: 1.65rem;
+        background-size: 1.65rem 1.65rem;
+    }
+}
+
+@media (min-width: 45em) { /* 720px */
+
+    .app-header > .grid-x {
+        justify-content: space-between;
+    }
+
+    .app-nav {
+        position: relative;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        right: auto;
+        padding: 0;
+    }
+
+    .app-nav ul {
+        padding: 0;
+        flex-flow: row nowrap;
+    }
+
+    .app-nav li + li {
+        margin-left: 1rem;
+    }
+
+    .app-nav .icon {
+        width: 1.85rem;
+        height: 1.85rem;
+        background-size: 1.85rem 1.85rem;
+    }
+}
+
+@media (min-width: 75em) { /* 1200px */
+
+    .app-nav .icon {
+        width: 2rem;
+        height: 2rem;
+        background-size: 2rem 2rem;
+    }
 }
