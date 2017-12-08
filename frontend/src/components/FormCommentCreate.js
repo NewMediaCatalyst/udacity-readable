@@ -47,6 +47,18 @@ class FormCommentCreate extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps, nextState) {
+        let {comment} = this.state,
+            updatedComment = Object.assign({}, comment);
+        const {posts: curPosts} = this.props, curParentID = curPosts.display[0] || "",
+            {posts: nextPosts} = nextProps, nextParentId = nextPosts.display[0] || "";
+
+        if (curParentID !== nextParentId) {
+            updatedComment.parentId = nextParentId;
+            this.setState({ comment: updatedComment });
+        }
+    }
+
     handleSubmit(e) {
         e.preventDefault();
         const {createComment} = this.props;

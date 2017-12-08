@@ -39,20 +39,20 @@ class CommentList extends Component {
     }
 
     componentDidMount() {
-        const {getComments, posts} = this.props;
-        let postId = !_.isUndefined(posts.display) ? posts.display : "";
+        const {getComments, posts} = this.props, {display} = posts;
+        let postId = !_.isUndefined(display) ? display : "";
 
         if (postId !== "") {
-            getComments(posts.display[0]);
+            getComments(display[0]);
         }
     }
 
-    componentWillUpdate(nextProps, nextState) {
+    componentWillReceiveProps(nextProps, nextState) {
         const {posts, getComments} = this.props;
         let postId = !_.isUndefined(posts.display[0]) ? posts.display[0] : "",
             nextPostId = !_.isUndefined(nextProps.posts.display[0]) ? nextProps.posts.display[0] : "";
 
-        if (postId === "" && nextPostId !== "") {
+        if ( (postId === "" && nextPostId !== "") || (postId !== nextPostId) ) {
             getComments(nextPostId);
         }
     }
@@ -115,12 +115,12 @@ class CommentList extends Component {
     }
 
     render() {
-        let {comments} = this.props;
+        let {display} = this.props.comments;
 
         return (
             <Row className="comment-listing">
                 <Col width={{sm:12}}>
-                    {(comments.display.length > 0) ? this.renderComments() : this.renderNoResults()}
+                    {(display.length > 0) ? this.renderComments() : this.renderNoResults()}
                 </Col>
             </Row>
         );

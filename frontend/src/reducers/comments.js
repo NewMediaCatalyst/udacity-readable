@@ -81,9 +81,7 @@ export const comments = (state = {all: {}, display: []}, action) => {
             const deleteId = action.comment.id;
             let allDeleteComments = Object.assign({}, state.all),
                 displayDeleteComments = state.display.filter((id) => id !== deleteId);
-            console.log("DELETE_COMMENT :: deleteId: ", deleteId, "; displayDeleteComments: ", displayDeleteComments)
             delete allDeleteComments[deleteId];
-            console.log("DELETE_COMMENT :: allDeleteComments: ", allDeleteComments);
             return {
                 ...state,
                 all: allDeleteComments,
