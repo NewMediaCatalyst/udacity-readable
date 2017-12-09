@@ -113,7 +113,7 @@ const defaultData = {
     "d7847ff5-282b-48b7-a1d2-c72c98b139b4": {
         id: "d7847ff5-282b-48b7-a1d2-c72c98b139b4",
         title: "Circle Is Building a Master Mobile Payments Network on Ethereum",
-        author: "Booju Banton",
+        author: "Anders Banton",
         category: "eth",
         timestamp: "2016-08-04T17:08:32.285Z",
         deleted: false,

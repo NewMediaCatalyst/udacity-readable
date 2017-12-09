@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 // app
 import AppHeader from './AppHeader';
@@ -24,6 +25,11 @@ import '../css/app.views.css';
 
 class App extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { isTop: true };
+    }
+
     static propTypes = {
         categories: PropTypes.object.isRequired
     }
@@ -41,9 +47,19 @@ class App extends Component {
         const {title, setPageTitle, getCategories, categories} = this.props,
             {app, sep, page} = title;
 
+        document.addEventListener('scroll', () => {
+            let {scrollY: scrollTopPos} = window, nearTop = scrollTopPos < 50;
+            if (nearTop !== this.state.isTop) { this.setState({ isTop: nearTop }); }
+        });
+
         setPageTitle(title);
         document.title = page + sep + app;  // set <title>
         getCategories(categories);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        let {isTop: curIsTop} = this.state, {isTop: nextIsTop} = nextState;
+        return curIsTop !== nextIsTop
     }
 
     componentWillReceiveProps(nextProps) {
@@ -52,10 +68,14 @@ class App extends Component {
     }
 
     render() {
+        let appClasses = classnames({
+                "app": true,
+                "is-top": this.state.isTop
+            });
 
         return (
             <Router>
-                <div className="app">
+                <div className={appClasses}>
                     <AppHeader />
                     <Switch>
                         <Route path="/" exact component={PageHome} />

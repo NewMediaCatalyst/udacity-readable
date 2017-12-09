@@ -4,7 +4,6 @@
     z-index: 5;
     left: 0;
     bottom: 0;
-    background-color: #222;
     right: 0;
     color: #fff;
     padding: 0.25rem 0.5rem;
@@ -25,10 +24,12 @@
 .app-nav a {
     color: inherit;
     display: block;
+    margin: 0 auto;
     padding: 0;
     border-radius: 50%;
     overflow: hidden;
-    transition: border-color 0.25s ease-out;
+    transition: border-color 0.25s ease-out,
+        color 0.25s ease-out;
     border: 2px groove transparent;
     outline: 0;
     max-width: 34px;
@@ -53,6 +54,7 @@
     background-repeat: no-repeat;
     background-position: 0 0;
     padding: 3px;
+    position: relative;
 }
 
 .app-nav .icon::before {
@@ -68,15 +70,20 @@
     transition: background-color 0.25s ease-out;
 }
 
+.nav-home svg,
+.nav-create-post svg { left: -1px; }
+
 .nav-btc .icon { background-image: url("../img/coins/bitcoin.png"); }
 
 .nav-ltc .icon { background-image: url("../img/coins/litecoin.png"); }
 
-.nav-eth .icon { background-image: url("../img/coins/ether.png"); }
+.nav-eth .icon {
+    background-image: url("../img/coins/ether.png");
+    left: -1px;
+}
 
 .nav-xrp .icon {
     background-image: url("../img/coins/ripple.png");
-    position: relative;
     left: -2px;
 }
 
@@ -104,6 +111,7 @@
         bottom: auto;
         right: auto;
         padding: 0;
+        color: #222;
     }
 
     .app-nav ul {
