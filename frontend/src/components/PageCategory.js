@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 // app
 import PostList from './PostList';
-// import {capitalize} from '../utils/data';
 import '../css/app.css';
 
 
@@ -26,11 +25,9 @@ class PageCategory extends Component {
     render() {
         const {match, posts, categories} = this.props;
         let type = match.params.category !== undefined ? match.params.category : "",
-            title = (categories.length > 0) ? categories.forEach((cat) => {
-                console.log("cat: ", cat);
-                return (cat.ticker === type) ? cat.ticker : "Posts";
-            }) : "Posts";
-            // title = capitalize(title) + " posts";
+            title = (categories.length > 0) ? categories.forEach((cat) =>
+                (cat.ticker === type) ? cat.ticker : "Posts") : "Posts";
+
 
         return (
             <main className="app-content" role="main">

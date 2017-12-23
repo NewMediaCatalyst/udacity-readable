@@ -144,7 +144,7 @@ a:focus .app-title { color: #ccc; }
     .app-header .grid-x,
     .app-footer .grid-x { max-width: 100%; }
 
-    .app-content { padding: 90px 12px 30px; }
+    .app-content { padding: 90px 12px 75px; }
 }
 
 @media (min-width: 45em) { /* 720px */
@@ -164,7 +164,7 @@ a:focus .app-title { color: #ccc; }
         box-shadow: 0 0 0 rgba(0,0,0,0);
     }
 
-    .app-content { padding: 95px 18px 60px; }
+    .app-content { padding: 95px 18px 85px; }
 
     .app-footer .grid-x { padding-left: 10px; padding-right: 5px; }
 
@@ -181,7 +181,7 @@ a:focus .app-title { color: #ccc; }
     .app-footer .grid-x,
     .app-content { max-width: 980px; }
 
-    .app-content { padding: 95px 20px 70px; min-height: 650px; }
+    .app-content { padding: 95px 20px 85px; min-height: 650px; }
 
     .app-header .grid-x,
     .app-footer .grid-x { padding-left: 15px; padding-right: 5px; }
@@ -197,5 +197,5 @@ a:focus .app-title { color: #ccc; }
         max-width: 1140px;
     }
 
-    .app-content { padding: 95px 30px 80px; }
+    .app-content { padding: 95px 30px 85px; }
 }

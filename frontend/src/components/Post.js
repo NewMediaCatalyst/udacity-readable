@@ -130,7 +130,16 @@ class Post extends Component {
 
     render() {
         const {all} = this.props.posts, {match} = this.props.meta, {id} = match;
-        return (!id || _.isEmpty(all)) ? this.renderEmpty() : this.renderPost(id, all);
+        let urlId = window.location.pathname.replace("/post/", "");
+
+        if (!id || _.isEmpty(all)) {
+            return this.renderEmpty()
+        } else if (id !== urlId) {
+            return this.renderPost(urlId, all);
+        } else {
+            return this.renderPost(id, all);
+        }
+
     }
 }
 

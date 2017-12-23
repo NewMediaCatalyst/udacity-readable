@@ -27,7 +27,12 @@ class PagePost extends Component {
     }
 
     static defaultProps = {
-        match: {}
+        match: {},
+        path_replace: {
+            edit: "/post/edit/",
+            read: "/post/",
+            create: "/post/create"
+        }
     }
 
     componentDidMount() {
@@ -80,14 +85,13 @@ class PagePost extends Component {
 
 
     render() {
-        let {action} =  this.state;
+        let {action} = this.state;
 
         switch (action) {
             case "edit": return this.renderEdit();
             case "read": return this.renderPost();
             default: return this.renderCreate();
         }
-
     }
 
 }

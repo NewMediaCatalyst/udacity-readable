@@ -70,9 +70,10 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
             const {id: addPostId} = action.post;
             let addPostsAllSorted = [], addPostsToDisplay = [],
                 addPostsAll = Object.assign({}, state.all);
-            addPostsAll[addPostId] = action.post;
             addPostsAllSorted = _.orderBy(addPostsAll, ['voteScore'], ['desc']);
             addPostsToDisplay = addPostsAllSorted.map((post) => post.id);
+            addPostsAll[addPostId] = action.post;
+            addPostsToDisplay.unshift(addPostId);
             return {
                 ...state,
                 all: addPostsAll,
