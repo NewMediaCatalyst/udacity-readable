@@ -44,9 +44,9 @@ The project has two underlying components or project within the main folder:
         * or you can click this link to [load http://localhost:3000](http://localhost:3000)
 
 ## Attribution
-* I did utilize some CSS gradients from an online example for the outer page wrapper, .app-content
-    * My computer crashed in the middle of this project, so I was unable to find the original URL to properly give credit here.
-    * These gradients are in app.css at .app-content, .app-content:before and .app-content:after
+* I did utilize some CSS gradients (as box-shadow) from an online example for the outer page wrapper, .app-content
+    * My computer crashed in the middle of this project, so I was unable to find the original URL to properly give proper credit to the author here.
+    * These box-shadow are visible in /frontend/src/css/ in app.css at .app-content, .app-content:before and .app-content:after
 
 ## API Server
 
