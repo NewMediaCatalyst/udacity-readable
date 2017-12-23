@@ -12,12 +12,14 @@ and not(!) a production-ready project.
 
 The project has two underlying components or project within the main folder:
 
-* (a) **the API server** found in the '/api-server/' folder, has only minor edits made to the cloned
-[API server starter project found on GitHub](https://github.com/udacity/reactnd-project-readable-starter))
+* (a) **the API server** found in the '/api-server/' folder
+    * has <u>only minor edits made by me</u>,
+    * the rest of the code was cloned from the [API server starter project](https://github.com/udacity/reactnd-project-readable-starter) found on GitHub
 
-* (b) **the web UI or front end** found in the '/frontend/' folder, was the part that I created for this project assignment. I utilized
-the ['create-react-app'](https://github.com/facebookincubator/create-react-app) to start
-the 'frontend' project, but it was heavily edited.
+* (b) **the web UI or front end** found in the '/frontend/' folder
+    * <u>is frontend work that I created to complete the project</u>
+    * I utilized the ['create-react-app'](https://github.com/facebookincubator/create-react-app) to start the 'frontend' project
+    * that starting point code was heavily edited by me to arrive at this finished version.
 
 
 ## Project functionality:
@@ -41,7 +43,11 @@ the 'frontend' project, but it was heavily edited.
     * Your browser should automically open
         * or you can click this link to [load http://localhost:3000](http://localhost:3000)
 
+## Attribution
+* I did utilize some CSS gradients from an online example for the outer page wrapper, .app-content
+    * My computer crashed in the middle of this project, so I was unable to find the original URL to properly give credit here.
+    * These gradients are in app.css at .app-content, .app-content:before and .app-content:after
 
 ## API Server
 
-Information about the API server and how to use it can be found in its [README file](https://github.com/udacity/reactnd-project-readable-starter/blob/master/api-server/README.md).
+Information about the API server and how to use it can be found in its [README file](https://github.com/udacity/reactnd-project-readable-starter/blob/master/api-server/README.md) from it's separate Github Repo.
