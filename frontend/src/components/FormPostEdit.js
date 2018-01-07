@@ -22,7 +22,6 @@ class FormPostEdit extends Component {
 
         this.state = {
             post: new Post(),
-            matchId: "",
             touched: {
                 author: false,
                 category: false,
@@ -57,34 +56,31 @@ class FormPostEdit extends Component {
     }
 
     componentDidMount() {
-        const {match, posts, title, setPageTitle} = this.props,
-              {all, display} = posts,
-              matchId = (match && match.params && typeof match.params.id !== 'undefined') ? match.params.id : "";
-        let displayId = display[0] || "";
+        const {meta, posts, title, setPageTitle, getPost} = this.props,
+            {all} = posts,
+            {id: metaId} = meta;
+        let urlId = window.location.pathname.replace("/post/edit/", ""),
+            theId = metaId || urlId;
 
-        if (matchId !== "") {
-            this.setState({ matchId: matchId });
-            getPost(matchId);
+        if (_.isEmpty(all) || _.isUndefined(all[theId])) {
+            getPost(theId);
+        } else if (!_.isEmpty(all[theId])) {
+            this.setState({ post: all[theId] });
+            setPageTitle({page: title.page});
         }
-        if (!_.isUndefined(display) && displayId.length > 0) {
-            this.setState({ post: all[displayId] });
-        }
-        setPageTitle({page: title.page});
-    }
 
-    shouldComponentUpdate(nextProps) {
-        let {post} = this.state,
-            nextMatchId = (nextProps.match && nextProps.match.params && typeof nextProps.match.params.id !== 'undefined') ? nextProps.match.params.id : "";
-        const {posts} = this.props, {all, display} = posts;
-        return (all !== nextProps.posts.all || (!_.isUndefined(display[0])) || nextMatchId !== post.id);
     }
 
     componentWillReceiveProps(nextProps) {
-        const {posts} = this.props, {all, display} = posts;
-        let {post} = this.state, displayId = display[0] || "";
+        const {meta: nextMeta, posts: nextPosts} = nextProps,
+            {all: nextAll} = nextPosts, {id: nextMetaId} = nextMeta;
+        let urlId = window.location.pathname.replace("/post/edit/", ""),
+            theId = nextMetaId || urlId;
 
-        if (all !== nextProps.posts.all || !_.isUndefined(display) || (displayId.length > 0 && post.id !== displayId)) {
-            this.setState({ post: all[displayId] });
+        if (!_.isUndefined(nextAll[theId])) {
+            this.setState({ post: nextAll[theId] });
+        } else if (_.isEmpty(nextAll) || _.isUndefined(nextAll[theId])) {
+            getPost(theId);
         }
     }
 
@@ -277,7 +273,8 @@ class FormPostEdit extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        posts: state.posts
+        posts: state.posts,
+        meta: state.meta
     };
 }
 
