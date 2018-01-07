@@ -11,7 +11,7 @@ class AppFooter extends Component {
         return (
             <footer className="app-footer" role="contentinfo">
                 <Row>
-                    <p>&copy; Copyright 2017 Token Talk</p>
+                    <p>&copy; Copyright 2018 Token Talk</p>
                 </Row>
             </footer>
         );

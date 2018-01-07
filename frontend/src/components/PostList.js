@@ -12,14 +12,18 @@ import Col from './GridColumn';
 import DateTime from './DateTime';
 // app: actions
 import {setCategory} from '../actions/categories';
-import {showAllPosts, filterPostsByCat, getPostsAll} from '../actions/posts';
+import {deletePost, showAllPosts, filterPostsByCat, getPostsAll} from '../actions/posts';
 // app: api calls
+import {apiFetch} from '../utils/api';
 import {apiGetPostsAll} from '../utils/api-posts';
+
 
 class PostList extends Component {
 
     constructor(props) {
         super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             hasFiltered: false,
             hasPosts: false
@@ -72,6 +76,12 @@ class PostList extends Component {
 
     }
 
+    handleDelete(e) {
+        e.preventDefault();
+        const {deletePost} = this.props;
+        deletePost(e.target.id);
+    }
+
     renderPosts() {
         let {posts} = this.props, {all, display} = posts;
 
@@ -89,6 +99,17 @@ class PostList extends Component {
                         <span className="post-comments"><strong>Comments: </strong>{commentCount}</span>
                     </p>
                     </Link>
+                    <p className="post-list-actions"><span className="post-actions"><strong>Actions: </strong></span>
+                        <Link id={id}
+                            onClick={this.handleDelete}
+                            className="post-link-delete action-link"
+                            to="/posts/"
+                            >Delete post &raquo;</Link>
+                        <Link
+                            className="post-link-edit action-link"
+                            to={`/post/edit/${id}`}
+                            >Edit post &raquo;</Link>
+                    </p>
                 </li>
                 }
             )}
@@ -126,6 +147,8 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
+        deletePost: (id) => apiFetch({action: "post", type: "delete", body: { id }})
+            .then((post) => dispatch(deletePost(post))),
         setCategory: (category) => dispatch(setCategory(category)),
         showPost: (id) => dispatch(showAllPosts(id)),
         showAllPosts: () => dispatch(showAllPosts()),

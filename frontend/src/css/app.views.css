@@ -67,6 +67,8 @@
 
 .action-link { display: inline-block; }
 
+.action-link:hover { text-decoration: underline; }
+
 .view-post .action-link,
 .view-comment-create .action-link { margin-left: 5px; }
 

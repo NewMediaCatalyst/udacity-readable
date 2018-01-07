@@ -26,6 +26,7 @@
     transition: background-color 0.35s ease-out;
     padding: 0.85rem 0;
     outline: 0;
+    padding-right: 110px;
 }
 
 .post-link:hover,
@@ -44,9 +45,11 @@
 
 .post-list .list-item {
     padding: 0;
+    position: relative;
 }
 
-.post-listing .post-meta {
+.post-listing .post-meta,
+.post-listing .post-list-actions {
     font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.125;
@@ -71,6 +74,16 @@
 .post-list .list-item + .list-item {
     border-top: 1px solid #aaa;
 }
+
+.post-list-actions {
+    display: inline-block;
+    position: absolute;
+    text-align: right;
+    top: 10px;
+    right: 10px;
+}
+
+.post-list-actions .action-link { display: block; }
 
 @media (min-width: 720px) {
     .post-listing .post-title { font-size: 1.25rem; padding-right: 0; }
