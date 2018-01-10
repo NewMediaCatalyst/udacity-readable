@@ -89,7 +89,7 @@ class PostList extends Component {
             {display.map((key) => {
                 const {id, title, timestamp, author, category, voteScore, commentCount} = all[key];
                 return <li className="list-item" key={id}>
-                    <Link className="post-link" to={`/post/${id}`}>
+                    <Link className="post-link" to={`/${category}/${id}`}>
                     <h2 className="post-title">{title}</h2>
                     <p className="post-meta">
                         <DateTime date={timestamp} />

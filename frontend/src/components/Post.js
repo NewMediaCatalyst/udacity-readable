@@ -130,7 +130,7 @@ class Post extends Component {
 
     render() {
         const {all} = this.props.posts, {match} = this.props.meta, {id} = match;
-        let urlId = window.location.pathname.replace("/post/", "");
+        let urlId = window.location.pathname.substr(5);
 
         if (!id || _.isEmpty(all)) {
             return this.renderEmpty()
