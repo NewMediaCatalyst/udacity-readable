@@ -50,4 +50,7 @@ The project has two underlying components or project within the main folder:
 
 ## API Server
 
-Information about the API server and how to use it can be found in its [README file](https://github.com/udacity/reactnd-project-readable-starter/blob/master/api-server/README.md) from it's separate Github Repo.
+* **NOTE:**
+    * Minor edits were made to the base API server provided by Udacity in order to setup my project
+    * You will need to utilize the edited API server provided with this project, in order for the project to run correctly
+* Details regarding the base API server provided by Udacity utilized for this project utilized and how to use it can be found in its [README file](https://github.com/udacity/reactnd-project-readable-starter/blob/master/api-server/README.md) from it's separate Github Repo.

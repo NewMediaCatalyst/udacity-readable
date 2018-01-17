@@ -30,7 +30,8 @@ class Post extends Component {
     static defaultProps = {
         posts: {},
         meta: {},
-        title: { page: "" }
+        title: { page: "" },
+        postURL: "/post/"
     }
 
     componentDidMount() {
@@ -129,12 +130,16 @@ class Post extends Component {
     }
 
     render() {
-        const {all} = this.props.posts, {match} = this.props.meta, {id} = match;
-        let urlId = window.location.pathname.substr(5);
+        const {postURL} = this.props,
+            {all} = this.props.posts,
+            {match} = this.props.meta, {id} = match;
+        let urlId = window.location.pathname.substr(postURL.length-1);
+
+        console.log("Post :: render() :: id: ", id, "; urlId: ", urlId);
 
         if (!id || _.isEmpty(all)) {
             return this.renderEmpty()
-        } else if (id !== urlId) {
+        } else if ((id === undefined && urlId.length > 0) || id !== urlId) {
             return this.renderPost(urlId, all);
         } else {
             return this.renderPost(id, all);

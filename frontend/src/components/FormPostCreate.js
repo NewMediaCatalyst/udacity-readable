@@ -38,7 +38,10 @@ class FormPostCreate extends Component {
                 voteScore: false
             },
             showMessage: false,
-            prevPostId: ""
+            prevPost: {
+                id: "",
+                cat: ""
+            }
         }
     }
 
@@ -88,18 +91,22 @@ class FormPostCreate extends Component {
     handleSubmit(e) {
         e.preventDefault();
         const {addPost} = this.props;
-        let {post} = this.state;
+        let {post} = this.state,
+            prevPost = {
+                id: post.id,
+                cat: post.category
+            }
 
         if (this.isInvalidForm(this.validateForm)) {
             addPost(post);
             this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
-            this.resetForm(post.id);
+            this.resetForm(prevPost);
         }
     }
 
-    resetForm(id) {
+    resetForm(prevPost) {
         this.setState(Object.assign(this.initState(),
-            {showMessage: true, prevPostId: id}
+            {showMessage: true, prevPost}
         ));
     }
 
@@ -122,13 +129,13 @@ class FormPostCreate extends Component {
     }
 
     render() {
-        let {post, touched, showMessage, prevPostId} = this.state,
+        let {post, touched, showMessage, prevPost} = this.state,
             {id, title, author, timestamp, category, body, voteScore, deleted} = post,
             errors = this.validate();
         const {message} = this.props,
               successHeading = message.success[0],
               successText = message.success[1],
-              newPostLink = `/post/${prevPostId}`;
+              newPostLink = `/${prevPost.cat}/${prevPost.id}`;
 
         return (
             <div className="view-post-create">

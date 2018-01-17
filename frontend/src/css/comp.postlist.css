@@ -48,17 +48,27 @@
     position: relative;
 }
 
+.post-listing .post-meta {
+    font-size: 0.75rem;
+    color: #999;
+}
+
 .post-listing .post-meta,
 .post-listing .post-list-actions {
-    font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.125;
-    color: #999;
+}
+
+.post-listing .post-meta,
+.post-listing .post-list-actions,
+.post-listing .action-link {
     transition: color 0.4s ease-out;
 }
 
 .post-link:hover .post-meta,
-.post-link:focus .post-meta {
+.post-link:focus .post-meta,
+.post-link:hover ~ .post-list-actions .action-link,
+.post-link:focus ~ .post-list-actions .action-link {
     color: #666;
 }
 
@@ -79,11 +89,27 @@
     display: inline-block;
     position: absolute;
     text-align: right;
-    top: 10px;
+    top: 9px;
     right: 10px;
+    color: #ddd;
 }
 
-.post-list-actions .action-link { display: block; }
+.post-list .action-link {
+    display: inline-block;
+    font-size: 1.125rem;
+    padding: 1px 2px 4px;
+    text-align: center;
+    color: #ddd;
+}
+
+.post-listing .action-link + .action-link {
+    margin-left: 8px;
+}
+
+.post-listing .action-link:hover,
+.post-listing .action-link:focus {
+    color: #2ba6cb;
+}
 
 @media (min-width: 720px) {
     .post-listing .post-title { font-size: 1.25rem; padding-right: 0; }

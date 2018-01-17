@@ -156,7 +156,7 @@ class FormPostEdit extends Component {
                 {showMessage && <div className="callout message success">
                     <h3>{successHeading}</h3>
                     <p><strong>{title}</strong> <span>{successText}</span><br />
-                        <Link className="message-link" to={`/post/${id}`}>View post &raquo;</Link>
+                        <Link className="message-link" to={`/${category}/${id}`}>View post &raquo;</Link>
                         <Link className="message-link" to="/posts/">View post in listing &raquo;</Link>
                     </p>
                 </div>}

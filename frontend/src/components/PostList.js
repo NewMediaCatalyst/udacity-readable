@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-
+import EditIcon from 'react-icons/lib/fa/edit';
+import RemoveIcon from 'react-icons/lib/fa/close';
 
 // app
 import '../css/comp.postlist.css';
@@ -99,16 +100,25 @@ class PostList extends Component {
                         <span className="post-comments"><strong>Comments: </strong>{commentCount}</span>
                     </p>
                     </Link>
-                    <p className="post-list-actions"><span className="post-actions"><strong>Actions: </strong></span>
+                    <p className="post-list-actions">
+                        <span className="post-actions">
+                            <strong className="text show-for-sr">Post actions: </strong>
+                        </span>
                         <Link id={id}
                             onClick={this.handleDelete}
                             className="post-link-delete action-link"
                             to="/posts/"
-                            >Delete post &raquo;</Link>
+                        >
+                            <RemoveIcon title="Remove post" className="icon" />
+                            <span className="text show-for-sr">Delete post &raquo;</span>
+                        </Link>
                         <Link
                             className="post-link-edit action-link"
                             to={`/post/edit/${id}`}
-                            >Edit post &raquo;</Link>
+                        >
+                            <EditIcon title="Edit post" className="icon" />
+                            <span className="text show-for-sr">Edit post &raquo;</span>
+                        </Link>
                     </p>
                 </li>
                 }
