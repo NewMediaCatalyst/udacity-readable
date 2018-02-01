@@ -16,11 +16,7 @@ class FormCommentCreate extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = this.initState();
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     initState() {
@@ -105,7 +101,7 @@ class FormCommentCreate extends Component {
         return (
             <div id="comment-create" className="view-comment-create">
                 <h3>Want to comment?</h3>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={(ev) => this.handleSubmit(ev)}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="comment-details">
                             <fieldset>
@@ -140,8 +136,8 @@ class FormCommentCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-author">
                                         <label htmlFor="comment-author">Author:</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             id="comment-author"
                                             name="author"
                                             type="text"
@@ -153,8 +149,8 @@ class FormCommentCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-body">
                                         <label htmlFor="comment-body">Body:</label>
                                         <textarea
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             id="comment-body"
                                             name="body"
                                             value={body}

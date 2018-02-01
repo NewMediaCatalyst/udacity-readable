@@ -17,11 +17,6 @@ import {apiFetch} from '../utils/api';
 
 class CommentList extends Component {
 
-    constructor(props){
-        super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-
     static propTypes = {
         posts: PropTypes.object.isRequired,
         comments: PropTypes.object.isRequired
@@ -88,14 +83,14 @@ class CommentList extends Component {
                         <Col width={{sm:12, md:6, lg:4}} className="comment-edit">
                             <p><strong>Actions: </strong>
                                 <Link
-                                    className="comment-delete-link action-link"
-                                    onClick={this.handleDelete}
-                                    id={id}
                                     to="#"
+                                    id={id}
+                                    className="comment-delete-link action-link"
+                                    onClick={(ev) => this.handleDelete(ev)}
                                     >Delete comment &raquo;</Link>
                                 <Link
-                                    className="comment-edit-link action-link"
                                     to={`/comment/edit/${id}`}
+                                    className="comment-edit-link action-link"
                                     >Edit comment &raquo;</Link>
                             </p>
                         </Col>

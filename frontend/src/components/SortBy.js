@@ -16,7 +16,6 @@ class SortBy extends Component {
 
     constructor(props) {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
         this.state = {
             sortMethod: this.props.posts.sortMethod
         }
@@ -78,11 +77,14 @@ class SortBy extends Component {
         return (
             <div className="sort-by">
                 <label htmlFor="sort-posts-by">Sort by:</label>
-                <select id="sort-posts-by" onChange={this.handleChange} value={sortMethod}>
+                <select
+                    id="sort-posts-by"
+                    onChange={(ev) => this.handleChange(ev)}
+                    value={sortMethod}
+                >
                     {sortOpts.map((opt) => (
                         <option key={opt.value} value={opt.value}>{opt.name}</option>
-                        )
-                    )}
+                    ))}
                 </select>
             </div>
         );

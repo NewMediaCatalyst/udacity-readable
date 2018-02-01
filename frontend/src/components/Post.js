@@ -17,11 +17,6 @@ import {getPost, deletePost} from '../actions/posts';
 
 class Post extends Component {
 
-    constructor(props) {
-        super(props);
-        this.handleDelete = this.handleDelete.bind(this);
-    }
-
     static propTypes = {
         posts: PropTypes.object.isRequired,
         meta: PropTypes.object.isRequired
@@ -110,7 +105,7 @@ class Post extends Component {
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
                         <p>
                             <strong>Actions: </strong>
-                            <Link onClick={this.handleDelete} className="post-link-delete action-link" to="/posts/">Delete post &raquo;</Link>
+                            <Link onClick={(ev) => this.handleDelete(ev)} className="post-link-delete action-link" to="/posts/">Delete post &raquo;</Link>
                             <Link className="post-link-edit action-link" to={`/post/edit/${postId}`}>Edit post &raquo;</Link>
                         </p>
                     </Col>
@@ -134,8 +129,6 @@ class Post extends Component {
             {all} = this.props.posts,
             {match} = this.props.meta, {id} = match;
         let urlId = window.location.pathname.substr(postURL.length-1);
-
-        console.log("Post :: render() :: id: ", id, "; urlId: ", urlId);
 
         if (!id || _.isEmpty(all)) {
             return this.renderEmpty()

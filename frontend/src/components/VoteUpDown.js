@@ -25,9 +25,6 @@ class VoteUpDown extends Component {
             ctrlID: uuidV4().slice(0,8),
             score: this.props.score
         }
-
-        this.handleUpVote = this.handleUpVote.bind(this);
-        this.handleDownVote = this.handleDownVote.bind(this);
     }
 
     static propTypes = {
@@ -95,7 +92,7 @@ class VoteUpDown extends Component {
         return (
             <Row className={ctnrClasses}>
                 <button
-                    onClick={this.handleUpVote}
+                    onClick={(ev) => this.handleUpVote(ev)}
                     className="button-icon button-vote-up"
                     title={titleUp}
                     type="button"
@@ -105,7 +102,7 @@ class VoteUpDown extends Component {
                     <span className="show-for-sr">{buttonSRTextUp}</span>
                 </button>
                 <button
-                    onClick={this.handleDownVote}
+                    onClick={(ev) => this.handleDownVote(ev)}
                     className="button-icon button-vote-down"
                     title={titleDown}
                     type="button"

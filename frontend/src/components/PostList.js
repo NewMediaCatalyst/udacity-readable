@@ -23,8 +23,6 @@ class PostList extends Component {
 
     constructor(props) {
         super(props);
-
-        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             hasFiltered: false,
             hasPosts: false
@@ -104,10 +102,11 @@ class PostList extends Component {
                         <span className="post-actions">
                             <strong className="text show-for-sr">Post actions: </strong>
                         </span>
-                        <Link id={id}
-                            onClick={this.handleDelete}
-                            className="post-link-delete action-link"
+                        <Link
+                            id={id}
                             to="/posts/"
+                            className="post-link-delete action-link"
+                            onClick={(ev) => this.handleDelete(ev)}
                         >
                             <RemoveIcon title="Remove post" className="icon" />
                             <span className="text show-for-sr">Delete post &raquo;</span>

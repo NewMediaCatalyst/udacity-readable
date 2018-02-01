@@ -18,11 +18,6 @@ class FormCommentEdit extends Component {
 
     constructor(props) {
         super(props);
-        this.handleCloseMessage = this.handleCloseMessage.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-
         this.state = {
             comment: new Comment(),
             touched: {
@@ -124,7 +119,7 @@ class FormCommentEdit extends Component {
         if (!this.isInvalidForm(this.validate())) {
             updateComment(comment, id);
             this.setState({ showMessage: true });
-            this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
+            this.closeTimer = setTimeout(() => this.handleCloseMessage(), 9000);
         }
     }
 
@@ -167,7 +162,7 @@ class FormCommentEdit extends Component {
                         >View updated comment &raquo;</Link>
                     </p>
                 </div>}
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={(ev) => this.handleSubmit(ev)}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="comment-details">
                             <fieldset>
@@ -193,8 +188,8 @@ class FormCommentEdit extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-score">
                                         <label htmlFor="comment-score">Comment Score:</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={(touched.voteScore && errors.voteScore) ? 'is-invalid-input' : null}
                                             name="voteScore"
                                             value={voteScore}
@@ -207,7 +202,7 @@ class FormCommentEdit extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-deleted">
                                         <label htmlFor="comment-deleted">Comment Active:</label>
                                         <input
-                                            onChange={this.handleChange}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             name="deleted"
                                             checked={deleted}
                                             id="comment-deleted"
@@ -228,8 +223,8 @@ class FormCommentEdit extends Component {
                                     <Col width={{sm:12,md:6,lg:8}} className="comment-author">
                                         <label htmlFor="comment-author">Author Name</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={(touched.author && errors.author) ? 'is-invalid-input' : null}
                                             name="author"
                                             value={author}
@@ -241,8 +236,8 @@ class FormCommentEdit extends Component {
                                     <Col width={{sm:12, lg:12}} className="comment-body">
                                         <label htmlFor="comment-body">Body</label>
                                         <textarea
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={(touched.body && errors.body) ? 'is-invalid-input' : null}
                                             name="body"
                                             value={body}

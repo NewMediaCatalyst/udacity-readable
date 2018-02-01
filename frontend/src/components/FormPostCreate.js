@@ -19,12 +19,7 @@ class FormPostCreate extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = this.initState();
-        this.handleCloseMessage = this.handleCloseMessage.bind(this);
-        this.handleBlur = this.handleBlur.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     initState() {
@@ -99,7 +94,7 @@ class FormPostCreate extends Component {
 
         if (this.isInvalidForm(this.validateForm)) {
             addPost(post);
-            this.closeTimer = setTimeout(this.handleCloseMessage, 9000);
+            this.closeTimer = setTimeout(() => this.handleCloseMessage(), 9000);
             this.resetForm(prevPost);
         }
     }
@@ -147,7 +142,7 @@ class FormPostCreate extends Component {
                         <Link className="message-link" to="/posts/">View post in listing &raquo;</Link>
                     </p>
                 </div>}
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={(ev) => this.handleSubmit(ev)}>
                     <Row margin={true}>
                         <Col width={{sm:12, md:3, lg:4}} className="post-details">
                             <fieldset>
@@ -166,8 +161,8 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="post-deleted">
                                         <label htmlFor="post-score">Post Score:</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={touched.voteScore && errors.voteScore ? 'is-invalid-input': null}
                                             name="voteScore"
                                             value={voteScore}
@@ -180,7 +175,7 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="post-deleted">
                                         <label>Post Active:</label>
                                         <input
-                                            onChange={this.handleChange}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             name="deleted"
                                             checked={deleted}
                                             id="post-deleted"
@@ -198,8 +193,8 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12,md:6,lg:8}} className="post-author">
                                         <label htmlFor="post-author">Author Name</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={touched.author && errors.author ? 'is-invalid-input' : null}
                                             value={author}
                                             id="post-author"
@@ -211,8 +206,8 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12,md:6,lg:4}} className="post-title">
                                         <label htmlFor="post-cat">Category</label>
                                         <select
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={touched.category && errors.category ? 'is-invalid-input' : null}
                                             value={category}
                                             id="post-cat"
@@ -228,8 +223,8 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12,md:12,lg:12}} className="post-title">
                                         <label htmlFor="post-title">Title</label>
                                         <input
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={touched.title && errors.title ? 'is-invalid-input' : null}
                                             value={title}
                                             id="post-title"
@@ -241,8 +236,8 @@ class FormPostCreate extends Component {
                                     <Col width={{sm:12, lg:12}} className="post-body">
                                         <label htmlFor="post-body">Body</label>
                                         <textarea
-                                            onBlur={this.handleBlur}
-                                            onChange={this.handleChange}
+                                            onBlur={(ev) => this.handleBlur(ev)}
+                                            onChange={(ev) => this.handleChange(ev)}
                                             className={touched.body && errors.body ? 'is-invalid-input' : null}
                                             value={body}
                                             id="post-body"
