@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import _ from 'lodash';
+import EditIcon from 'react-icons/lib/fa/edit';
+import RemoveIcon from 'react-icons/lib/fa/close';
 
 // app
 import '../css/comp.commentlist.css';
@@ -81,17 +83,23 @@ class CommentList extends Component {
                             <span className="text">{id}</span>
                         </Col>
                         <Col width={{sm:12, md:6, lg:4}} className="comment-edit">
-                            <p><strong>Actions: </strong>
+                            <p><strong className="action-label">Comment actions: </strong>
                                 <Link
                                     to="#"
                                     id={id}
                                     className="comment-delete-link action-link"
                                     onClick={(ev) => this.handleDelete(ev)}
-                                    >Delete comment &raquo;</Link>
+                                >
+                                    <RemoveIcon title="Delete comment" className="icon" />
+                                    <span className="text">Delete</span>
+                                </Link>
                                 <Link
                                     to={`/comment/edit/${id}`}
                                     className="comment-edit-link action-link"
-                                    >Edit comment &raquo;</Link>
+                                >
+                                    <EditIcon title="Edit comment" className="icon" />
+                                    <span className="text">Edit</span>
+                                </Link>
                             </p>
                         </Col>
                     </Row>

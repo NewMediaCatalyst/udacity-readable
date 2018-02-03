@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import _ from 'lodash';
+import EditIcon from 'react-icons/lib/fa/edit';
+import RemoveIcon from 'react-icons/lib/fa/close';
 
 // app
 import Row from './GridRow';
@@ -49,11 +51,11 @@ class Post extends Component {
         }
     }
 
-    handleDelete(e) {
-        e.preventDefault();
+    handleDelete(ev) {
+        ev.preventDefault();
         const {deletePost, meta} = this.props, {id} = meta.match;
         deletePost(id);
-        window.location.href = e.target.getAttribute("href");
+        window.location.href = "/posts/";
     }
 
     renderPost(id, all) {
@@ -104,9 +106,22 @@ class Post extends Component {
                     </Col>
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
                         <p>
-                            <strong>Actions: </strong>
-                            <Link onClick={(ev) => this.handleDelete(ev)} className="post-link-delete action-link" to="/posts/">Delete post &raquo;</Link>
-                            <Link className="post-link-edit action-link" to={`/post/edit/${postId}`}>Edit post &raquo;</Link>
+                            <strong className="action-label">Post actions: </strong>
+                            <Link
+                                onClick={(ev) => this.handleDelete(ev)}
+                                className="post-link-delete action-link"
+                                to="/posts/"
+                            >
+                                <RemoveIcon title="Delete post" className="icon" />
+                                <span className="text">Delete</span>
+                            </Link>
+                            <Link
+                                className="post-link-edit action-link"
+                                to={`/post/edit/${postId}`}
+                            >
+                                <EditIcon title="Edit post" className="icon" />
+                                <span className="text">Edit</span>
+                            </Link>
                         </p>
                     </Col>
                 </Row>
@@ -131,7 +146,7 @@ class Post extends Component {
         let urlId = window.location.pathname.substr(postURL.length-1);
 
         if (!id || _.isEmpty(all)) {
-            return this.renderEmpty()
+            return this.renderEmpty();
         } else if ((id === undefined && urlId.length > 0) || id !== urlId) {
             return this.renderPost(urlId, all);
         } else {

@@ -65,9 +65,13 @@
 
 .post-header { align-items: flex-end; }
 
+.action-label { display: block; }
+
 .action-link { display: inline-block; }
 
 .action-link:hover { text-decoration: underline; }
+
+.action-link .icon + .text { padding-left: 6px; }
 
 .view-post .action-link,
 .view-comment-create .action-link { margin-left: 5px; }

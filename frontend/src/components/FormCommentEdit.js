@@ -174,11 +174,12 @@ class FormCommentEdit extends Component {
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-id">
                                         <label>Parent Post ID:</label>
+                                        <span className="input-text text-uuid">{parentId}</span>
                                         <Link
                                             to={`/post/${parentId}`}
                                             title={`View post (${parentId})`}
                                             className="input-text text-uuid"
-                                        >View post</Link>
+                                        >View post &raquo;</Link>
                                         <input name="parentId" type="hidden" value={parentId} />
                                     </Col>
                                     <Col width={{sm:12, lg:12}} className="comment-date">
