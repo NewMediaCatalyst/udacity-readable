@@ -5,6 +5,7 @@ import {Link} from 'react-router-dom';
 
 
 // app
+import {setCategory} from '../actions/categories';
 import logo from '../img/logo.svg';
 import Row from './GridRow';
 import AppNav from './AppNav';
@@ -12,13 +13,23 @@ import AppNav from './AppNav';
 
 class AppHeader extends Component {
 
+    handleClick(ev) {
+        const {setCategory, category} = this.props;
+        return (category !== "all") ? setCategory("all") : null;
+    }
+
     render() {
         const {categories} = this.props, links = categories.categories;
 
         return (
             <header className="app-header" role="banner">
                 <Row margin={true}>
-                    <Link className="app-logo-link" to="/" title="Token Talk homepage">
+                    <Link
+                        onClick={(ev) => this.handleClick(ev)}
+                        className="app-logo-link"
+                        to="/"
+                        title="Token Talk homepage"
+                    >
                         <img src={logo} className="app-logo" alt="logo" />
                         <h1 className="app-title">Token Talk</h1>
                     </Link>
@@ -31,9 +42,16 @@ class AppHeader extends Component {
 
 function mapStateToProps(state, props) {
     return {
-        categories: state.categories
+        categories: state.categories,
+        category: state.category
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        setCategory: (category) => dispatch(setCategory(category))
     };
 }
 
 
-export default connect(mapStateToProps)(AppHeader);
+export default connect(mapStateToProps, mapDispatchToProps)(AppHeader);

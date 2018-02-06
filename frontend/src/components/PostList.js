@@ -12,7 +12,6 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import DateTime from './DateTime';
 // app: actions
-import {setCategory} from '../actions/categories';
 import {deletePost, showAllPosts, filterPostsByCat, getPostsAll} from '../actions/posts';
 // app: api calls
 import {apiFetch} from '../utils/api';
@@ -55,8 +54,8 @@ class PostList extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        const {category, posts, showAllPosts, setCategory, filterPostsByCat} = this.props,
-              nextCategory = nextProps.category, nextPosts = nextProps.posts;
+        const {category, posts, showAllPosts, filterPostsByCat} = this.props,
+            {category: nextCategory, posts: nextPosts} = nextProps;
         let {hasFiltered} = this.state;
 
         if ((posts && posts.length > 0) || (nextPosts && nextPosts.length > 0)) {
@@ -64,12 +63,9 @@ class PostList extends Component {
         }
 
         if (!hasFiltered) {
-            setCategory(nextCategory);
             nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
             this.setState({ hasFiltered: true });
-
         } else if (category !== nextCategory) {
-            setCategory(nextCategory);
             nextCategory === "all" ? showAllPosts() : filterPostsByCat(nextCategory);
         }
 
@@ -158,7 +154,6 @@ function mapDispatchToProps(dispatch) {
     return {
         deletePost: (id) => apiFetch({action: "post", type: "delete", body: { id }})
             .then((post) => dispatch(deletePost(post))),
-        setCategory: (category) => dispatch(setCategory(category)),
         showPost: (id) => dispatch(showAllPosts(id)),
         showAllPosts: () => dispatch(showAllPosts()),
         filterPostsByCat: (category) => dispatch(filterPostsByCat(category)),

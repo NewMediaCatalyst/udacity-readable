@@ -80,9 +80,7 @@ class PagePost extends Component {
 
 
     render() {
-        const {meta} = this.props;
         let {action} = this.state;
-        console.log("Post :: render() :: action: ", action, "; meta: ", meta);
 
         switch (action) {
             case "edit": return this.renderEdit();

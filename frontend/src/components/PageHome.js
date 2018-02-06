@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
 // app
 import '../css/app.css';
@@ -13,7 +12,6 @@ import Row from './GridRow';
 import Col from './GridColumn';
 import {setCategoryTitle} from '../utils/helpers';
 // app: actions
-import {setCategory} from '../actions/categories';
 import {setPageTitle} from '../actions/meta';
 
 
@@ -27,19 +25,10 @@ class PageHome extends Component {
     }
 
     static defaultProps = {
-
         category: "all",
         categories: {},
         posts: {},
         match: { params: undefined }
-    }
-
-    componentDidMount() {
-        const {match, category, setCategory} = this.props;
-
-        // required for setting initial navigation and settings
-        (!_.isUndefined(match.params) && !_.isUndefined(match.params.category))
-            ? setCategory(match.params.category) : setCategory(category);
     }
 
     shouldComponentUpdate(nextProps, next) {
@@ -66,9 +55,15 @@ class PageHome extends Component {
             <main className="app-content" role="main">
                 <header>
                     <Row>
-                        <Col width={{sm:12}}><h1>{hdrTitle}</h1></Col>
-                        <Col width={{sm:12, md:6, lg:7}} className="hdr-filter"><FilterBy /></Col>
-                        <Col width={{sm:12, md:6, lg:5}} className="hdr-sort"><SortBy /></Col>
+                        <Col width={{sm:12}}>
+                            <h1>{hdrTitle}</h1>
+                        </Col>
+                        <Col width={{sm:12, md:6, lg:7}} className="hdr-filter">
+                            <FilterBy />
+                        </Col>
+                        <Col width={{sm:12, md:6, lg:5}} className="hdr-sort">
+                            <SortBy />
+                        </Col>
                     </Row>
                 </header>
                 <PostList />
@@ -89,7 +84,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        setCategory: (category) => dispatch(setCategory(category)),
         setPageTitle: (title) => dispatch(setPageTitle(title))
     }
 }

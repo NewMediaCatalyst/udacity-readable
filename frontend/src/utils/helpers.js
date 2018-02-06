@@ -25,9 +25,9 @@ export function postCheck(posts, matchId) {
 }
 
 export function setCategoryTitle(categories, category) {
-    let catTitle = " posts", baseTitle = "Welcome", catObj;
+    let catTitle = " posts", baseTitle = "Welcome", catObj, nonTickerCat = ["all", "create"];
 
-    if (!_.isUndefined(categories.categories) && category !== "all") {
+    if (!_.isUndefined(categories.categories) && !nonTickerCat.some(item => item !== nonTickerCat)) {
         catObj = Object.values(categories.categories).filter(item => item.ticker === category)[0];
         return (!_.isUndefined(catObj.name))
             ? capitalize(catObj.name) + catTitle

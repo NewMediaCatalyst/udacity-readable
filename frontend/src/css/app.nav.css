@@ -36,7 +36,8 @@
 }
 
 .app-nav a:hover,
-.app-nav a:focus {
+.app-nav a:focus,
+.app-nav .selected {
     border-color: #959595;
 }
 

@@ -31,19 +31,11 @@ class FilterBy extends Component {
         categories: []
     }
 
-    handleClick = (e) => {
-        const {setCategory, filterPostsByCat, showAllPosts, setSortMethod, sortMethod, category} = this.props;
-        let filter = e.target.getAttribute('filter');
-        if (filter !== category) {
-            setCategory(filter);
-
-            if (filter === "all") {
-                showAllPosts(filter);
-                setSortMethod(sortMethod);
-            } else {
-                filterPostsByCat(filter);
-            }
-        }
+    handleClick(ev) {
+        const {setCategory, setSortMethod, sortMethod, category} = this.props;
+        let filter = ev.target.getAttribute('filter');
+        if (filter !== category) { setCategory(filter); }
+        if (filter === "all") { setSortMethod(sortMethod); }
     }
 
     render() {
@@ -62,7 +54,7 @@ class FilterBy extends Component {
                         <Link
                             to={base.path}
                             className={baseLinkClasses}
-                            onClick={this.handleClick}
+                            onClick={(ev) => this.handleClick(ev)}
                             filter={base.slug}
                             title="Remove filters. Show all posts"
                         >{base.name}</Link>
@@ -77,7 +69,7 @@ class FilterBy extends Component {
                             <Link
                                 to={path}
                                 className={linkClasses}
-                                onClick={this.handleClick}
+                                onClick={(ev) => this.handleClick(ev)}
                                 filter={ticker}
                                 title={`Filter by ${capitalize(name)}`}
                             >{`${ticker.toUpperCase()}`}</Link>
