@@ -30,7 +30,8 @@ class AppNav extends Component {
     }
 
     render() {
-        let {links, category} = this.props;
+        let {category, categories} = this.props,
+            {all: categoryLinks, hasLoaded } = categories;
 
         return ( // eslint-disable-next-line
             <nav className="app-nav" role="navigation">
@@ -47,7 +48,7 @@ class AppNav extends Component {
                             <span className="text show-for-sr">Home</span>
                         </Link>
                     </li>
-                    {(links.length > 0) && links.map((link) => {
+                    {(hasLoaded) && categoryLinks.map((link) => {
                         const {ticker, name, path, slug} = link;
                         return <li key={`nav-${slug}`} className={`nav-${slug}`}>
                             <Link
@@ -82,6 +83,7 @@ class AppNav extends Component {
 
 function mapStateToProps(state, props) {
     return {
+        categories: state.categories,
         category: state.category
     };
 }

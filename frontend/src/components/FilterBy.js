@@ -40,11 +40,11 @@ class FilterBy extends Component {
 
     render() {
         const {categories, base, category} = this.props;
-        let links = categories.categories,
+        let {all: categoryLinks, hasLoaded} = categories,
             baseLinkClasses = classnames({
                 'filter-link': true,
                 'active': (category === base.slug ? 'active' : null)
-            })
+            });
 
         return ( // eslint-disable-next-line
             <nav className="filter-by" role="navigation">
@@ -59,7 +59,7 @@ class FilterBy extends Component {
                             title="Remove filters. Show all posts"
                         >{base.name}</Link>
                     </li>
-                    {(links !== undefined && links.length > 0) && links.map((link) => {
+                    {(hasLoaded) && categoryLinks.map((link) => {
                         const {ticker, name, path, slug} = link;
                         let linkClasses = classnames({
                             'filter-link': true,

@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 // app
@@ -14,8 +13,6 @@ import PageCommentForm from './PageCommentForm';
 // app: actions
 import {getCategories} from '../actions/categories';
 import {setPageTitle} from '../actions/meta';
-// app: api calls
-import {apiGetCatAll} from '../utils/api-category';
 // app: styles
 import '../css/foundation.min.css';
 import '../css/app.base.css';
@@ -30,21 +27,16 @@ class App extends Component {
         this.state = { isTop: true };
     }
 
-    static propTypes = {
-        categories: PropTypes.object.isRequired
-    }
-
     static defaultProps = {
         title: {
             app: "Token Talk",
             sep: " | ",
             page: "Welcome",
-        },
-        categories: {}
+        }
     }
 
     componentDidMount() {
-        const {title, setPageTitle, getCategories, categories} = this.props,
+        const {title, setPageTitle, getCategories} = this.props,
             {app, sep, page} = title;
 
         document.addEventListener('scroll', () => {
@@ -54,7 +46,7 @@ class App extends Component {
 
         setPageTitle(title);
         document.title = page + sep + app;  // set <title>
-        getCategories(categories);
+        getCategories();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -102,8 +94,7 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getCategories: (categories) => apiGetCatAll()
-            .then((categories) => (dispatch(getCategories(categories)))),
+        getCategories: () => (dispatch(getCategories())),
         setPageTitle: (title) => (dispatch(setPageTitle(title)))
     };
 }

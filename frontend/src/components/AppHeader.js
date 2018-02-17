@@ -19,7 +19,6 @@ class AppHeader extends Component {
     }
 
     render() {
-        const {categories} = this.props, links = categories.categories;
 
         return (
             <header className="app-header" role="banner">
@@ -33,7 +32,7 @@ class AppHeader extends Component {
                         <img src={logo} className="app-logo" alt="logo" />
                         <h1 className="app-title">Token Talk</h1>
                     </Link>
-                    <AppNav links={links} />
+                    <AppNav />
                 </Row>
             </header>
         );
