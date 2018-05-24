@@ -45,8 +45,5 @@
     .comment-list .comment-score { order: 3; }
     .comment-list .comment-author { order: 1; }
     .comment-list .comment-date { order: 2; }
-}
-
-@media screen and (min-width: 64em) {
     .comment-list .comment-edit { text-align: right; }
 }
