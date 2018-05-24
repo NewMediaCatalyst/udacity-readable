@@ -14,7 +14,7 @@ import PageCommentForm from './PageCommentForm';
 import {getCategories} from '../actions/categories';
 import {setPageTitle} from '../actions/meta';
 // app: styles
-import '../css/foundation.min.css';
+import '../css/foundation.css';
 import '../css/app.base.css';
 import '../css/app.css';
 import '../css/app.views.css';

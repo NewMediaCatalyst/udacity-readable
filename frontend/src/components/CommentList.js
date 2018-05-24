@@ -1,5 +1,5 @@
 // libs
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -57,56 +57,61 @@ class CommentList extends Component {
     renderComments() {
         const {display, all} = this.props.comments;
 
-        return <ol className="comment-list">
-            {display.map((cId) => {
-                let {id, author, timestamp, voteScore, body} = all[cId];
-                return <li className="list-item" key={id}>
-                    <Row className="comment-header">
-                        <Col width={{sm:8, md:5}} className="comment-author">
-                            <strong>By: </strong>
-                            <span className="text">{author}</span>
-                        </Col>
-                        <Col width={{sm:8, md:4}} className="comment-date">
-                            <strong>posted: </strong>
-                            <DateTime date={timestamp} />
-                        </Col>
-                        <Col width={{sm:4, md:3}} className="comment-score">
-                            <VoteUpDown id={id} size="sm" type="comment" score={voteScore} />
-                        </Col>
-                    </Row>
-                    <Row className="comment-content">
-                        <Col width={{sm:12}} className="comment-body">{body}</Col>
-                    </Row>
-                    <Row className="comment-footer">
-                        <Col width={{sm:12, md:6, lg:8}} className="comment-id">
-                            <strong>Comment ID: </strong>
-                            <span className="text">{id}</span>
-                        </Col>
-                        <Col width={{sm:12, md:6, lg:4}} className="comment-edit">
-                            <p><strong className="action-label">Comment actions: </strong>
-                                <Link
-                                    to="#"
-                                    id={id}
-                                    className="comment-delete-link action-link"
-                                    onClick={(ev) => this.handleDelete(ev)}
-                                >
-                                    <RemoveIcon title="Delete comment" className="icon" />
-                                    <span className="text">Delete</span>
-                                </Link>
-                                <Link
-                                    to={`/comment/edit/${id}`}
-                                    className="comment-edit-link action-link"
-                                >
-                                    <EditIcon title="Edit comment" className="icon" />
-                                    <span className="text">Edit</span>
-                                </Link>
-                            </p>
-                        </Col>
-                    </Row>
-                </li>
-            })
-        }
-        </ol>
+        return (
+            <Fragment>
+                <h2 id="comment-listing" className="comment-listing-title">User Comments</h2>
+                <ol className="comment-list">
+                    {display.map((cId) => {
+                        let {id, author, timestamp, voteScore, body} = all[cId];
+                        return <li className="list-item" key={id}>
+                            <Row className="comment-header">
+                                <Col width={{sm:8, md:5}} className="comment-author">
+                                    <strong>By: </strong>
+                                    <span className="text">{author}</span>
+                                </Col>
+                                <Col width={{sm:8, md:4}} className="comment-date">
+                                    <strong>posted: </strong>
+                                    <DateTime date={timestamp} />
+                                </Col>
+                                <Col width={{sm:4, md:3}} className="comment-score">
+                                    <VoteUpDown id={id} size="sm" type="comment" score={voteScore} />
+                                </Col>
+                            </Row>
+                            <Row className="comment-content">
+                                <Col width={{sm:12}} className="comment-body">{body}</Col>
+                            </Row>
+                            <Row className="comment-footer">
+                                <Col width={{sm:12, md:6, lg:8}} className="comment-id">
+                                    <strong>Comment ID: </strong>
+                                    <span className="text">{id}</span>
+                                </Col>
+                                <Col width={{sm:12, md:6, lg:4}} className="comment-edit">
+                                    <p><strong className="action-label">Comment actions: </strong>
+                                        <Link
+                                            to="#"
+                                            id={id}
+                                            className="comment-delete-link action-link"
+                                            onClick={(ev) => this.handleDelete(ev)}
+                                        >
+                                            <RemoveIcon title="Delete comment" className="icon" />
+                                            <span className="text">Delete</span>
+                                        </Link>
+                                        <Link
+                                            to={`/comment/edit/${id}`}
+                                            className="comment-edit-link action-link"
+                                        >
+                                            <EditIcon title="Edit comment" className="icon" />
+                                            <span className="text">Edit</span>
+                                        </Link>
+                                    </p>
+                                </Col>
+                            </Row>
+                        </li>
+                    })
+                }
+                </ol>
+            </Fragment>
+        );
     }
 
     renderNoResults() {
@@ -123,7 +128,10 @@ class CommentList extends Component {
         return (
             <Row className="comment-listing">
                 <Col width={{sm:12}}>
-                    {(display.length > 0) ? this.renderComments() : this.renderNoResults()}
+                    {(display.length > 0)
+                        ? this.renderComments()
+                        : this.renderNoResults()
+                    }
                 </Col>
             </Row>
         );

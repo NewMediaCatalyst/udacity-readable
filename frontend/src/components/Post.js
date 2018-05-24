@@ -68,9 +68,16 @@ class Post extends Component {
                         <h1 className="post-title">
                             <span className="text">{title}</span>
                         </h1>
-                        {commentCount > 0 &&
-                            <p className="post-title-comments">{`${commentCount} comments`}</p>
-                        }
+                        <p className="post-title-comments">
+                            {commentCount > 0 &&
+                                <a
+                                    href="#comment-listing"
+                                    title={`View ${commentCount} comments`}
+                                >{`${commentCount} comments`}</a>
+                            }
+                            <a href="#comment-create">Want to comment?</a>
+                            <a href="#post-edit-links" title="Click to edit or delete this post?">Edit or delete article?</a>
+                        </p>
                     </Col>
                     <Col width={{sm:12, md:12, lg:8}} className="post-author">
                         <p>
@@ -105,7 +112,7 @@ class Post extends Component {
                         </p>
                     </Col>
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
-                        <p>
+                        <p id="post-edit-links" className="post-edit-links">
                             <strong className="action-label">Post actions: </strong>
                             <Link
                                 onClick={(ev) => this.handleDelete(ev)}
