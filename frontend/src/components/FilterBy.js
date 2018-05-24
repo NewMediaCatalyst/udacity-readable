@@ -24,7 +24,7 @@ class FilterBy extends Component {
         sortMethod: "voteScoreDesc",
         base: {
             name: 'All',
-            path: '/posts/',
+            path: '/',
             slug: 'all'
         },
         category: 'all',

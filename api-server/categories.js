@@ -7,25 +7,25 @@ const defaultData = {
   categories: [
       {
         name: 'bitcoin',
-        path: '/posts/btc',
+        path: '/btc',
         ticker: 'btc',
         slug: 'btc'
       },
       {
         name: 'ethereum',
-        path: '/posts/eth',
+        path: '/eth',
         ticker: 'eth',
         slug: 'eth'
       },
       {
         name: 'ripple',
-        path: '/posts/xrp',
+        path: '/xrp',
         ticker: 'xrp',
         slug: 'xrp'
       },
       {
         name: 'litecoin',
-        path: '/posts/ltc',
+        path: '/ltc',
         ticker: 'ltc',
         slug: 'ltc'
       }

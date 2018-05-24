@@ -71,8 +71,7 @@ class App extends Component {
                     <AppHeader />
                     <Switch>
                         <Route path="/" exact component={PageHome} />
-                        <Route path="/posts" exact component={PageHome} />
-                        <Route path="/posts/:category" exact component={PageHome} />
+                        <Route path="/:category" exact component={PageHome} />
                         <Route path="/post/create" exact component={PagePost} />
                         <Route path="/post/edit/:id" exact component={PagePost} />
                         <Route path="/:category/:id" exact component={PagePost} />
