@@ -42,6 +42,18 @@
     color: #888;
 }
 
+.comment-listing,
+.view-comment-create {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.post-404 + .comment-listing,
+.post-404 + .comment-listing + .view-comment-create {
+    opacity: 0;
+    pointer-events: none;
+}
+
 .comment-listing-title,
 .view-comment-create,
 .post-edit-links {

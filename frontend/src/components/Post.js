@@ -19,6 +19,14 @@ import {getPost, deletePost} from '../actions/posts';
 
 class Post extends Component {
 
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            post_404: false
+        }
+    }
+
     static propTypes = {
         posts: PropTypes.object.isRequired,
         meta: PropTypes.object.isRequired
@@ -41,14 +49,22 @@ class Post extends Component {
             {page: curTitle} = curMeta.title,
             {meta: nextMeta, posts} = nextProps,
             {id} = nextMeta.match,
-            {all} = posts,
-            nextTitle = all[id].title;
-        let postExists = (id && posts && all && typeof all[id] !== 'undefined');
+            {all} = posts;
+        let nextTitle, postExists;
 
-        if (id && !postExists) { getPost(id); }
-        if (id && postExists && curTitle !== nextTitle) {
-            setPageTitle({page: nextTitle});
+        // check for missing or deleted posts
+        postExists = (id && posts && all && typeof all[id] !== 'undefined');
+
+        if (postExists) {
+            getPost(id);
+
+            if (all[id].title) { nextTitle = all[id].title; }
+            if (nextTitle && curTitle !== nextTitle) { setPageTitle({page: nextTitle}); }
+
+        } else {
+            this.setState({post_404: true});
         }
+
     }
 
     handleDelete(ev) {
@@ -62,7 +78,7 @@ class Post extends Component {
         const {id: postId, title, author, timestamp, category, body, voteScore, commentCount} = all[id];
 
         return (
-            <article className="view-post">
+            <article>
                 <Row className="post-header">
                     <Col width={{sm:12}} className="post-title-col">
                         <h1 className="post-title">
@@ -96,7 +112,7 @@ class Post extends Component {
                     </Col>
                 </Row>
                 <Row margin={true} className="post-body">
-                    <Col width={{sm:12, lg:12}} className="post-body">{body}</Col>
+                    <Col width={{sm:12, lg:12}}>{body}</Col>
                 </Row>
                 <Row className="post-footer">
                     <Col width={{sm:12, md:6, lg:5}} className="post-id">
@@ -119,15 +135,15 @@ class Post extends Component {
                                 className="post-link-delete action-link"
                                 to="/posts/"
                             >
-                                <RemoveIcon title="Delete post" className="icon" />
-                                <span className="text">Delete</span>
+                                <RemoveIcon className="icon" />
+                                <span  title="Delete this post" className="text">Delete</span>
                             </Link>
                             <Link
                                 className="post-link-edit action-link"
                                 to={`/post/edit/${postId}`}
                             >
-                                <EditIcon title="Edit post" className="icon" />
-                                <span className="text">Edit</span>
+                                <EditIcon className="icon" />
+                                <span title="Edit this post" className="text">Edit</span>
                             </Link>
                         </p>
                     </Col>
@@ -137,11 +153,16 @@ class Post extends Component {
     }
 
     renderEmpty() {
+        let {post_404} = this.state,
+            articleClasses = (post_404) ? "post-404" : false;
         return (
-            <article className="view-post">
-                <h1 className="post-title">
-                    <span className="text">No post</span>
-                </h1>
+            <article className={articleClasses}>
+                <div className="post-body">
+                    <h1 className="post-title">
+                        <span className="text">404 Error</span>
+                    </h1>
+                    <p>No post exists. <a href="/">Home &raquo;</a></p>
+                </div>
             </article>
         );
     }
@@ -150,9 +171,10 @@ class Post extends Component {
         const {postURL} = this.props,
             {all} = this.props.posts,
             {match} = this.props.meta, {id} = match;
-        let urlId = window.location.pathname.substr(postURL.length-1);
+        let urlId = window.location.pathname.substr(postURL.length-1),
+            {post_404} = this.state;
 
-        if (!id || _.isEmpty(all)) {
+        if (post_404 || !id || _.isEmpty(all)) {
             return this.renderEmpty();
         } else if ((id === undefined && urlId.length > 0) || id !== urlId) {
             return this.renderPost(urlId, all);

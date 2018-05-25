@@ -56,7 +56,7 @@ class PagePost extends Component {
 
     renderEdit() {
         return (
-            <main className="app-content" role="main">
+            <main className="app-content view-post-edit" role="main">
                 <FormPostEdit />
             </main>
         );
@@ -64,7 +64,7 @@ class PagePost extends Component {
 
     renderCreate() {
         return (
-            <main className="app-content" role="main">
+            <main className="app-content view-post-create" role="main">
                 <FormPostCreate />
             </main>
         );
@@ -72,7 +72,7 @@ class PagePost extends Component {
 
     renderPost() {
         return (
-            <main className="app-content" role="main">
+            <main className="app-content view-post" role="main">
                 <Post /><CommentList /><FormCommentCreate />
             </main>
         );
