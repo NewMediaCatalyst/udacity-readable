@@ -11,6 +11,21 @@ few titles found on [CoinDesk.com](https://www.coindesk.com/).
 can post, edit or delete or up/down vote posts and comments. This code is intended as a learning project for
 the Nanodegree, *and not intended as a production-ready project*.
 
+## To Install, Setup and View Token Talk
+1. Git clone my 'udacity-readable' project from [my GitHub landing page](https://github.com/NewMediaCatalyst)
+    * `git clone https://github.com/NewMediaCatalyst/udacity-readable.git <cloned-project-name>`
+1. Open **two separate** command-line prompts
+1. First, at command prompt #1: (runs api-server)
+    * `cd <cloned-project-name>/api-server`
+    * `npm install`
+    * `npm start`
+1. Second, at command prompt #2: (runs frontend)
+    * `cd <cloned-project-name>/frontend`
+    * `npm install`
+    * `npm start`
+    * After a short pause, your browser should automically open
+        * or you can click this link to [load http://localhost:3000](http://localhost:3000)
+
 ## Project Sections
 
 * (a) **the API server** found in the '/api-server/' folder
@@ -32,20 +47,6 @@ the Nanodegree, *and not intended as a production-ready project*.
 * View categories (used for navigation)
 * Page title updates appropriately
 * Pages adjust to screen size (mobile-first, responsive)
-
-## To Install, Setup and View Token Talk
-* Git clone my 'udacity-readable' project from [my GitHub landing page](https://github.com/NewMediaCatalyst)
-* Then from **two separate** command-line prompts
-* First, at command prompt #1: (runs api-server)
-    * `cd <cloned-project-name>/api-server`
-    * `npm install`
-    * `node server`
-* Second, at command prompt #2: (runs frontend)
-    * `cd <cloned-project-name>/frontend`
-    * `npm install`
-    * `npm start`
-    * Your browser should automically open
-        * or you can click this link to [load http://localhost:3000](http://localhost:3000)
 
 ## Known Issues (work-in-progress):
 * After submitting an edit to a comment, clicking the link to navigate back to the post causes an error
