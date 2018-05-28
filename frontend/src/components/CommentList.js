@@ -29,10 +29,10 @@ class CommentList extends Component {
         comments: {}
     }
 
-    handleDelete(e) {
-        e.preventDefault();
+    handleDelete(ev) {
+        ev.preventDefault();
         const {deleteComment} = this.props;
-        deleteComment(e.target.id);
+        deleteComment(ev.target.id);
     }
 
     componentDidMount() {

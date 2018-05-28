@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 // Actions
 import {
-    GET_POST, VOTE_POST, ADD_POST,
+    SET_POST, VOTE_POST, ADD_POST,
     GET_POSTS_ALL, UPDATE_POST, DELETE_POST,
     FILTER_POSTS_BY_CAT, SHOW_ALL_POSTS,
     SORT_BY_VOTE_SCORE_ASC, SORT_BY_VOTE_SCORE_DESC,
@@ -31,14 +31,16 @@ export const posts = (state = {all:{}, display:[], sortMethod: "voteScoreDesc"},
                 display: getPostsToDisplay
             };
 
-        case GET_POST:
-            let getPostAll = Object.assign({}, state.all), getPostDisplay = [];
-            getPostAll[action.post.id] = action.post;
-            getPostDisplay.push(action.post.id);
+        case SET_POST:
+           let setPostAll = Object.assign({}, state.all),
+                setPostDisplay = [],
+                {id} = action.post;
+            setPostAll[id] = action.post;
+            setPostDisplay.push(id);
             return {
                 ...state,
-                all: getPostAll,
-                display: getPostDisplay
+                all: setPostAll,
+                display: setPostDisplay
             };
 
         case VOTE_POST:

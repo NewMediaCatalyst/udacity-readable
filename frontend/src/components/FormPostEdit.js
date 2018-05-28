@@ -11,7 +11,7 @@ import Col from './GridColumn';
 import DateTime from './DateTime';
 import {Post} from '../utils/data';
 import {apiFetch} from '../utils/api';
-import {getPost, updatePost} from '../actions/posts';
+import {setPost, updatePost} from '../actions/posts';
 import {setPageTitle} from '../actions/meta';
 
 
@@ -65,7 +65,8 @@ class FormPostEdit extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        const {meta: nextMeta, posts: nextPosts} = nextProps,
+        const {getPost} = this.props,
+            {meta: nextMeta, posts: nextPosts} = nextProps,
             {all: nextAll} = nextPosts, {id: nextMetaId} = nextMeta;
         let urlId = window.location.pathname.replace("/post/edit/", ""),
             theId = nextMetaId || urlId;
@@ -281,7 +282,7 @@ function mapDispatchToProps(dispatch) {
     return {
         getPost: (id) => {
             return apiFetch({action: "post", type: "get", body: { id }})
-                .then((post) => dispatch(getPost(post)))
+                .then((post) => dispatch(setPost(post)))
         },
         updatePost: (post) => apiFetch({action: "post", type: "edit", body: post})
             .then((res) => dispatch(updatePost(res))),

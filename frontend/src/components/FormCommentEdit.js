@@ -25,8 +25,10 @@ class FormCommentEdit extends Component {
                 body: false,
                 voteScore: false
             },
-            receivedComment: false,
-            showMessage: false
+            showMessage: false,
+            loaded_comment: false,
+            loaded_parent: false,
+            loaded_404: false
         };
     }
 
@@ -40,46 +42,64 @@ class FormCommentEdit extends Component {
         message: {
             success: ["Success!", "Comment was edited!"],
             error: ["Error!", "Editing comment failed!"]
-        }
+        },
+        url: "/comment/edit/"
+    }
+
+    getIdFromUrl() {
+        const {url} = this.props,
+            slashCount = url.match(/\//g).length;
+        return window.location.pathname.split("/")[slashCount];
     }
 
     componentDidMount() {
-        const {comments} = this.props, {all, display} = comments;
-        let id = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "";
+        const {comments, posts} = this.props,
+              {all: postsAll} = posts,
+              {all: commentsAll} = comments;
+        let parentPostId, commentId = this.getIdFromUrl();
 
-        if (id.length > 0 && !_.isUndefined(all[id])) {
+        if (commentsAll[commentId] && commentsAll[commentId].parentId) {
             this.setState({
-                comment: Object.assign({}, all[id]),
-                receivedComment: true
+                comment: Object.assign({}, commentsAll[commentId]),
+                loaded_comment: true
             });
+            parentPostId = commentsAll[commentId].parentId;
+        }
+        if (parentPostId && postsAll && postsAll[parentPostId]) {
+            this.setState({ loaded_parent: true });
+        }
+        if (!commentId || (!postsAll && !postsAll[parentPostId])) {
+            this.setState({ loaded_404: true });
         }
     }
 
     componentWillReceiveProps(nextProps, nextState) {
-        const {comments} = this.props, {display} = comments;
-        let {receivedComment} = this.state,
-            curId = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "",
+        const {comments, posts} = nextProps,
+              {all: postsAll} = posts,
+              {all: commentsAll} = comments;
+
+        let parentPostId,
+            urlId = this.getIdFromUrl(),
             nextId = (!_.isUndefined(nextProps.comments.display)
                         && !_.isEmpty(nextProps.comments.display))
-                        ? nextProps.comments.display[0] : "";
+                        ? nextProps.comments.display[0] : urlId;
 
-        if ( (!receivedComment && nextId.length > 0) || (curId !== nextId)) {
+        if (commentsAll[nextId] && commentsAll[nextId].parentId) {
             this.setState({
-                comment: Object.assign({}, nextProps.comments.all[nextId]),
-                receivedComment: true
+                comment: Object.assign({}, commentsAll[nextId]),
+                loaded_comment: true
             });
+            parentPostId = commentsAll[nextId].parentId;
         }
 
-    }
+        if (parentPostId && postsAll && postsAll[parentPostId]) {
+            this.setState({ loaded_parent: true });
+        }
 
-    shouldComponentUpdate(nextProps) {
-        const {comments} = this.props, {display} = comments;
-        let {receivedComment, showMessage} = this.state,
-            curId = (!_.isUndefined(display) && !_.isEmpty(display)) ? display[0] : "",
-            nextId = (!_.isUndefined(nextProps.comments.display)
-                        && !_.isEmpty(nextProps.comments.display))
-                        ? nextProps.comments.display[0] : "";
-        return showMessage || !receivedComment || (curId !== nextId);
+        if (!nextId || (!postsAll && !postsAll[parentPostId])) {
+            this.setState({ loaded_404: true });
+        }
+
     }
 
     componentWillUnmount() {
@@ -137,17 +157,39 @@ class FormCommentEdit extends Component {
         return Object.keys(errors).some(error => errors[error])
     }
 
+    renderLoading() {
+        return (
+            <div className="view-post-edit">
+                <h1>Edit Comment</h1>
+                <p>Loading comment details</p>
+            </div>
+        );
+    }
+
     renderNoResults() {
-        return <div className="no-results">Missing ID. Unable to edit</div>
+        return (
+            <div className="view-post-edit">
+                <h1>Edit Comment</h1>
+                <p>Missing ID or ID not found. Unable to edit!</p>
+                <p><Link to="/">Back home &raquo;</Link></p>
+            </div>
+        );
     }
 
     renderComment() {
         let {comment, touched, showMessage} = this.state,
             {id, author, timestamp, body, voteScore, deleted, parentDeleted, parentId} = comment,
-            errors = this.validate();
-        const {success}= this.props.message,
+            errors = this.validate(),
+            parentPostCat = "";
+
+        const {success} = this.props.message,
               successHeading = success[0],
-              successText = success[1];
+              successText = success[1],
+            {posts} = this.props, {all} = posts;
+
+        if (all && all[parentId] && all[parentId].category) {
+            parentPostCat = all[parentId].category;
+        }
 
         return (
             <div className="view-post-edit">
@@ -158,7 +200,7 @@ class FormCommentEdit extends Component {
                         <span>{`${successText} `}</span>
                         <Link
                             className="message-link"
-                            to={`/post/${parentId}`}
+                            to={`/${parentPostCat}/${parentId}`}
                         >View updated comment &raquo;</Link>
                     </p>
                 </div>}
@@ -176,7 +218,7 @@ class FormCommentEdit extends Component {
                                         <label>Parent Post ID:</label>
                                         <span className="input-text text-uuid">{parentId}</span>
                                         <Link
-                                            to={`/post/${parentId}`}
+                                            to={`/${parentPostCat}/${parentId}`}
                                             title={`View post (${parentId})`}
                                             className="input-text text-uuid"
                                         >View post &raquo;</Link>
@@ -261,14 +303,22 @@ class FormCommentEdit extends Component {
     }
 
     render() {
-        let {comment} = this.state, {parentId} = comment;
-        return (parentId !== "") ? this.renderComment() : this.renderNoResults();
+        let {loaded_comment, loaded_parent, loaded_404} = this.state;
+
+        if (loaded_404) {
+            return this.renderNoResults();
+        } else if (loaded_comment && loaded_parent) {
+            return this.renderComment();
+        } else {
+            return this.renderLoading();
+        }
     }
 }
 
 function mapStateToProps(state) {
     return {
-        comments: state.comments
+        comments: state.comments,
+        posts: state.posts
     };
 }
 

@@ -89,7 +89,7 @@ class PostList extends Component {
                     <p className="post-meta">
                         <DateTime date={timestamp} />
                         <span className="post-author"><strong>by: </strong>{author}</span>
-                        <span className="post-category"><strong>In: </strong>{category}</span>
+                        <span className="post-category"><strong>In: </strong>{category.toUpperCase()}</span>
                         <span className="post-score"><strong>Score: </strong>{voteScore}</span>
                         <span className="post-comments"><strong>Comments: </strong>{commentCount}</span>
                     </p>

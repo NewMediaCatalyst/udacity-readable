@@ -49,8 +49,6 @@ the Nanodegree, *and not intended as a production-ready project*.
 * Pages adjust to screen size (mobile-first, responsive)
 
 ## Known Issues (work-in-progress):
-* After submitting an edit to a comment, clicking the link to navigate back to the post causes an error
-    * the edit occurs correctly (visible by clicking logo), however navigation back to the correct URL is what's breaking
 * Intermittently, navigating using the 'View New Post' link on a newly created post will fail to render the new content
     * refreshing the page will show the correct content
     * Alternately, click the link to 'View post in listing'

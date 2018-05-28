@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 // Actions
 import {
-    GET_COMMENT, VOTE_COMMENT, CREATE_COMMENT,
+    SET_COMMENT, VOTE_COMMENT, CREATE_COMMENT,
     GET_COMMENTS_BY_POST, UPDATE_COMMENT, DELETE_COMMENT
 } from '../actions/comments';
 
@@ -57,14 +57,14 @@ export const comments = (state = {all: {}, display: []}, action) => {
                 details: updatedComment
             };
 
-        case GET_COMMENT:
-            const getId = action.comment.id;
+        case SET_COMMENT:
+            const setId = action.comment.id;
             let allComments = Object.assign({}, state.all);
-            allComments[getId] = action.comment;
+            allComments[setId] = action.comment;
             return {
                 ...state,
                 all: allComments,
-                display: [getId]
+                display: [setId]
             };
 
         case UPDATE_COMMENT:

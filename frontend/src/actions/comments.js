@@ -4,7 +4,7 @@
 // CREATE
 export const CREATE_COMMENT = "CREATE_COMMENT";
 // READ
-export const GET_COMMENT = "GET_COMMENT";  // by comment ID
+export const SET_COMMENT = "SET_COMMENT";  // by comment ID
 export const GET_COMMENTS_BY_POST = "GET_COMMENTS_BY_POST";  // by post ID
 // VOTE COMMENT
 export const VOTE_COMMENT = "VOTE_COMMENT";  // by comment ID
@@ -32,9 +32,9 @@ export function getComments(comments) {
     }
 };
 
-export function getComment(comment) {
+export function setComment(comment) {
     return {
-        type: GET_COMMENT,
+        type: SET_COMMENT,
         comment
     }
 }

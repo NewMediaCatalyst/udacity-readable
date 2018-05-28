@@ -9,9 +9,7 @@ import CommentList from './CommentList';
 import FormCommentCreate from './FormCommentCreate';
 import FormPostCreate from './FormPostCreate';
 import FormPostEdit from './FormPostEdit';
-import {getPost} from '../actions/posts';
 import {setMatch} from '../actions/meta';
-import {apiFetch} from '../utils/api';
 import {whichPostAction} from '../utils/helpers';
 
 
@@ -19,7 +17,7 @@ class PagePost extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { action: "create" };
+        this.state = { action: "loading" };
     }
 
     static propTypes = {
@@ -78,6 +76,12 @@ class PagePost extends Component {
         );
     }
 
+    renderLoading() {
+        return (
+            <main className="app-content" role="main"></main>
+        );
+    }
+
 
     render() {
         let {action} = this.state;
@@ -85,7 +89,8 @@ class PagePost extends Component {
         switch (action) {
             case "edit": return this.renderEdit();
             case "read": return this.renderPost();
-            default: return this.renderCreate();
+            case "create": return this.renderCreate();
+            default: return this.renderLoading();
         }
     }
 
@@ -100,11 +105,6 @@ function mapStateToProps(state, props) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getPost: (id) => {
-            return apiFetch({action: "post", type: "get", body: { id }}).then((post) => (
-                dispatch(getPost(post)))
-            );
-        },
         setMatch: (match) => dispatch(setMatch(match))
     };
 }

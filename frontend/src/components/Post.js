@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
+import classnames from 'classnames'
 import _ from 'lodash';
 import EditIcon from 'react-icons/lib/fa/edit';
 import RemoveIcon from 'react-icons/lib/fa/close';
@@ -14,7 +15,7 @@ import DateTime from './DateTime';
 import VoteUpDown from './VoteUpDown';
 import {apiFetch} from '../utils/api';
 import {setPageTitle} from '../actions/meta';
-import {getPost, deletePost} from '../actions/posts';
+import {setPost, deletePost} from '../actions/posts';
 
 
 class Post extends Component {
@@ -23,7 +24,8 @@ class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post_404: false
+            post_404: false,
+            post_attempts: 0
         }
     }
 
@@ -48,30 +50,45 @@ class Post extends Component {
         const {setPageTitle, getPost, meta: curMeta} = this.props,
             {page: curTitle} = curMeta.title,
             {meta: nextMeta, posts} = nextProps,
-            {id} = nextMeta.match,
+            {id: nextId} = nextMeta.match,
             {all} = posts;
-        let nextTitle, postExists;
+        let nextTitle, postExists, {post_attempts} = this.state;
 
         // check for missing or deleted posts
-        postExists = (id && posts && all && typeof all[id] !== 'undefined');
-
+        postExists = (nextId && posts && all && typeof all[nextId] !== 'undefined');
+        // post is available in redux
         if (postExists) {
-            getPost(id);
-
-            if (all[id].title) { nextTitle = all[id].title; }
+            if (all[nextId].title) { nextTitle = all[nextId].title; }
             if (nextTitle && curTitle !== nextTitle) { setPageTitle({page: nextTitle}); }
-
+        // hasn't tried to load previously, and nextId exists
+        } else if (post_attempts < 1 && nextId) {
+            getPost(nextId);
+            this.setState({post_attempts: post_attempts + 1});
+        // stop trying, and declare 404
         } else {
             this.setState({post_404: true});
         }
+    }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const {meta: curMeta} = this.props, {id: curId} = curMeta,
+            {meta: nextMeta} = nextProps, {id: nextId} = nextMeta;
+        return (!nextId || nextId !== curId);
+    }
+
+    updateUrlPostDel() {
+        window.location.href = "/";
     }
 
     handleDelete(ev) {
         ev.preventDefault();
         const {deletePost, meta} = this.props, {id} = meta.match;
         deletePost(id);
-        window.location.href = "/posts/";
+        this.timer = setTimeout(this.updateUrlPostDel, 1000);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
     }
 
     renderPost(id, all) {
@@ -92,7 +109,10 @@ class Post extends Component {
                                 >{`${commentCount} comments`}</a>
                             }
                             <a href="#comment-create">Want to comment?</a>
-                            <a href="#post-edit-links" title="Click to edit or delete this post?">Edit or delete article?</a>
+                            <a
+                                href="#post-edit-links"
+                                title="Click to edit or delete this post?"
+                            >Edit or delete article?</a>
                         </p>
                     </Col>
                     <Col width={{sm:12, md:12, lg:8}} className="post-author">
@@ -124,7 +144,7 @@ class Post extends Component {
                     <Col width={{sm:12, md:3, lg:3}} className="post-category">
                         <p>
                             <strong>Category: </strong>
-                            <span className="text">{category}</span>
+                            <span className="text">{category.toUpperCase()}</span>
                         </p>
                     </Col>
                     <Col width={{sm:12, md:3, lg:4}} className="post-edit">
@@ -152,16 +172,29 @@ class Post extends Component {
         );
     }
 
+    renderLoading() {
+        return (
+            <article>
+                <div className="post-body loading">
+                    <h1 className="post-title">
+                        <span className="text">Loading Post</span>
+                    </h1>
+                    <p>Please wait...</p>
+                </div>
+            </article>
+        );
+    }
+
     renderEmpty() {
         let {post_404} = this.state,
-            articleClasses = (post_404) ? "post-404" : false;
+            articleClasses = classnames({ "post-404": post_404});
         return (
             <article className={articleClasses}>
                 <div className="post-body">
                     <h1 className="post-title">
                         <span className="text">404 Error</span>
                     </h1>
-                    <p>No post exists. <a href="/">Home &raquo;</a></p>
+                    <p>No post exists. <Link to="/">Home &raquo;</Link></p>
                 </div>
             </article>
         );
@@ -174,11 +207,17 @@ class Post extends Component {
         let urlId = window.location.pathname.substr(postURL.length-1),
             {post_404} = this.state;
 
-        if (post_404 || !id || _.isEmpty(all)) {
+        if (!post_404 && id && _.isEmpty(all)) {
+            console.log("Post :: render() :: Loading route :: post_404: ", post_404, "; id: ", id, "; _.isEmpty(all): ", _.isEmpty(all) );
+            return this.renderLoading();
+        } else if (post_404 || !id || _.isEmpty(all)) {
+            console.log("Post :: render() :: 404 route :: post_404: ", post_404, "; id: ", id, "; _.isEmpty(all): ", _.isEmpty(all) );
             return this.renderEmpty();
         } else if ((id === undefined && urlId.length > 0) || id !== urlId) {
+            console.log("Post :: render() :: PATH1 :: id === undefined: ", id === undefined, "; urlId.length > 0: ", urlId.length > 0, "; id !== urlId: ", id !== urlId);
             return this.renderPost(urlId, all);
         } else {
+            console.log("Post :: render() :: PATH2:ELSE ::  ");
             return this.renderPost(id, all);
         }
 
@@ -195,8 +234,9 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch) {
     return {
         getPost: (id) => {
+            console.log("Post :: mapDispatchToProps :: id: ", id);
             return apiFetch({action: "post", type: "get", body: { id }})
-                .then((post) => dispatch(getPost(post)))
+                .then((post) => dispatch(setPost(post)))
         },
         deletePost: (id) => {
             return apiFetch({action: "post", type: "delete", body: { id }})

@@ -11,7 +11,7 @@ export function whichPostAction(match) {
         case "/post/edit/:id": return "edit";
         case "/:category/:id": return "read";
         case "/post/create": return "create";
-        default: return "create";
+        default: return "loading";
     }
 }
 

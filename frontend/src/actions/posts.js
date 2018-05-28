@@ -3,7 +3,7 @@
 // POST :: CONSTANTS //////
 
 // READ
-export const GET_POST = "GET_POST";
+export const SET_POST = "SET_POST";
 // CREATE
 export const ADD_POST = "ADD_POST";
 // UPDATE
@@ -43,9 +43,10 @@ export function addPost(post) {
 };
 
 // READ
-export function getPost(post) {
+export function setPost(post) {
+    // console.log("actions :: SET_POST :: post: ", post);
     return {
-        type: GET_POST,
+        type: SET_POST,
         post
     }
 };
