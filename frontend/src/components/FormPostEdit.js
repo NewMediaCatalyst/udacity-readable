@@ -41,6 +41,7 @@ class FormPostEdit extends Component {
     static defaultProps = {
         posts: {},
         match: {},
+        url: "/comment/edit/",
         message: {
             success: ["Success!", "post was edited!"],
             error: ["Error! Editing post", "failed!"]
@@ -83,6 +84,12 @@ class FormPostEdit extends Component {
         clearTimeout(this.closeTimer);
     }
 
+    getIdFromUrl() {
+        const {url} = this.props,
+            slashCount = url.match(/\//g).length;
+        return window.location.pathname.split("/")[slashCount];
+    }
+
     handleBlur(e) {
         const target = e.target, name = target.name;
         let updateTouch = Object.assign({}, this.state.touched);
@@ -95,14 +102,16 @@ class FormPostEdit extends Component {
     }
 
     handlePostUpdate() {
-        const {posts} = this.props, {all, display} = posts;
-        this.setState({ post: all[display[0]] });
+        const {posts} = this.props, {all} = posts,
+            postID = this.getIdFromUrl();
+        this.setState({ post: all[postID] });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const {updatePost} = this.props;
         let {post} = this.state;
+
         if (this.isInvalidForm(this.validate)) {
             updatePost(post);
             this.setState({ showMessage: true });

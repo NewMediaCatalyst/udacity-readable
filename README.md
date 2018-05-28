@@ -48,10 +48,8 @@ the Nanodegree, *and not intended as a production-ready project*.
 * Page title updates appropriately
 * Pages adjust to screen size (mobile-first, responsive)
 
-## Known Issues (work-in-progress):
-* Intermittently, navigating using the 'View New Post' link on a newly created post will fail to render the new content
-    * refreshing the page will show the correct content
-    * Alternately, click the link to 'View post in listing'
+## Known Issues:
+* No known issues
 
 ## Attribution
 * I did utilize some CSS gradients (as box-shadow) from an online example for the outer page wrapper, .app-content

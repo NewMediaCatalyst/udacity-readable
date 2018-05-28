@@ -17,7 +17,14 @@ class PagePost extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { action: "loading" };
+        this.state = this.initState();
+    }
+
+    initState() {
+        let match, url = window.location.pathname;
+        return {
+            action: whichPostAction(match, url)
+        };
     }
 
     static propTypes = {
@@ -85,7 +92,6 @@ class PagePost extends Component {
 
     render() {
         let {action} = this.state;
-
         switch (action) {
             case "edit": return this.renderEdit();
             case "read": return this.renderPost();

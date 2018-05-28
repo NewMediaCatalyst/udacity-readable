@@ -5,9 +5,9 @@ export function capitalize(word) {
     return text.substr(0,1).toUpperCase() + text.substr(1).toLowerCase();
 }
 
-export function whichPostAction(match) {
-    if (match === undefined && match.path === undefined) { return "create"; }
-    switch (match.path) {
+export function whichPostAction(match, url) {
+    let path = (match && match.path) ? match.path : url;
+    switch (path) {
         case "/post/edit/:id": return "edit";
         case "/:category/:id": return "read";
         case "/post/create": return "create";
@@ -34,5 +34,4 @@ export function setCategoryTitle(categories, category) {
             : baseTitle;
     }
     return baseTitle;
-
 }
